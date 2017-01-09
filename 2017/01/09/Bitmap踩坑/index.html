@@ -85,7 +85,7 @@
 
 
 <meta name="description" content="##Bitmap踩坑全集
-第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片便绿色，质量偏低
+第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低
 解决方法:    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,
 inPreferQualityOverSpeed&amp;gt;API24之后被废弃,即24之后,默认解图为高质量,24之前如">
 <meta property="og:type" content="article">
@@ -93,14 +93,14 @@ inPreferQualityOverSpeed&amp;gt;API24之后被废弃,即24之后,默认解图为
 <meta property="og:url" content="http://yoursite.com/2017/01/09/Bitmap踩坑/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
 <meta property="og:description" content="##Bitmap踩坑全集
-第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片便绿色，质量偏低
+第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低
 解决方法:    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,
 inPreferQualityOverSpeed&amp;gt;API24之后被废弃,即24之后,默认解图为高质量,24之前如">
-<meta property="og:updated_time" content="2017-01-09T10:11:19.817Z">
+<meta property="og:updated_time" content="2017-01-09T10:20:55.472Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bitmap踩坑记">
 <meta name="twitter:description" content="##Bitmap踩坑全集
-第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片便绿色，质量偏低
+第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低
 解决方法:    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,
 inPreferQualityOverSpeed&amp;gt;API24之后被废弃,即24之后,默认解图为高质量,24之前如">
 
@@ -288,7 +288,7 @@ inPreferQualityOverSpeed&amp;gt;API24之后被废弃,即24之后,默认解图为
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-09T18:11:19+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-09T18:20:55+08:00">
                 2017-01-09
               </time>
             
@@ -325,7 +325,7 @@ inPreferQualityOverSpeed&amp;gt;API24之后被废弃,即24之后,默认解图为
 
       
         <p>##Bitmap踩坑全集</p>
-<h3 id="第一篇-Bitmap加载图片便绿-画质偏低"><a href="#第一篇-Bitmap加载图片便绿-画质偏低" class="headerlink" title="第一篇 Bitmap加载图片便绿,画质偏低"></a>第一篇 Bitmap加载图片便绿,画质偏低</h3><p>现象描述:<br>    Bitmap.decodeXXX(),解出的图片便绿色，质量偏低</p>
+<h3 id="第一篇-Bitmap加载图片便绿-画质偏低"><a href="#第一篇-Bitmap加载图片便绿-画质偏低" class="headerlink" title="第一篇 Bitmap加载图片便绿,画质偏低"></a>第一篇 Bitmap加载图片便绿,画质偏低</h3><p>现象描述:<br>    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低</p>
 <p>解决方法:<br>    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,</p>
 <p>inPreferQualityOverSpeed<br>&gt;<br>API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为true，也可以解出高质量的图片，不过这回牺牲解图速度,目前这只对JPEG的编码有效<br>以下为示例代码:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
@@ -355,15 +355,15 @@ inPreferQualityOverSpeed&amp;gt;API24之后被废弃,即24之后,默认解图为
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/09/Glide踩坑/" rel="next" title="Glide踩坑记">
-                <i class="fa fa-chevron-left"></i> Glide踩坑记
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/09/Glide踩坑/" rel="prev" title="Glide踩坑记">
+                Glide踩坑记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
