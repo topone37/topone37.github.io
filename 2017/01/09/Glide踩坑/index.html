@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="Glide踩坑全集第一篇 Glide图片合默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
+12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2017/01/09/hello-world/index.html">
+<meta property="og:title" content="Glide踩坑记">
+<meta property="og:url" content="http://yoursite.com/2017/01/09/Glide踩坑/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2017-01-09T05:46:08.276Z">
+<meta property="og:description" content="Glide踩坑全集第一篇 Glide图片合默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
+12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
+<meta property="og:updated_time" content="2017-01-09T06:32:55.776Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="Glide踩坑记">
+<meta name="twitter:description" content="Glide踩坑全集第一篇 Glide图片合默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
+12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
 
 
 
@@ -124,13 +124,13 @@ Quick">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/09/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/09/Glide踩坑/"/>
 
 
 
 
 
-  <title> Hello World | 蒲公英,随风海角天涯 </title>
+  <title> Glide踩坑记 | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="">
@@ -243,7 +243,7 @@ Quick">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/09/hello-world/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/09/Glide踩坑/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -267,7 +267,7 @@ Quick">
             
             
               
-                Hello World
+                Glide踩坑记
               
             
           </h1>
@@ -282,7 +282,7 @@ Quick">
               
                 <span class="post-meta-item-text">Veröffentlicht am</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-09T13:46:08+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-09T14:33:09+08:00">
                 2017-01-09
               </time>
             
@@ -318,15 +318,10 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片合默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片合默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片合默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片合默认图替换过程中,默认图被拉伸了一下</h3><p>现象描述:<br>    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
+<p>解决方法:这是替换过程中一个动画阶段，Glide提供一个方法,果断 dontAnimate() [‘0.0’不要动画了],修改后代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .dontAnimate()</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -454,7 +449,7 @@ Quick">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Glide踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">Glide踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-Glide图片合默认图替换过程中-默认图被拉伸了一下"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 Glide图片合默认图替换过程中,默认图被拉伸了一下</span></a></li></ol></li></ol></div>
             
 
           </div>
