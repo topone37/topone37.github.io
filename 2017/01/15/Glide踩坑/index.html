@@ -88,11 +88,11 @@
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Glide踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/01/10/Glide踩坑/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/01/15/Glide踩坑/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
 <meta property="og:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
-<meta property="og:updated_time" content="2017-01-10T05:57:14.021Z">
+<meta property="og:updated_time" content="2017-01-15T02:01:45.166Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Glide踩坑记">
 <meta name="twitter:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/10/Glide踩坑/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/15/Glide踩坑/"/>
 
 
 
@@ -243,7 +243,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/10/Glide踩坑/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/Glide踩坑/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-10T13:57:14+08:00">
-                2017-01-10
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-15T02:01:45Z">
+                2017-01-15
               </time>
             
 
@@ -326,7 +326,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.缓存原图</span></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .diskCacheStrategy(DiskCacheStrategy.SOURCE)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改Bitmap的编码为ARGB_8888</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlideConfig</span> <span class="keyword">implements</span> <span class="title">GlideModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</div><div class="line">        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Glide glide)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//在manifest.xml配置上以上信息</span></div><div class="line">        &lt;meta-data</div><div class="line">            android:name=<span class="string">"com.xxx.xxx.GlideConfig"</span></div><div class="line">            android:value=<span class="string">"GlideModule"</span>/&gt;</div></pre></td></tr></table></figure>
 <h3 id="第三篇-Glide混淆脚本没加导致的Crash"><a href="#第三篇-Glide混淆脚本没加导致的Crash" class="headerlink" title="第三篇 Glide混淆脚本没加导致的Crash"></a>第三篇 Glide混淆脚本没加导致的Crash</h3><p>现象描述:<br>    在加了第二篇提到的一些配置，其中GlideModule是需要在manifest中指定的，debug版本一直没事，realease版本各种Crash,报错信息:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Unable to find GlideModule</div><div class="line"> to find GlideModule implementation</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Unable to find GlideModule to find GlideModule implementation...</div></pre></td></tr></table></figure>
 <p>一开始我就想到了混淆脚本,结果遇到了两个坑：</p>
 <ol>
 <li>网上提供的混淆脚本包名是Glide之前的包名 　</li>
@@ -335,7 +335,7 @@
 <p>解决方法:<br>    1.加上必要的混淆脚本:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">implements</span>  <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">module</span>.<span class="title">GlideModule</span></span></div><div class="line">-<span class="title">keep</span> <span class="title">public</span> <span class="title">enum</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">load</span>.<span class="title">resource</span>.<span class="title">bitmap</span>.<span class="title">ImageHeaderParser</span>$** &#123;</div><div class="line">    **[] $VALUES;</div><div class="line">    <span class="keyword">public</span> *;</div><div class="line">&#125;</div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">bumptech</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="第四篇-Glide无法给Gone的ImageView设置图片"><a href="#第四篇-Glide无法给Gone的ImageView设置图片" class="headerlink" title="第四篇 Glide无法给Gone的ImageView设置图片"></a>第四篇 Glide无法给Gone的ImageView设置图片</h3><p>现象描述:<br>    因为有一个需求,其实就是广告，位置是个ImageView,没有拉到广告之前，我设置的是Gone，拉到图片之后,设置上图片，然后设置为可见，结果广告拉到了，但是对应位置没有任何反应，图片地址是可以正确打开的,以下为示例代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RequestListener callback = new RequestListener() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) &#123;                  </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">		            iv.setVisibility(View.VISIBLE);</div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line">            </div><div class="line">iv.setVisibility(View.GONE);//如果你的ImageViewVisibility为Gone,以上回调没有作用,改成INVISIBLE即可</div><div class="line">Glide.with(mContext).load(url)</div><div class="line">                    .listener(callback)</div><div class="line">                    .into(iv);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RequestListener callback = new RequestListener() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) &#123;                  </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">		            iv.setVisibility(View.VISIBLE);</div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line"></div><div class="line">iv.setVisibility(View.GONE);//如果你的ImageViewVisibility为Gone,以上回调没有作用,改成INVISIBLE即可</div><div class="line">Glide.with(mContext).load(url)</div><div class="line">                    .listener(callback)</div><div class="line">                    .into(iv);</div></pre></td></tr></table></figure>
 <p>解决方法:<br>    经过我测试，首先两个回调根本没有执行,网上搜到了一个国外程序员的回答</p>
 <blockquote>
 <p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
@@ -367,8 +367,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/09/Bitmap踩坑/" rel="next" title="Bitmap踩坑记">
-                <i class="fa fa-chevron-left"></i> Bitmap踩坑记
+              <a href="/2017/01/12/OpenGL ES2.0开发系列2/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
@@ -376,6 +376,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/15/App启动速度/" rel="prev" title="App启动加速">
+                App启动加速 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -445,7 +449,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
