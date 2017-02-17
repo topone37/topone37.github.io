@@ -88,11 +88,11 @@
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Glide踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/01/15/Glide踩坑/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/02/17/Glide踩坑/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
 <meta property="og:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
-<meta property="og:updated_time" content="2017-01-15T02:01:45.166Z">
+<meta property="og:updated_time" content="2017-02-17T07:54:55.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Glide踩坑记">
 <meta name="twitter:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/15/Glide踩坑/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/17/Glide踩坑/"/>
 
 
 
@@ -243,7 +243,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/15/Glide踩坑/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/Glide踩坑/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-15T02:01:45Z">
-                2017-01-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-17T07:54:55Z">
+                2017-02-17
               </time>
             
 
@@ -341,6 +341,9 @@
 <p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
 </blockquote>
 <p>他指出Glide需要知道我们控件的大小，我没有去试验加上override(w,h)是否有效,我把代码中的GONE改成INVISIBLE就可以了，希望以上能帮到你们</p>
+<h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
+<p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -367,8 +370,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/11/基础知识/" rel="next" title="游戏开发相关的基础知识">
-                <i class="fa fa-chevron-left"></i> 游戏开发相关的基础知识
+              <a href="/2017/02/17/为你的App创建桌面快捷方式/" rel="next" title="为你的app创建桌面快捷方式">
+                <i class="fa fa-chevron-left"></i> 为你的app创建桌面快捷方式
               </a>
             
           </div>
@@ -376,10 +379,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/15/App启动速度/" rel="prev" title="App启动加速">
-                App启动加速 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -449,7 +448,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -488,7 +487,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Glide踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">Glide踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二篇-Glide加载图片偏绿或者质量偏低"><span class="nav-number">1.2.</span> <span class="nav-text">第二篇 Glide加载图片偏绿或者质量偏低</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三篇-Glide混淆脚本没加导致的Crash"><span class="nav-number">1.3.</span> <span class="nav-text">第三篇 Glide混淆脚本没加导致的Crash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四篇-Glide无法给Gone的ImageView设置图片"><span class="nav-number">1.4.</span> <span class="nav-text">第四篇 Glide无法给Gone的ImageView设置图片</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Glide踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">Glide踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二篇-Glide加载图片偏绿或者质量偏低"><span class="nav-number">1.2.</span> <span class="nav-text">第二篇 Glide加载图片偏绿或者质量偏低</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三篇-Glide混淆脚本没加导致的Crash"><span class="nav-number">1.3.</span> <span class="nav-text">第三篇 Glide混淆脚本没加导致的Crash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四篇-Glide无法给Gone的ImageView设置图片"><span class="nav-number">1.4.</span> <span class="nav-text">第四篇 Glide无法给Gone的ImageView设置图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五篇-Glide为通知栏-Notification设置图片不生效"><span class="nav-number">1.5.</span> <span class="nav-text">第五篇 Glide为通知栏(Notification设置图片不生效)</span></a></li></ol></li></ol></div>
             
 
           </div>
