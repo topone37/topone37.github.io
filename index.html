@@ -241,6 +241,141 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/Android模糊一张图片/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/03/Android模糊一张图片/" itemprop="url">
+                  Android模糊一张图片的简单方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T09:59:37Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/03/Android模糊一张图片/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/03/Android模糊一张图片/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Android模糊一张图片的简单方法"><a href="#Android模糊一张图片的简单方法" class="headerlink" title="Android模糊一张图片的简单方法"></a>Android模糊一张图片的简单方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
+</blockquote>
+</blockquote>
+<p>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。<br>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)<br>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/UI卡顿检测/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -555,141 +690,6 @@
 <li>弱引用</li>
 <li>及时注销之间注册的监听(被监听的动作的全局的，setOnclick()就不必了,页面销毁,View销毁,监听器的对Context持有自然消失了)</li>
 </ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/Android模糊一张图片/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/03/Android模糊一张图片/" itemprop="url">
-                  Android模糊一张图片的简单方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T03:13:38Z">
-                2017-03-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/03/Android模糊一张图片/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/03/Android模糊一张图片/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
-<blockquote>
-<blockquote>
-<p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
-</blockquote>
-</blockquote>
-<p>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。<br>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)<br>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</p>
 
           
         
