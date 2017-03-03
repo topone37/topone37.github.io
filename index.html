@@ -241,6 +241,707 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/内存泄漏/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/03/内存泄漏/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T09:28:52Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<blockquote>
+<p>传统的内存泄漏是由忘记释放分配的内存导致的，而逻辑上的内存泄漏则是由于忘记对象不再被使用的时候释放对其的引用导致的<br>如果一个对象仍存在强引用,GC就无法对其进行回收.<br>安卓平台,泄漏Context对象问题尤其严重,这是因为像Activity这样的Context对象会引用大量很占内存的对象,如View的层级以及其他资源,<br>如果Context对象发生的内存泄漏,它所引用的所有对象都被泄漏</p>
+<p>对于一个普通的对象,或许我们很难去判定什么时候是内存泄漏，但是Activity这种存在明显的生命周期定义的对象，如果Activity的OnDestroy方法<br>被调用之后,context还被强引用,那我们可以认为改Activity发生了内存泄漏</p>
+</blockquote>
+</blockquote>
+<p>Activity的泄漏清空一般分配两种</p>
+<ol>
+<li>被进程全局的静态变量所持有 (单例,Context赋值给静态变量等)</li>
+<li>被比Acitivty生命周期更长的线程所持有 (异步耗时线程等)</li>
+</ol>
+<p>##场景分析 </p>
+<p>###1. 静态实例持有Activity实例</p>
+<blockquote>
+<blockquote>
+<p>别说下述代码不可能,其实有很多情况下，我们就这么干，比如你一个静态的方法需要Context,<br>你可能就把Context置为static了</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static TestActivity activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = this;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>静态变量持有Activity对象很容易造成内存泄漏，因为静态变量是全局存在的，所以当Activity生命周期结束时，引用仍被持有。<br>我们需要正确的释放引用让垃圾回收机制在它被销毁的同时将其回收。<br>解决方法：<br>    使用弱引用来代替强引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static WeakReference&lt;TestActivity&gt; activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = new WeakReference&lt;TestActivity&gt;(this);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<p>###2. 静态实例持有View实例</p>
+<blockquote>
+<blockquote>
+<p>看似Activity销毁之后就没什么事,要知道View创建是需要Context,也就是说View持有Context的强引用,<br>View泄漏,从而导致Context泄漏</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public static View mView ;</div><div class="line">void setStaticView() &#123;</div><div class="line">  mView = findViewById(R.id.xxx);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方法：<br>　　在OnDestroy()将mView手动置为null</p>
+<p>###3. 内部类(匿名内部类)</p>
+<blockquote>
+<blockquote>
+<p>内部类是很常见的使用方法,因为内部类会隐式持有外部类对象的引用,如果内部类被静态对象持有了,<br>或者说内部类生命周期较长(例如耗时线程  Thread Timer)</p>
+</blockquote>
+</blockquote>
+<p>解决方法:<br>　　　　1.  避免静态变量</p>
+<pre><code>2.  使用静态内部类,打破持有链
+3. 　onDestroy方法中断内部类
+4.　弱引用
+</code></pre><p>###4. Handler</p>
+<blockquote>
+<blockquote>
+<p>Handler发送的Runnable持有Context引用,如果Activity销毁的时候，消息还没有处理,<br>就会导致Context被继续持有得不到释放<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private final Handler mLeakyHandler = new Handler() &#123;</div><div class="line">   @Override</div><div class="line">   public void handleMessage(Message msg) &#123;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> @Override</div><div class="line"> protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">   super.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">   mLeakyHandler.postDelayed(new Runnable() &#123;</div><div class="line">     @Override</div><div class="line">     public void run() &#123;&#125;</div><div class="line">   &#125;, 1000 * 60 * 10);</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<p>当activity结束(finish)时，里面的延时消息在得到处理前，会一直保存在主线程的消息队列里持续10分钟。而且，由上文可知，这条消息持有对handler的引用，而handler又持有对其外部类（在这里，即Activity）的潜在引用。这条引用关系会一直保持直到消息得到处理，从而，这阻止了Activity被垃圾回收器回收，同时造成应用程序的泄漏。<br>注意，上面代码中的Runnable类–非静态匿名类–同样持有对其外部类的引用。从而也导致泄漏。</p>
+<ol>
+<li>只要有未处理的消息，那么消息会引用handler，非静态的handler又会引用外部类，即Activity，导致Activity无法被回收，造成泄漏；<br>Runnable类属于非静态匿名类，同样会引用外部类。<br>为了解决遇到的问题，我们要明确一点：静态内部类不会持有对外部类的引用。所以，我们可以把handler类放在单独的类文件中，或者使用静态内部类便可以避免泄漏。</li>
+<li>另外，如果想要在handler内部去调用所在的外部类Activity，那么可以在handler内部使用弱引用的方式指向所在Activity，这样统一不会导致内存泄漏。<br>对于匿名类Runnable，同样可以将其设置为静态类。因为静态的匿名类不会持有对外部类的引用。</li>
+</ol>
+<p>###5. Sensor Manager注册监听器导致的内存泄漏</p>
+<blockquote>
+<blockquote>
+<p>如果 context 对象想要在服务内部的事件发生时被通知，那就需要把自己注册到服务的监听器中。然而，这会让服务持有 activity 的引用，<br>如果程序员忘记在 activity 销毁时取消注册，那就会导致 activity 泄漏了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">void registerListener() &#123;</div><div class="line">       SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);</div><div class="line">       Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);</div><div class="line">       sensorManager.registerListener(mContext, sensor, SensorManager.SENSOR_DELAY_FASTEST);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<p>解决方法:<br>　    在onDestroy()方法中注销监听器</p>
+<hr>
+<hr>
+<ol>
+<li>静态内部类</li>
+<li>弱引用</li>
+<li>及时注销之间注册的监听(被监听的动作的全局的，setOnclick()就不必了,页面销毁,View销毁,监听器的对Context持有自然消失了)</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/UI卡顿检测/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/03/UI卡顿检测/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T08:24:24Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>检测方式<br>1.利用UI线程的Looper打印的日志<br>2.利用Choreographer<br>3.</p>
+<p>##1.利用Looper打印的日志</p>
+<blockquote>
+<blockquote>
+<p>Android　UI线程中有一个Looper,在方法内部不断取出Message和发送Message<br>1.Looper相关源码(以下为部分代码)</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public static void loop() &#123;</div><div class="line">    for (;;) &#123;</div><div class="line">        Message msg = queue.next(); // might block</div><div class="line">        if (msg == null) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        final Printer logging = me.mLogging;</div><div class="line">        if (logging != null) &#123;</div><div class="line">            logging.println(&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot; + msg.target + &quot; &quot; +</div><div class="line">                    msg.callback + &quot;: &quot; + msg.what);//在此处记录开始时间</div><div class="line">        &#125;</div><div class="line">        try &#123;</div><div class="line">            msg.target.dispatchMessage(msg);</div><div class="line">        &#125; finally &#123;</div><div class="line">            if (traceTag != 0) &#123;</div><div class="line">                Trace.traceEnd(traceTag);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (logging != null) &#123;</div><div class="line">            logging.println(&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot; + msg.target + &quot; &quot; + msg.callback);//在此处记录结束时间</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>##2.将相关日志打印</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">//class BlockDeteUtil</div><div class="line">public class BlockDeteUtil &#123;</div><div class="line">    public static void blockCheck() &#123;</div><div class="line">        Looper.getMainLooper().setMessageLogging(new Printer() &#123;</div><div class="line">            private static final String START_TAG = &quot;&gt;&gt;&gt;&gt;&gt; Dispatching&quot;;</div><div class="line">            private static final String STOP_TAG = &quot;&lt;&lt;&lt;&lt;&lt; Finished&quot;;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void println(String x) &#123;</div><div class="line">                if (x.startsWith(START_TAG)) &#123;//</div><div class="line">                    LogMonitor.getInstance().startMonitor();</div><div class="line">                &#125; else if (x.startsWith(STOP_TAG)) &#123;</div><div class="line">                    LogMonitor.getInstance().removeMonitor();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">//class LogMonitor</div><div class="line">public class LogMonitor &#123;</div><div class="line">    private static LogMonitor sInstance;</div><div class="line">    private HandlerThread mLogThread = new HandlerThread(&quot;log&quot;);</div><div class="line">    /**</div><div class="line">     * 用来打印堆栈信息的</div><div class="line">     */</div><div class="line">    private Handler mTestHandler;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 时间阀值 (延迟多长就算是不流畅)</div><div class="line">     */</div><div class="line">    private static final long BLOCK_TIME = 500L;</div><div class="line"></div><div class="line"></div><div class="line">    private LogMonitor() &#123;</div><div class="line">        mLogThread.start();</div><div class="line">        mTestHandler = new Handler(mLogThread.getLooper());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static LogMonitor getInstance() &#123;</div><div class="line">        if (sInstance == null) &#123;</div><div class="line">            sInstance = new LogMonitor();</div><div class="line">        &#125;</div><div class="line">        return sInstance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static Runnable mLogRunnable = new Runnable() &#123;</div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            StringBuilder sb = new StringBuilder();</div><div class="line">            /**</div><div class="line">             * 获取当前栈信息</div><div class="line">             */</div><div class="line">            StackTraceElement[] stackTrace = Looper.getMainLooper().getThread().getStackTrace();</div><div class="line">            for (StackTraceElement s : stackTrace) &#123;</div><div class="line">                sb.append(s.toString() + &quot;\n&quot;);</div><div class="line">            &#125;</div><div class="line">            Log.e(&quot;TAG&quot;, sb.toString());</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * TIME_BLOCK时间之内可以移除掉该Runnable,如果超过了改事件,就会打印出来堆栈信息了</div><div class="line">     */</div><div class="line">    public void startMonitor() &#123;</div><div class="line">        mTestHandler.postDelayed(mLogRunnable, BLOCK_TIME);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 开始时加入该打印线程,结束时移除该线程,如果时间超过了阀值,堆栈信息就会被打印出来</div><div class="line">     */</div><div class="line">    public void removeMonitor() &#123;</div><div class="line">        mTestHandler.removeCallbacks(mLogRunnable);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>##3.在MainApplication中 onCreate 调用 BlockDeteUtil.blockCheck()即可</p>
+<p>##利用Choreographer</p>
+<blockquote>
+<blockquote>
+<p>Android系统每隔16ms发出VSYNC信号，触发对UI进行渲染。SDK中包含了一个相关类，以及相关回调。理论上来说两次回调的时间周期应该在16ms，如果超过了16ms我们则认为发生了卡顿，我们主要就是利用两次回调间的时间周期来判断：</p>
+</blockquote>
+</blockquote>
+<p>  Choreographer.getInstance()<br>                .postFrameCallback(new Choreographer.FrameCallback() {</p>
+<pre><code>    @Override
+    public void doFrame(long l) {
+        if (isStart) {
+            LogMonitor.getInstance(&quot;blockCheckByChoreographer&quot;).startMonitor();
+            Choreographer.getInstance().postFrameCallback(this);
+        } else {
+            LogMonitor.getInstance(&quot;blockCheckByChoreographer&quot;).removeMonitor();
+        }
+        isStart = !isStart;
+    }
+});
+</code></pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/Android模糊一张图片/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/03/Android模糊一张图片/" itemprop="url">
+                  Android模糊一张图片的简单方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T03:13:38Z">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
+</blockquote>
+</blockquote>
+<p>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。<br>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)<br>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/python学习笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/24/python学习笔记/" itemprop="url">
+                  python学习笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-24T03:23:46Z">
+                2017-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="python学习笔记"><a href="#python学习笔记" class="headerlink" title="python学习笔记"></a>python学习笔记</h2><h3 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h3><p>应用启动分类:</p>
+<p>解决方法:<br>    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,</p>
+<p>inPreferQualityOverSpeed</p>
+<blockquote>
+<p>API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为true，也可以解出高质量的图片，不过这回牺牲解图速度,目前这只对JPEG的编码有效</p>
+</blockquote>
+<p>以下为示例代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/24/Camera/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/24/Camera/" itemprop="url">
+                  Camera开发简介
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-24T03:19:39Z">
+                2017-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/Glide踩坑/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -283,7 +984,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-17T15:54:55+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-17T07:56:26Z">
                 2017-02-17
               </time>
             
@@ -427,7 +1128,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-17T09:59:23+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-17T01:59:23Z">
                 2017-02-17
               </time>
             
@@ -874,638 +1575,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/获取签名MD5和SHA1/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/17/获取签名MD5和SHA1/" itemprop="url">
-                  获取密钥的签名信息
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T02:34:08Z">
-                2017-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//获取debug.keystore的签名信息</div><div class="line">keytool -list -v -keystore debug.keystore</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/OpenGL ES2.0开发系列2/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/17/OpenGL ES2.0开发系列2/" itemprop="url">
-                  OpenGL ES2.0开发2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T02:33:41Z">
-                2017-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>OpenES 1.0开发<br>1.顶点:顶点是3D建模时用到的最小构成元素，顶点定义为两条或是多条边交会的地方。<br>在3D模型中一个顶点可以为多条边，面或是多边形所共享。一个顶点也可以代表一个点光源或是Camera的位置。</p>
-<p>在Android系统中可以使用一个浮点数数组来定义一个顶点，浮点数数组通常放在一个Buffer（java.nio)中来提高性能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">　private float vertices[] = &#123;</div><div class="line"> -1.0f,  1.0f, 0.0f,  // 0, Top Left</div><div class="line"> -1.0f, -1.0f, 0.0f,  // 1, Bottom Left</div><div class="line"> 1.0f, -1.0f, 0.0f,  // 2, Bottom Right</div><div class="line"> 1.0f,  1.0f, 0.0f,  // 3, Top Right</div><div class="line">&#125;;</div><div class="line"></div><div class="line">// a float is 4 bytes, therefore we multiply the number if vertices with 4.</div><div class="line">ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);</div><div class="line">vbb.order(ByteOrder.nativeOrder());//字节序调整</div><div class="line">FloatBuffer vertexBuffer = vbb.asFloatBuffer();</div><div class="line">vertexBuffer.put(vertices);</div><div class="line">vertexBuffer.position(0);//当你写数据到Buffer中时，position表示当前的位置。重置position值为0</div></pre></td></tr></table></figure></p>
-<p>   OpenGL ES提供一个成为”管道Pipeline”的机制，这个管道定义了一些“开关”来控制OpenGL ES支持的某些功能，<br>缺省情况这些功能是关闭的，如果需要使用OpenGL ES的这些功能，需要明确告知OpenGL “管道”打开所需功能。</p>
-<p>因此对于我们的这个示例，需要告诉OpenGL库打开 Vertex buffer以便传入顶点坐标Buffer。要注意的使用完某个功能之后，<br>要关闭这个功能以免影响后续操作<br>// 告诉OPenGL库,打开顶点缓存，以便我们写入<br>gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);<br>//指定顶点数据的位置和数据格式<br>gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);<br>//操作完成之后要将之前打开的功能关闭<br>gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);</p>
-<p>Edge（边）</p>
-<p>边定义为两个顶点之间的线段。边是面和多边形的边界线。在3D模型中，边可以被相邻的两个面或是多边形形共享。<br>对一个边做变换将影响边相接的所有顶点，面或多边形。<br>在OpenGL中，通常无需直接来定义一个边，而是通过顶点定义一个面，从而由面定义了其所对应的三条边。<br>可以通过修改边的两个顶点来更改一条边</p>
-<p>Face (面）</p>
-<p>在OpenGL ES中，面特指一个三角形，由三个顶点和三条边构成，对一个面所做的变化影响到连接面的所有顶点和边，面多边形。<br>定义面的顶点的顺序很重要 在拼接曲面的时候，用来定义面的顶点的顺序非常重要，因为顶点的顺序定义了面的朝向（前向或是后向），为了获取绘制的高性能，一般情况不会绘制面的前面和后面，只绘制面的“前面”。虽然“前面”“后面”的定义可以应人而易，但一般为所有的“前面”定义统一的顶点顺序(顺时针或是逆时针方向）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//下面代码设置逆时针方法为面的“前面”：</div><div class="line">gl.glFrontFace(GL10.GL_CCW);</div><div class="line"></div><div class="line"></div><div class="line">//打开 忽略“后面”设置：</div><div class="line">gl.glEnable(GL10.GL_CULL_FACE);</div><div class="line">//明确指明“忽略“哪个面的代码如下：</div><div class="line">gl.glCullFace(GL10.GL_BACK);</div></pre></td></tr></table></figure>
-<p>Polygon （多边形）</p>
-<p>多边形由多个面（三角形）拼接而成，在三维空间上，多边形并一定表示这个Polygon在同一平面上。这里我们使用缺省的逆时针方向代表面的“前面Front)</p>
-<p>private short[] indices = { 0, 1, 2, 0, 2, 3 };</p>
-<p>To gain some performance we also put this ones in a byte buffer.short is 2 bytes, therefore we multiply the number if vertices with 2.<br>ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length * 2);<br>ibb.order(ByteOrder.nativeOrder());</p>
-<p>ShortBuffer indexBuffer = ibb.asShortBuffer();<br>indexBuffer.put(indices);<br>indexBuffer.position(0);</p>
-<p>Render (渲染）</p>
-<p>我们已定义好了多边形，下面就要了解如和使用OpenGL ES的API来绘制（渲染）这个多边形了。OpenGL ES提供了两类方法来绘制一个空间几何图形：</p>
-<p>public abstract void glDrawArrays(int mode, int first, int count)   使用VetexBuffer 来绘制，顶点的顺序由vertexBuffer中的顺序指定。<br>public abstract void glDrawElements(int mode, int count, int type, Buffer indices)  ，可以重新定义顶点的顺序，<br>顶点的顺序由indices Buffer 指定。前面我们已定义里顶点数组，因此我们将采用glDrawElements 来绘制多边形。</p>
-<p>同样的顶点，可以定义的几何图形可以有所不同，比如三个顶点，可以代表三个独立的点，也可以表示一个三角形，这就需要使用mode 来指明所需绘制的几何图形的基本类型。</p>
-<p>GL_POINTS<br>绘制独立的点。</p>
-<p>GL_LINE_STRIP<br>绘制一系列线段。</p>
-<p>GL_LINE_LOOP<br>类同上，但是首尾相连，构成一个封闭曲线。</p>
-<p>GL_LINES<br>顶点两两连接，为多条线段构成。</p>
-<p>GL_TRIANGLES<br>每隔三个顶点构成一个三角形，为多个三角形组成。</p>
-<p>GL_TRIANGLE_STRIP<br>每相邻三个顶点组成一个三角形，为一系列相接三角形构成。</p>
-<p>GL_TRIANGLE_FAN<br>以一个点为三角形公共顶点，组成一系列相邻的三角形。</p>
-<p>OpenGL ES从当前位置开始渲染，缺省坐标为(0,0,0)，和View port 的坐标一样，<br>相当于把画面放在眼前，对应这种情况OpenGL不会渲染离view Port很近的画面，<br>因此我们需要将画面向后退一点距离：</p>
-<p>gl.glTranslatef(0, 0, -4);</p>
-<p>在编译运行，这次倒是有显示了，当正方形迅速后移直至看不见，这是因为每次调用onDrawFrame 时，<br>每次都再向后移动4个单位，需要加上重置Matrix的代码。</p>
-<p>gl.glLoadIdentity();</p>
-<p>public void onDrawFrame(GL10 gl) {<br> // Clears the screen and depth buffer.<br> gl.glClear(GL10.GL_COLOR_BUFFER_BIT |<br> GL10.GL_DEPTH_BUFFER_BIT);<br> gl.glLoadIdentity();<br> gl.glTranslatef(0, 0, -4);<br> // Draw our square.<br> square.draw(gl);<br>}</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/OpenGL ES2.0开发系列/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/17/OpenGL ES2.0开发系列/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T02:33:25Z">
-                2017-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <hr>
-<h2 id="title-OpenGL-ES2-0开发系列"><a href="#title-OpenGL-ES2-0开发系列" class="headerlink" title="title:OpenGL ES2.0开发系列"></a>title:OpenGL ES2.0开发系列</h2><p>##1.基本概念：<br>1.OpenGL 绘制的都是图形，包括形状和填充，基本形状是三角形。<br>2.每个形状都有顶点，Vertix，顶点的序列就是一个图形。图形有所谓的正反面，如果我们看向一个图形，<br>它的顶点序列是逆时针方向，那我们看到的就是正面。<br>3.Shader(着色器),用来描述如何绘制(渲染)，GLSL是 OpenGL的编程语言，全称就叫 OpenGL Shader Language。OpenGL渲染需要两种shader，vertex 和 fragment。<br>       3.1 Vertex shader，控制顶点的绘制，指定坐标、变换等。<br>       3.2 Fragment shader，控制形状内区域渲染，纹理填充内容。</p>
-<p>##2. 坐标系：<br>　      　2.1 手机坐标系: 二维坐标系 原点在左上角,x轴向右递增,y轴向下递增 (X,y取值范围为屏幕的分辨率)<br>        2.2 OpenGL坐标系: 三维坐标系 原点在中间,x轴向右，y轴向上,z轴朝向我们 (x,y,z的取值方位都是[-1,1])<br>　　      2.3 纹理坐标系: 二维坐标系 原点在左下角,x轴向右,y轴向上 (x,y的取值范围都是[0,1])</p>
-<p>##3.Coding<br>　　    3.1 init()<br>    GLSurfaceView　“画布” surface<br>    GLSurfaceView.Renderer　渲染逻辑　<br>    初始化代码:<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">glSurfaceView.setEGLContextClientVersion(2);//GLES2.0</div><div class="line">glSurfaceView.setRenderer(new MyRenderer());//设置渲染</div><div class="line">glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//渲染模式 RENDERMODE_WHEN_DIRTY(懒惰模式,手动调用才去渲染) RENDERMODE_CONTINUOUSLY(时时刻刻的渲染)</div></pre></td></tr></table></figure></p>
-<pre><code>3.2 Renderer解析
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//OPenGL ES2.0版本第一个参数GL10无效</div><div class="line">public interface Renderer &#123;</div><div class="line">   		void onSurfaceCreated(GL10 notuse, EGLConfig config);//GLSurfaceView创建的时候被调用,去做一些初始化的工作，设置一些绘制时不常变化的参数，比如：背景色，是否打开 z-buffer等</div><div class="line">   		void onSurfaceChanged(GL10 notuse, int width, int height);//尺寸发生变化(屏幕横向和纵向切换)的时候被调用(注意:第一次得知 surface 的尺寸时也会回调,如果一些依赖尺寸的初始化工作，也可以放在此处进行)</div><div class="line">   		void onDrawFrame(GL10 notuse);//绘制每一帧的时候调用，定义实际的绘图操作</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-3.3 GLSL程序
-普通View绘制只需要调用canvas一系列绘制方法即可,OPenGL需要加载GLSL程序,让GPU绘制,所以我们需要定义shader代码
-</code></pre><p>　</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/GLSL/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/17/GLSL/" itemprop="url">
-                  GLSL
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T02:33:05Z">
-                2017-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/Camera/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/17/Camera/" itemprop="url">
-                  Camera
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T02:32:54Z">
-                2017-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1553,7 +1622,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

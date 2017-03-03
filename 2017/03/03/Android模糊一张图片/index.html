@@ -84,22 +84,16 @@
 
 
 
-<meta name="description" content="在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
-
-1$ git config core.filemode false">
+<meta name="description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下1234567891011121314151617181920212223242526272829303132public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) &amp;#123;    //Create renderscr">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/01/17/ubuntu踩坑/index.html">
+<meta property="og:title" content="Android模糊一张图片的简单方法">
+<meta property="og:url" content="http://yoursite.com/2017/03/03/Android模糊一张图片/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
-
-1$ git config core.filemode false">
-<meta property="og:updated_time" content="2017-01-17T02:35:59.436Z">
+<meta property="og:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下1234567891011121314151617181920212223242526272829303132public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) &amp;#123;    //Create renderscr">
+<meta property="og:updated_time" content="2017-03-03T03:13:38.053Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu踩坑记">
-<meta name="twitter:description" content="在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
-
-1$ git config core.filemode false">
+<meta name="twitter:title" content="Android模糊一张图片的简单方法">
+<meta name="twitter:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下1234567891011121314151617181920212223242526272829303132public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) &amp;#123;    //Create renderscr">
 
 
 
@@ -127,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/17/ubuntu踩坑/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/03/Android模糊一张图片/"/>
 
 
 
 
 
-  <title> Ubuntu踩坑记 | 蒲公英,随风海角天涯 </title>
+  <title> Android模糊一张图片的简单方法 | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -246,7 +240,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/ubuntu踩坑/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/Android模糊一张图片/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -270,7 +264,7 @@
             
             
               
-                Ubuntu踩坑记
+                Android模糊一张图片的简单方法
               
             
           </h1>
@@ -285,8 +279,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T10:35:59+08:00">
-                2017-01-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T03:13:38Z">
+                2017-03-03
               </time>
             
 
@@ -321,10 +315,13 @@
       
 
       
-        <blockquote>
-<p>在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，<br>就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动<br>仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录</p>
+        <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ git config core.filemode false</div></pre></td></tr></table></figure>
+</blockquote>
+<p>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。<br>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)<br>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</p>
 
       
     </div>
@@ -351,8 +348,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/17/基础知识/" rel="next" title="游戏开发相关的基础知识">
-                <i class="fa fa-chevron-left"></i> 游戏开发相关的基础知识
+              <a href="/2017/02/24/python学习笔记/" rel="next" title="python学习笔记">
+                <i class="fa fa-chevron-left"></i> python学习笔记
               </a>
             
           </div>
@@ -361,8 +358,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/20/redex踩坑记/" rel="prev" title="Redex踩坑记">
-                Redex踩坑记 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/03/UI卡顿检测/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -410,8 +407,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -453,6 +459,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Glide踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">Glide踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
