@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="Android模糊一张图片的简单方法1234567891011121314151617181920212223242526272829303132public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) &amp;#123;    //Create renderscript    RenderScript r">
+<meta name="description" content="RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Ja">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android模糊一张图片的简单方法">
-<meta property="og:url" content="http://yoursite.com/2017/03/03/Android模糊一张图片/index.html">
+<meta property="og:title" content="Android模糊一张图片的简单方法之RenderScript">
+<meta property="og:url" content="http://yoursite.com/2017/03/04/Android模糊一张图片/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="Android模糊一张图片的简单方法1234567891011121314151617181920212223242526272829303132public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) &amp;#123;    //Create renderscript    RenderScript r">
-<meta property="og:updated_time" content="2017-03-03T09:59:37.644Z">
+<meta property="og:description" content="RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Ja">
+<meta property="og:updated_time" content="2017-03-04T08:53:35.099Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android模糊一张图片的简单方法">
-<meta name="twitter:description" content="Android模糊一张图片的简单方法1234567891011121314151617181920212223242526272829303132public static Bitmap blurBitmap(Bitmap bitmap, float radius, Context context) &amp;#123;    //Create renderscript    RenderScript r">
+<meta name="twitter:title" content="Android模糊一张图片的简单方法之RenderScript">
+<meta name="twitter:description" content="RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Ja">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/03/Android模糊一张图片/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/04/Android模糊一张图片/"/>
 
 
 
 
 
-  <title> Android模糊一张图片的简单方法 | 蒲公英,随风海角天涯 </title>
+  <title> Android模糊一张图片的简单方法之RenderScript | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -240,7 +240,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/03/Android模糊一张图片/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/Android模糊一张图片/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -264,7 +264,7 @@
             
             
               
-                Android模糊一张图片的简单方法
+                Android模糊一张图片的简单方法之RenderScript
               
             
           </h1>
@@ -279,8 +279,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T17:59:37+08:00">
-                2017-03-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:53:35Z">
+                2017-03-04
               </time>
             
 
@@ -298,8 +298,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/03/Android模糊一张图片/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/03/Android模糊一张图片/" itemprop="commentCount"></span>
+                <a href="/2017/03/04/Android模糊一张图片/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/Android模糊一张图片/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -325,13 +325,22 @@
       
 
       
-        <h2 id="Android模糊一张图片的简单方法"><a href="#Android模糊一张图片的简单方法" class="headerlink" title="Android模糊一张图片的简单方法"></a>Android模糊一张图片的简单方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
+        <blockquote>
+<blockquote>
+<p>RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Java SDK让开发者在应用程序中管理RenderScript的整个lifecycle, 包括创建上下文，script对象，设置script全局变量，运行script等等。</p>
+</blockquote>
+</blockquote>
+<h2 id="Android模糊一张图片的简单方法"><a href="#Android模糊一张图片的简单方法" class="headerlink" title="Android模糊一张图片的简单方法"></a>Android模糊一张图片的简单方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
 <blockquote>
 <blockquote>
 <p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
 </blockquote>
 </blockquote>
-<p>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。<br>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)<br>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</p>
+<ol>
+<li>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。</li>
+<li>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)</li>
+<li>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</li>
+</ol>
 
       
     </div>
@@ -358,8 +367,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/03/内存泄漏/" rel="next" title="内存泄漏缘由以及解决方案">
-                <i class="fa fa-chevron-left"></i> 内存泄漏缘由以及解决方案
+              <a href="/2017/03/04/界面卡顿检测/" rel="next" title="Android界面卡顿检测">
+                <i class="fa fa-chevron-left"></i> Android界面卡顿检测
               </a>
             
           </div>
@@ -368,8 +377,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/04/界面卡顿检测/" rel="prev" title="Android界面卡顿检测">
-                Android界面卡顿检测 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/04/内存泄漏/" rel="prev" title="内存泄漏缘由以及解决方案">
+                内存泄漏缘由以及解决方案 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -396,8 +405,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/03/Android模糊一张图片/"
-           data-title="Android模糊一张图片的简单方法" data-url="http://yoursite.com/2017/03/03/Android模糊一张图片/">
+      <div class="ds-thread" data-thread-key="2017/03/04/Android模糊一张图片/"
+           data-title="Android模糊一张图片的简单方法之RenderScript" data-url="http://yoursite.com/2017/03/04/Android模糊一张图片/">
       </div>
     
   </div>
