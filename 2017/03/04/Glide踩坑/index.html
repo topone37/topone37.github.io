@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
 <meta property="og:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
-<meta property="og:updated_time" content="2017-03-04T08:56:46.991Z">
+<meta property="og:updated_time" content="2017-03-04T08:58:04.301Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Glide踩坑记">
 <meta name="twitter:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
@@ -282,7 +282,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:56:47Z">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T16:58:04+08:00">
                 2017-03-04
               </time>
             
@@ -350,7 +350,7 @@
 <blockquote>
 <p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
 </blockquote>
-<p>他指出Glide需要知道我们控件的大小，加上override(w,h)去指定控件的大小或许可能有用</p>
+<p>他指出Glide需要知道我们控件的大小，加上override(w,h)去指定控件的大小,在我这里我直接将Visiable设置为可见就OK了</p>
 <h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
 <p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
