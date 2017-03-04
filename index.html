@@ -283,7 +283,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:37:54Z">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:38:28Z">
                 2017-03-04
               </time>
             
@@ -333,14 +333,12 @@
           
             <h2 id="界面卡顿检测"><a href="#界面卡顿检测" class="headerlink" title="界面卡顿检测"></a>界面卡顿检测</h2><p>检测方式<br>1.利用UI线程的Looper打印的日志<a href="https://github.com/markzhai/AndroidPerformanceMonitor" target="_blank" rel="external">BlockCanary</a><br>2.利用Choreographer<br>3.劫持Message,我们自己使用Looper来处理小心,顺便额外的计算信息处理间隔是否及时来判断是否有卡顿产生<a href="http://blog.csdn.net/lmj623565791/article/details/58626355" target="_blank" rel="external">鸿洋大神的方法</a></p>
 <blockquote>
-<p>&gt;</p>
+<blockquote>
 <ol>
-<li>Android 4.1引入了VSync机制后，可以通过其Loop来了解当前App最高绘制能力。固定每隔16.6ms执行一次(这个值是一个静态变量，会根据系统版本不同而采用不同的值，目前测试版本是16.6ms这样最高的刷新的帧率就控制在60FPS以内)；如果没有以上事件的时候同样也会运行这样一个Loop；这个Loop在1s之内运行了多少次，即可以表示当前App绘制的最高的能力，也就是Android App卡顿的程度;另外，在一次Loop时如果执行时间超过了16.6ms，那么用多于16.6ms的时间除以16.6ms，即是当前App的丢帧(SF:Skipped Frame)。</li>
+<li>Android 4.1引入了VSync机制后，可以通过其Loop来了解当前App最高绘制能力。固定每隔16.6ms执行一次(这个值是一个静态变量，会根据系统版本不同而采用不同的值，目前测试版本是16.6ms这样最高的刷新的帧率就控制在60FPS以内)；如果没有以上事件的时候同样也会运行这样一个Loop；这个Loop在1s之内运行了多少次，即可以表示当前App绘制的最高的能力，也就是Android App卡顿的程度;另外，在一次Loop时如果执行时间超过了16.6ms，那么用多于16.6ms的时间除以16.6ms，即是当前App的丢帧(SF:Skipped Frame)。<br>2.在Choreographer的回调FrameCallback中，计算两次回调的时间差,反馈出来流畅度</li>
 </ol>
 </blockquote>
-<ol>
-<li>在Choreographer的回调FrameCallback中，计算两次回调的时间差,反馈出来流畅度</li>
-</ol>
+</blockquote>
 <p>##1.利用Looper打印的日志</p>
 <blockquote>
 <blockquote>
