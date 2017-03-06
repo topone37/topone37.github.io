@@ -283,7 +283,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T06:06:45Z">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T06:09:17Z">
                 2017-03-06
               </time>
             
@@ -337,17 +337,14 @@
 <li>传统的内存泄漏是由忘记释放分配的内存导致的，而逻辑上的内存泄漏则是由于忘记对象不再被使用的时候释放对其的引用导致的<br>如果一个对象仍存在强引用,GC就无法对其进行回收.</li>
 <li>安卓平台,泄漏Context对象问题尤其严重,这是因为像Activity这样的Context对象会引用大量很占内存的对象,如View的层级以及其他资源,<br>如果Context对象发生的内存泄漏,它所引用的所有对象都被泄漏</li>
 </ol>
-<blockquote>
+</blockquote>
 <p>对于一个普通的对象,或许我们很难去判定什么时候是内存泄漏，但是Activity这种存在明显的生命周期定义的对象，如果Activity的OnDestroy方法<br>被调用之后,context还被强引用,那我们可以认为改Activity发生了内存泄漏</p>
-</blockquote>
-</blockquote>
 <p>Activity的泄漏清空一般分配两种</p>
 <ol>
 <li>被进程全局的静态变量所持有 (单例,Context赋值给静态变量等)</li>
 <li>被比Acitivty生命周期更长的线程所持有 (异步耗时线程等)</li>
 </ol>
-<p>##　场景分析 </p>
-<p>###　1. 静态实例持有Activity实例</p>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><p>###　1. 静态实例持有Activity实例</p>
 <blockquote>
 <blockquote>
 <p>别说下述代码不可能,其实有很多情况下，我们就这么干，比如你一个静态的方法需要Context,<br>你可能就把Context置为static了</p>
@@ -359,8 +356,7 @@
 <p>静态变量持有Activity对象很容易造成内存泄漏，因为静态变量是全局存在的，所以当Activity生命周期结束时，引用仍被持有。<br>我们需要正确的释放引用让垃圾回收机制在它被销毁的同时将其回收。<br>解决方法：<br>    使用弱引用来代替强引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static WeakReference&lt;TestActivity&gt; activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = new WeakReference&lt;TestActivity&gt;(this);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
 </blockquote>
 </blockquote>
-<p>###　2. 静态实例持有View实例</p>
-<blockquote>
+<h3 id="2-静态实例持有View实例"><a href="#2-静态实例持有View实例" class="headerlink" title="2. 静态实例持有View实例"></a>2. 静态实例持有View实例</h3><blockquote>
 <blockquote>
 <p>看似Activity销毁之后就没什么事,要知道View创建是需要Context,也就是说View持有Context的强引用,<br>View泄漏,从而导致Context泄漏</p>
 </blockquote>
@@ -377,8 +373,7 @@
 <pre><code>2.  使用静态内部类,打破持有链
 3. 　onDestroy方法中断内部类
 4.　弱引用
-</code></pre><p>###　4. Handler</p>
-<blockquote>
+</code></pre><h3 id="4-Handler"><a href="#4-Handler" class="headerlink" title="4. Handler"></a>4. Handler</h3><blockquote>
 <blockquote>
 <p>Handler发送的Runnable持有Context引用,如果Activity销毁的时候，消息还没有处理,<br>就会导致Context被继续持有得不到释放<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private final Handler mLeakyHandler = new Handler() &#123;</div><div class="line">   @Override</div><div class="line">   public void handleMessage(Message msg) &#123;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> @Override</div><div class="line"> protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">   super.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">   mLeakyHandler.postDelayed(new Runnable() &#123;</div><div class="line">     @Override</div><div class="line">     public void run() &#123;&#125;</div><div class="line">   &#125;, 1000 * 60 * 10);</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
 </blockquote>
