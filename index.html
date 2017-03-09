@@ -241,6 +241,622 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/界面卡顿检测/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/09/界面卡顿检测/" itemprop="url">
+                  Android界面卡顿检测
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T09:43:17Z">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/09/界面卡顿检测/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/界面卡顿检测/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="界面卡顿检测"><a href="#界面卡顿检测" class="headerlink" title="界面卡顿检测"></a>界面卡顿检测</h1><p>检测方式<br>1.利用UI线程的Looper打印的日志<a href="https://github.com/markzhai/AndroidPerformanceMonitor" target="_blank" rel="external">BlockCanary</a></p>
+<p>2.利用Choreographer</p>
+<p>3.劫持Message,我们自己使用Looper来处理小心,顺便额外的计算信息处理间隔是否及时来判断是否有卡顿产生<a href="http://blog.csdn.net/lmj623565791/article/details/58626355" target="_blank" rel="external">鸿洋大神的方法</a></p>
+<blockquote>
+<blockquote>
+<ol>
+<li>Android 4.1引入了VSync机制后，可以通过其Loop来了解当前App最高绘制能力。固定每隔16.6ms执行一次(这个值是一个静态变量，会根据系统版本不同而采用不同的值，目前测试版本是16.6ms这样最高的刷新的帧率就控制在60FPS以内)；如果没有以上事件的时候同样也会运行这样一个Loop；这个Loop在1s之内运行了多少次，即可以表示当前App绘制的最高的能力，也就是Android App卡顿的程度;另外，在一次Loop时如果执行时间超过了16.6ms，那么用多于16.6ms的时间除以16.6ms，即是当前App的丢帧(SF:Skipped Frame)。</li>
+</ol>
+<p>2.在Choreographer的回调FrameCallback中，计算两次回调的时间差,反馈出来流畅度</p>
+</blockquote>
+</blockquote>
+<h2 id="1-利用Looper打印的日志"><a href="#1-利用Looper打印的日志" class="headerlink" title="1.利用Looper打印的日志"></a>1.利用Looper打印的日志</h2><blockquote>
+<blockquote>
+<p>Android　UI线程中有一个Looper,在方法内部不断取出Message和发送Message,如果从取出Msg到分发消息的过程超时了,就可以认为我们的程序出现了卡顿了(一般来说整个应用的主线程，只有这一个looper，不管有多少handler，最后都会回到这里。如果主线程UI卡顿了，也就是在dispatchMessage中卡住了，导致事件不能被及时处理)</p>
+</blockquote>
+</blockquote>
+<h3 id="1-Looper相关源码-以下为部分代码-lt-我们要做的就是计算取出和处理的及时性-gt"><a href="#1-Looper相关源码-以下为部分代码-lt-我们要做的就是计算取出和处理的及时性-gt" class="headerlink" title="1.Looper相关源码(以下为部分代码)&lt;我们要做的就是计算取出和处理的及时性&gt;"></a>1.Looper相关源码(以下为部分代码)&lt;我们要做的就是计算取出和处理的及时性&gt;</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public static void loop() &#123;</div><div class="line">    for (;;) &#123;</div><div class="line">        Message msg = queue.next(); // might block</div><div class="line">        if (msg == null) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line">        final Printer logging = me.mLogging;</div><div class="line">        if (logging != null) &#123;</div><div class="line">            logging.println(&quot;&gt;&gt;&gt;&gt;&gt; Dispatching to &quot; + msg.target + &quot; &quot; +</div><div class="line">                    msg.callback + &quot;: &quot; + msg.what);//在此处记录开始时间</div><div class="line">        &#125;</div><div class="line">        try &#123;</div><div class="line">            msg.target.dispatchMessage(msg);</div><div class="line">        &#125; finally &#123;</div><div class="line">            if (traceTag != 0) &#123;</div><div class="line">                Trace.traceEnd(traceTag);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (logging != null) &#123;</div><div class="line">            logging.println(&quot;&lt;&lt;&lt;&lt;&lt; Finished to &quot; + msg.target + &quot; &quot; + msg.callback);//在此处记录结束时间</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-将相关日志打印"><a href="#2-将相关日志打印" class="headerlink" title="2.将相关日志打印"></a>2.将相关日志打印</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">//class BlockDeteUtil</div><div class="line">public class BlockDeteUtil &#123;</div><div class="line">    public static void blockCheck() &#123;</div><div class="line">        Looper.getMainLooper().setMessageLogging(new Printer() &#123;</div><div class="line">            private static final String START_TAG = &quot;&gt;&gt;&gt;&gt;&gt; Dispatching&quot;;</div><div class="line">            private static final String STOP_TAG = &quot;&lt;&lt;&lt;&lt;&lt; Finished&quot;;</div><div class="line"></div><div class="line">            @Override</div><div class="line">            public void println(String x) &#123;</div><div class="line">                if (x.startsWith(START_TAG)) &#123;//</div><div class="line">                    LogMonitor.getInstance().startMonitor();</div><div class="line">                &#125; else if (x.startsWith(STOP_TAG)) &#123;</div><div class="line">                    LogMonitor.getInstance().removeMonitor();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">//class LogMonitor</div><div class="line">public class LogMonitor &#123;</div><div class="line">    private static LogMonitor sInstance;</div><div class="line">    private HandlerThread mLogThread = new HandlerThread(&quot;log&quot;);</div><div class="line">    /**</div><div class="line">     * 用来打印堆栈信息的</div><div class="line">     */</div><div class="line">    private Handler mTestHandler;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 时间阀值 (延迟多长就算是不流畅)</div><div class="line">     */</div><div class="line">    private static final long BLOCK_TIME = 500L;</div><div class="line"></div><div class="line"></div><div class="line">    private LogMonitor() &#123;</div><div class="line">        mLogThread.start();</div><div class="line">        mTestHandler = new Handler(mLogThread.getLooper());</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static LogMonitor getInstance() &#123;</div><div class="line">        if (sInstance == null) &#123;</div><div class="line">            sInstance = new LogMonitor();</div><div class="line">        &#125;</div><div class="line">        return sInstance;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private static Runnable mLogRunnable = new Runnable() &#123;</div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            StringBuilder sb = new StringBuilder();</div><div class="line">            /**</div><div class="line">             * 获取当前栈信息</div><div class="line">             */</div><div class="line">            StackTraceElement[] stackTrace = Looper.getMainLooper().getThread().getStackTrace();</div><div class="line">            for (StackTraceElement s : stackTrace) &#123;</div><div class="line">                sb.append(s.toString() + &quot;\n&quot;);</div><div class="line">            &#125;</div><div class="line">            Log.e(&quot;TAG&quot;, sb.toString());</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * TIME_BLOCK时间之内可以移除掉该Runnable,如果超过了改事件,就会打印出来堆栈信息了</div><div class="line">     */</div><div class="line">    public void startMonitor() &#123;</div><div class="line">        mTestHandler.postDelayed(mLogRunnable, BLOCK_TIME);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 开始时加入该打印线程,结束时移除该线程,如果时间超过了阀值,堆栈信息就会被打印出来</div><div class="line">     */</div><div class="line">    public void removeMonitor() &#123;</div><div class="line">        mTestHandler.removeCallbacks(mLogRunnable);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="3-在MainApplication中-onCreate-调用-BlockDeteUtil-blockCheck-即可"><a href="#3-在MainApplication中-onCreate-调用-BlockDeteUtil-blockCheck-即可" class="headerlink" title="3.在MainApplication中 onCreate 调用 BlockDeteUtil.blockCheck()即可"></a>3.在MainApplication中 onCreate 调用 BlockDeteUtil.blockCheck()即可</h3><h2 id="利用Choreographer"><a href="#利用Choreographer" class="headerlink" title="利用Choreographer"></a>利用Choreographer</h2><blockquote>
+<blockquote>
+<p>Android系统每隔16ms发出VSYNC信号，触发对UI进行渲染。SDK中包含了一个相关类，以及相关回调。理论上来说两次回调的时间周期应该在16ms，如果超过了16ms我们则认为发生了卡顿，我们主要就是利用两次回调间的时间周期来判断：</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Choreographer.getInstance()</div><div class="line">              .postFrameCallback(new Choreographer.FrameCallback() &#123;</div><div class="line"></div><div class="line">                  @Override</div><div class="line">                  public void doFrame(long l) &#123;</div><div class="line">                      if (isStart) &#123;</div><div class="line">                          LogMonitor.getInstance(&quot;blockCheckByChoreographer&quot;).startMonitor();</div><div class="line">                          Choreographer.getInstance().postFrameCallback(this);</div><div class="line">                      &#125; else &#123;</div><div class="line">                          LogMonitor.getInstance(&quot;blockCheckByChoreographer&quot;).removeMonitor();</div><div class="line">                      &#125;</div><div class="line">                      isStart = !isStart;</div><div class="line">                  &#125;</div><div class="line">              &#125;);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/内存泄漏/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/09/内存泄漏/" itemprop="url">
+                  内存泄漏缘由以及解决方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T09:41:58Z">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/09/内存泄漏/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/内存泄漏/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="内存泄漏缘由以及解决方案"><a href="#内存泄漏缘由以及解决方案" class="headerlink" title="内存泄漏缘由以及解决方案"></a>内存泄漏缘由以及解决方案</h2><blockquote>
+<p>&gt;</p>
+<ol>
+<li>传统的内存泄漏是由忘记释放分配的内存导致的，而逻辑上的内存泄漏则是由于忘记对象不再被使用的时候释放对其的引用导致的<br>如果一个对象仍存在强引用,GC就无法对其进行回收.</li>
+<li>安卓平台,泄漏Context对象问题尤其严重,这是因为像Activity这样的Context对象会引用大量很占内存的对象,如View的层级以及其他资源,<br>如果Context对象发生的内存泄漏,它所引用的所有对象都被泄漏</li>
+</ol>
+</blockquote>
+<p>对于一个普通的对象,或许我们很难去判定什么时候是内存泄漏，但是Activity这种存在明显的生命周期定义的对象，如果Activity的OnDestroy方法<br>被调用之后,context还被强引用,那我们可以认为改Activity发生了内存泄漏</p>
+<blockquote>
+<p>&gt;<br>Activity的泄漏清空一般分配两种</p>
+<ol>
+<li>被进程全局的静态变量所持有 (单例,Context赋值给静态变量等)</li>
+<li>被比Acitivty生命周期更长的线程所持有 (异步耗时线程等)</li>
+</ol>
+</blockquote>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><h3 id="1-静态实例持有Activity实例"><a href="#1-静态实例持有Activity实例" class="headerlink" title="1. 静态实例持有Activity实例"></a>1. 静态实例持有Activity实例</h3><blockquote>
+<blockquote>
+<p>别说下述代码不可能,其实有很多情况下，我们就这么干，比如你一个静态的方法需要Context,<br>你可能就把Context置为static了</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static TestActivity activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = this;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>静态变量持有Activity对象很容易造成内存泄漏，因为静态变量是全局存在的，所以当Activity生命周期结束时，引用仍被持有。<br>我们需要正确的释放引用让垃圾回收机制在它被销毁的同时将其回收。</p>
+</blockquote>
+</blockquote>
+<p>解决方法：<br>    使用弱引用来代替强引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static WeakReference&lt;TestActivity&gt; activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = new WeakReference&lt;TestActivity&gt;(this);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2-静态实例持有View实例"><a href="#2-静态实例持有View实例" class="headerlink" title="2. 静态实例持有View实例"></a>2. 静态实例持有View实例</h3><blockquote>
+<blockquote>
+<p>看似Activity销毁之后就没什么事,要知道View创建是需要Context,也就是说View持有Context的强引用,<br>View泄漏,从而导致Context泄漏</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public static View mView ;</div><div class="line">void setStaticView() &#123;</div><div class="line">  mView = findViewById(R.id.xxx);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方法：<br>　　在OnDestroy()将mView手动置为null</p>
+<p>###　3. 内部类(匿名内部类)</p>
+<blockquote>
+<blockquote>
+<p>内部类是很常见的使用方法,因为内部类会隐式持有外部类对象的引用,如果内部类被静态对象持有了,<br>或者说内部类生命周期较长(例如耗时线程  Thread Timer)</p>
+</blockquote>
+</blockquote>
+<p>解决方法:<br>　　　　1.  避免静态变量</p>
+<pre><code>2.  使用静态内部类,打破持有链
+3. 　onDestroy方法中断内部类
+4.　弱引用
+</code></pre><h3 id="4-Handler"><a href="#4-Handler" class="headerlink" title="4. Handler"></a>4. Handler</h3><blockquote>
+<blockquote>
+<p>Handler发送的Runnable持有Context引用,如果Activity销毁的时候，消息还没有处理,<br>就会导致Context被继续持有得不到释放</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private final Handler mLeakyHandler = new Handler() &#123;</div><div class="line">   @Override</div><div class="line">   public void handleMessage(Message msg) &#123;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> @Override</div><div class="line"> protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">   super.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">   mLeakyHandler.postDelayed(new Runnable() &#123;</div><div class="line">     @Override</div><div class="line">     public void run() &#123;&#125;</div><div class="line">   &#125;, 1000 * 60 * 10);</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>当activity结束(finish)时，里面的延时消息在得到处理前，会一直保存在主线程的消息队列里持续10分钟。而且，由上文可知，这条消息持有对handler的引用，而handler又持有对其外部类（在这里，即Activity）的潜在引用。这条引用关系会一直保持直到消息得到处理，从而，这阻止了Activity被垃圾回收器回收，同时造成应用程序的泄漏。</p>
+<p>注意，上面代码中的Runnable类–非静态匿名类–同样持有对其外部类的引用。从而也导致泄漏。</p>
+<ol>
+<li>只要有未处理的消息，那么消息会引用handler，非静态的handler又会引用外部类，即Activity，导致Activity无法被回收，造成泄漏；<br>Runnable类属于非静态匿名类，同样会引用外部类。</li>
+</ol>
+<p>为了解决遇到的问题，我们要明确一点：静态内部类不会持有对外部类的引用。所以，我们可以把handler类放在单独的类文件中，或者使用静态内部类便可以避免泄漏。</p>
+<ol>
+<li>另外，如果想要在handler内部去调用所在的外部类Activity，那么可以在handler内部使用弱引用的方式指向所在Activity，这样统一不会导致内存泄漏。</li>
+</ol>
+<p>对于匿名类Runnable，同样可以将其设置为静态类。因为静态的匿名类不会持有对外部类的引用。</p>
+<p>###　5. Sensor Manager注册监听器导致的内存泄漏</p>
+<blockquote>
+<blockquote>
+<p>如果 context 对象想要在服务内部的事件发生时被通知，那就需要把自己注册到服务的监听器中。然而，这会让服务持有 activity 的引用，<br>如果程序员忘记在 activity 销毁时取消注册，那就会导致 activity 泄漏了。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">void registerListener() &#123;</div><div class="line">       SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);</div><div class="line">       Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);</div><div class="line">       sensorManager.registerListener(mContext, sensor, SensorManager.SENSOR_DELAY_FASTEST);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方法:<br>　    在onDestroy()方法中注销监听器</p>
+<hr>
+<hr>
+<ol>
+<li><p>静态内部类</p>
+</li>
+<li><p>弱引用</p>
+</li>
+<li><p>及时注销之间注册的监听(被监听的动作的全局的，setOnclick()就不必了,页面销毁,View销毁,监听器的对Context持有自然消失了)</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/ImageView的使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/09/ImageView的使用/" itemprop="url">
+                  ImageView的使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T09:40:27Z">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/09/ImageView的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/ImageView的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="将ImageView的图片置空"><a href="#将ImageView的图片置空" class="headerlink" title="将ImageView的图片置空"></a>将ImageView的图片置空</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line"> * If this view doesn&apos;t do any drawing on its own, set this flag to</div><div class="line"> * allow further optimizations. By default, this flag is not set on</div><div class="line"> * View, but could be set on some View subclasses such as ViewGroup.</div><div class="line"> *</div><div class="line"> * Typically, if you override &#123;@link #onDraw(android.graphics.Canvas)&#125;</div><div class="line"> * you should clear this flag.</div><div class="line"> *</div><div class="line"> * @param willNotDraw whether or not this View draw on its own</div><div class="line"> */</div><div class="line">public void setWillNotDraw(boolean willNotDraw) &#123;</div><div class="line">    setFlags(willNotDraw ? WILL_NOT_DRAW : 0, DRAW_MASK);</div><div class="line">&#125;</div><div class="line">   </div><div class="line">　　　　//清空图片</div><div class="line">iv_show.setWillNotDraw(true)</div><div class="line">//清空图片</div><div class="line">iv_show.setWillNotDraw(false)</div><div class="line">iv_show.setImageResoure(R.di.img)</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/PopupWindow的详细使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/09/PopupWindow的详细使用/" itemprop="url">
+                  PopupWindow的详细使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T09:37:42Z">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/09/PopupWindow的详细使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/PopupWindow的详细使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="PopupWindow指定显示位置以及背景透明的全套解决方案"><a href="#PopupWindow指定显示位置以及背景透明的全套解决方案" class="headerlink" title="PopupWindow指定显示位置以及背景透明的全套解决方案"></a>PopupWindow指定显示位置以及背景透明的全套解决方案</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">   private void showPopUp(View v) &#123;</div><div class="line">       LinearLayout layout = new LinearLayout(this);</div><div class="line">       layout.setBackgroundColor(Color.WHITE);</div><div class="line">       TextView tv = new TextView(this);</div><div class="line">       tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));</div><div class="line">       tv.setText(&quot;xxxxx&quot;);</div><div class="line">       tv.setTextColor(Color.RED);</div><div class="line">       layout.addView(tv);</div><div class="line">//通过改变当前activity的window属性来控制</div><div class="line">       WindowManager.LayoutParams lp = getWindow()</div><div class="line">               .getAttributes();</div><div class="line">       lp.alpha = 0.4f;</div><div class="line"></div><div class="line">       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);</div><div class="line">       getWindow().setAttributes(lp);</div><div class="line">       PopupWindow popupWindow = new PopupWindow(layout, 120, 120);</div><div class="line"></div><div class="line">       popupWindow.setFocusable(true);</div><div class="line">       popupWindow.setOutsideTouchable(true);</div><div class="line">       popupWindow.setBackgroundDrawable(new BitmapDrawable());</div><div class="line"></div><div class="line">       int[] location = new int[2];</div><div class="line">       v.getLocationOnScreen(location);</div><div class="line">       popupWindow.setBackgroundDrawable(null);</div><div class="line">       popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1] + popupWindow.getHeight() + 20);</div><div class="line">       popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() &#123;</div><div class="line">           @Override</div><div class="line">           public void onDismiss() &#123;</div><div class="line">	//此时记得也调用一下哦</div><div class="line">               WindowManager.LayoutParams lp = getWindow()</div><div class="line">                       .getAttributes();</div><div class="line">               lp.alpha = 1f;</div><div class="line"></div><div class="line">               getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);</div><div class="line">               getWindow().setAttributes(lp);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">       popupWindow.update();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/OpenGL ES笔记-2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -555,200 +1171,6 @@
 </blockquote>
 </blockquote>
 <p>###Hello World版本的Renderer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">public class OpenGLRenderer implements Renderer &#123;</div><div class="line"></div><div class="line">    public void onSurfaceCreated(GL10 gl, EGLConfig config) &#123;</div><div class="line">	 //设置背景颜色为黑色(RGBA)</div><div class="line">	 gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); </div><div class="line"></div><div class="line">	 // Enable Smooth Shading, default not really needed.</div><div class="line">	 gl.glShadeModel(GL10.GL_SMOOTH);</div><div class="line"></div><div class="line">	 // Depth buffer setup.</div><div class="line">	 gl.glClearDepthf(1.0f);</div><div class="line"></div><div class="line">	 // Enables depth testing.</div><div class="line">	 gl.glEnable(GL10.GL_DEPTH_TEST);</div><div class="line"></div><div class="line">	 // The type of depth testing to do.</div><div class="line">	 gl.glDepthFunc(GL10.GL_LEQUAL);</div><div class="line"></div><div class="line">	 // Really nice perspective calculations.</div><div class="line">	 gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,GL10.GL_NICEST);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public void onDrawFrame(GL10 gl) &#123;</div><div class="line">	 // Clears the screen and depth buffer.</div><div class="line">	 gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void onSurfaceChanged(GL10 gl, int width, int height) &#123;</div><div class="line">	 // Sets the current view port to the new size.</div><div class="line">	 gl.glViewport(0, 0, width, height);</div><div class="line"></div><div class="line">	 // Select the projection matrix</div><div class="line">	 gl.glMatrixMode(GL10.GL_PROJECTION);</div><div class="line"></div><div class="line">	 // Reset the projection matrix</div><div class="line">	 gl.glLoadIdentity();</div><div class="line"></div><div class="line">	 // Calculate the aspect ratio of the window</div><div class="line">	 GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 0.1f, 100.0f);</div><div class="line"></div><div class="line">	 // Select the modelview matrix</div><div class="line">	 gl.glMatrixMode(GL10.GL_MODELVIEW);</div><div class="line"></div><div class="line">	 // Reset the modelview matrix</div><div class="line">	 gl.glLoadIdentity();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/内存泄漏/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/06/内存泄漏/" itemprop="url">
-                  内存泄漏缘由以及解决方案
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T06:09:17Z">
-                2017-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/06/内存泄漏/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/06/内存泄漏/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="内存泄漏缘由以及解决方案"><a href="#内存泄漏缘由以及解决方案" class="headerlink" title="内存泄漏缘由以及解决方案"></a>内存泄漏缘由以及解决方案</h2><blockquote>
-<p>&gt;</p>
-<ol>
-<li>传统的内存泄漏是由忘记释放分配的内存导致的，而逻辑上的内存泄漏则是由于忘记对象不再被使用的时候释放对其的引用导致的<br>如果一个对象仍存在强引用,GC就无法对其进行回收.</li>
-<li>安卓平台,泄漏Context对象问题尤其严重,这是因为像Activity这样的Context对象会引用大量很占内存的对象,如View的层级以及其他资源,<br>如果Context对象发生的内存泄漏,它所引用的所有对象都被泄漏</li>
-</ol>
-</blockquote>
-<p>对于一个普通的对象,或许我们很难去判定什么时候是内存泄漏，但是Activity这种存在明显的生命周期定义的对象，如果Activity的OnDestroy方法<br>被调用之后,context还被强引用,那我们可以认为改Activity发生了内存泄漏</p>
-<p>Activity的泄漏清空一般分配两种</p>
-<ol>
-<li>被进程全局的静态变量所持有 (单例,Context赋值给静态变量等)</li>
-<li>被比Acitivty生命周期更长的线程所持有 (异步耗时线程等)</li>
-</ol>
-<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><p>###　1. 静态实例持有Activity实例</p>
-<blockquote>
-<blockquote>
-<p>别说下述代码不可能,其实有很多情况下，我们就这么干，比如你一个静态的方法需要Context,<br>你可能就把Context置为static了</p>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static TestActivity activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = this;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
-<blockquote>
-<blockquote>
-<p>静态变量持有Activity对象很容易造成内存泄漏，因为静态变量是全局存在的，所以当Activity生命周期结束时，引用仍被持有。<br>我们需要正确的释放引用让垃圾回收机制在它被销毁的同时将其回收。<br>解决方法：<br>    使用弱引用来代替强引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static WeakReference&lt;TestActivity&gt; activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = new WeakReference&lt;TestActivity&gt;(this);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
-</blockquote>
-</blockquote>
-<h3 id="2-静态实例持有View实例"><a href="#2-静态实例持有View实例" class="headerlink" title="2. 静态实例持有View实例"></a>2. 静态实例持有View实例</h3><blockquote>
-<blockquote>
-<p>看似Activity销毁之后就没什么事,要知道View创建是需要Context,也就是说View持有Context的强引用,<br>View泄漏,从而导致Context泄漏</p>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public static View mView ;</div><div class="line">void setStaticView() &#123;</div><div class="line">  mView = findViewById(R.id.xxx);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>解决方法：<br>　　在OnDestroy()将mView手动置为null</p>
-<p>###　3. 内部类(匿名内部类)</p>
-<blockquote>
-<blockquote>
-<p>内部类是很常见的使用方法,因为内部类会隐式持有外部类对象的引用,如果内部类被静态对象持有了,<br>或者说内部类生命周期较长(例如耗时线程  Thread Timer)</p>
-</blockquote>
-</blockquote>
-<p>解决方法:<br>　　　　1.  避免静态变量</p>
-<pre><code>2.  使用静态内部类,打破持有链
-3. 　onDestroy方法中断内部类
-4.　弱引用
-</code></pre><h3 id="4-Handler"><a href="#4-Handler" class="headerlink" title="4. Handler"></a>4. Handler</h3><blockquote>
-<blockquote>
-<p>Handler发送的Runnable持有Context引用,如果Activity销毁的时候，消息还没有处理,<br>就会导致Context被继续持有得不到释放<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private final Handler mLeakyHandler = new Handler() &#123;</div><div class="line">   @Override</div><div class="line">   public void handleMessage(Message msg) &#123;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> @Override</div><div class="line"> protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">   super.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">   mLeakyHandler.postDelayed(new Runnable() &#123;</div><div class="line">     @Override</div><div class="line">     public void run() &#123;&#125;</div><div class="line">   &#125;, 1000 * 60 * 10);</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
-</blockquote>
-</blockquote>
-<p>当activity结束(finish)时，里面的延时消息在得到处理前，会一直保存在主线程的消息队列里持续10分钟。而且，由上文可知，这条消息持有对handler的引用，而handler又持有对其外部类（在这里，即Activity）的潜在引用。这条引用关系会一直保持直到消息得到处理，从而，这阻止了Activity被垃圾回收器回收，同时造成应用程序的泄漏。<br>注意，上面代码中的Runnable类–非静态匿名类–同样持有对其外部类的引用。从而也导致泄漏。</p>
-<ol>
-<li>只要有未处理的消息，那么消息会引用handler，非静态的handler又会引用外部类，即Activity，导致Activity无法被回收，造成泄漏；<br>Runnable类属于非静态匿名类，同样会引用外部类。<br>为了解决遇到的问题，我们要明确一点：静态内部类不会持有对外部类的引用。所以，我们可以把handler类放在单独的类文件中，或者使用静态内部类便可以避免泄漏。</li>
-<li>另外，如果想要在handler内部去调用所在的外部类Activity，那么可以在handler内部使用弱引用的方式指向所在Activity，这样统一不会导致内存泄漏。<br>对于匿名类Runnable，同样可以将其设置为静态类。因为静态的匿名类不会持有对外部类的引用。</li>
-</ol>
-<p>###　5. Sensor Manager注册监听器导致的内存泄漏</p>
-<blockquote>
-<blockquote>
-<p>如果 context 对象想要在服务内部的事件发生时被通知，那就需要把自己注册到服务的监听器中。然而，这会让服务持有 activity 的引用，<br>如果程序员忘记在 activity 销毁时取消注册，那就会导致 activity 泄漏了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">void registerListener() &#123;</div><div class="line">       SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);</div><div class="line">       Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);</div><div class="line">       sensorManager.registerListener(mContext, sensor, SensorManager.SENSOR_DELAY_FASTEST);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-</blockquote>
-</blockquote>
-<p>解决方法:<br>　    在onDestroy()方法中注销监听器</p>
-<hr>
-<hr>
-<ol>
-<li>静态内部类</li>
-<li>弱引用</li>
-<li>及时注销之间注册的监听(被监听的动作的全局的，setOnclick()就不必了,页面销毁,View销毁,监听器的对Context持有自然消失了)</li>
-</ol>
 
           
         
@@ -1344,434 +1766,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/App启动速度/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/04/App启动速度/" itemprop="url">
-                  App启动加速
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:58:22Z">
-                2017-03-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/04/App启动速度/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/App启动速度/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="App启动加速解决方案"><a href="#App启动加速解决方案" class="headerlink" title="App启动加速解决方案"></a>App启动加速解决方案</h2><h3 id="第一章-App启动过程分析"><a href="#第一章-App启动过程分析" class="headerlink" title="第一章 App启动过程分析"></a>第一章 App启动过程分析</h3>
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/Glide踩坑/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/04/Glide踩坑/" itemprop="url">
-                  Glide踩坑记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:58:04Z">
-                2017-03-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/04/Glide踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/Glide踩坑/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><p>现象描述:<br>    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,<br>图片就直接被拉伸了.以下为出问题的代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    这是替换过程中一个动画阶段，Glide提供一个方法,果断 <figure class="highlight plain"><figcaption><span>'0.0'不要动画了 ,修改后代码:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` java</div><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .dontAnimate()</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure></p>
-<h3 id="第二篇-Glide加载图片偏绿或者质量偏低"><a href="#第二篇-Glide加载图片偏绿或者质量偏低" class="headerlink" title="第二篇 Glide加载图片偏绿或者质量偏低"></a>第二篇 Glide加载图片偏绿或者质量偏低</h3><p>现象描述:<br>    用Glide加载图片感觉便绿色,普通出现这种问题一般都是压缩造成的.</p>
-<p>解决方法:<br>    1.缓存原图 2.修改bitmap的编码(Glide默认编码为RGB_565 替换成ARGB_8888),这样一般能解决大部分问题,<br>(不过这样一来，Glide的加载速度自然就下降了,毕竟增加一倍的解码内存，不是有特殊需求，不要随便使用),以下为示例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.缓存原图</span></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .diskCacheStrategy(DiskCacheStrategy.SOURCE)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改Bitmap的编码为ARGB_8888</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlideConfig</span> <span class="keyword">implements</span> <span class="title">GlideModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</div><div class="line">        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Glide glide)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//在manifest.xml配置上以上信息</span></div><div class="line">        &lt;meta-data</div><div class="line">            android:name=<span class="string">"com.xxx.xxx.GlideConfig"</span></div><div class="line">            android:value=<span class="string">"GlideModule"</span>/&gt;</div></pre></td></tr></table></figure>
-<h3 id="第三篇-Glide混淆脚本没加导致的Crash"><a href="#第三篇-Glide混淆脚本没加导致的Crash" class="headerlink" title="第三篇 Glide混淆脚本没加导致的Crash"></a>第三篇 Glide混淆脚本没加导致的Crash</h3><p>现象描述:<br>    在加了第二篇提到的一些配置，其中GlideModule是需要在manifest中指定的，debug版本一直没事，realease版本各种Crash,报错信息:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Unable to find GlideModule to find GlideModule implementation...</div></pre></td></tr></table></figure>
-<p>一开始我就想到了混淆脚本,结果遇到了两个坑：</p>
-<ol>
-<li>网上提供的混淆脚本包名是Glide之前的包名 　</li>
-<li>Glide内部混淆没关系,但是实现了GlideModule接口的类不能混淆,因为manifest中明确的指明了包名+类名的，混淆了自然就找不到了</li>
-</ol>
-<p>解决方法:<br>    1.加上必要的混淆脚本:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">implements</span>  <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">module</span>.<span class="title">GlideModule</span></span></div><div class="line">-<span class="title">keep</span> <span class="title">public</span> <span class="title">enum</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">load</span>.<span class="title">resource</span>.<span class="title">bitmap</span>.<span class="title">ImageHeaderParser</span>$** &#123;</div><div class="line">    **[] $VALUES;</div><div class="line">    <span class="keyword">public</span> *;</div><div class="line">&#125;</div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">bumptech</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="第四篇-Glide无法给Gone的ImageView设置图片"><a href="#第四篇-Glide无法给Gone的ImageView设置图片" class="headerlink" title="第四篇 Glide无法给Gone的ImageView设置图片"></a>第四篇 Glide无法给Gone的ImageView设置图片</h3><p>现象描述:<br>    因为有一个需求,其实就是广告，位置是个ImageView,没有拉到广告之前，我设置的是Gone，拉到图片之后,设置上图片，然后设置为可见，结果广告拉到了，但是对应位置没有任何反应，图片地址是可以正确打开的,以下为示例代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RequestListener callback = new RequestListener() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) &#123;                  </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">		            iv.setVisibility(View.VISIBLE);</div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line"></div><div class="line">iv.setVisibility(View.GONE);//如果你的ImageViewVisibility为Gone,以上回调没有作用,改成INVISIBLE即可</div><div class="line">Glide.with(mContext).load(url)</div><div class="line">                    .listener(callback)</div><div class="line">                    .into(iv);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    经过我测试，首先两个回调根本没有执行,网上搜到了一个国外程序员的回答</p>
-<blockquote>
-<p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
-</blockquote>
-<p>他指出Glide需要知道我们控件的大小，加上override(w,h)去指定控件的大小,在我这里我直接将Visiable设置为可见就OK了</p>
-<h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
-<h3 id="第五篇-Glide清除缓存"><a href="#第五篇-Glide清除缓存" class="headerlink" title="第五篇 Glide清除缓存"></a>第五篇 Glide清除缓存</h3><p>双清方法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Glide.get(this).clearDiskCache();//请在非UI线程中调用</div><div class="line">Glide.get(this).clearMemory();//请在主线程中调用</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/Android模糊一张图片/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/04/Android模糊一张图片/" itemprop="url">
-                  Android模糊一张图片的简单方法之RenderScript
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:53:35Z">
-                2017-03-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/04/Android模糊一张图片/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/Android模糊一张图片/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<blockquote>
-<p>RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Java SDK让开发者在应用程序中管理RenderScript的整个lifecycle, 包括创建上下文，script对象，设置script全局变量，运行script等等。</p>
-</blockquote>
-</blockquote>
-<h2 id="Android模糊一张图片的简单方法"><a href="#Android模糊一张图片的简单方法" class="headerlink" title="Android模糊一张图片的简单方法"></a>Android模糊一张图片的简单方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
-<blockquote>
-<blockquote>
-<p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
-</blockquote>
-</blockquote>
-<ol>
-<li>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。</li>
-<li>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)</li>
-<li>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1819,7 +1813,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
