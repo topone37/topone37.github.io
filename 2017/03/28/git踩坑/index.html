@@ -84,16 +84,31 @@
 
 
 
-<meta name="description" content="RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Ja">
+<meta name="description" content="1.文件权限的变更导致Git的变动
+
+在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
+
+
+12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android模糊一张图片的简单方法之RenderScript">
-<meta property="og:url" content="http://yoursite.com/2017/03/04/Android模糊一张图片/index.html">
+<meta property="og:title" content="Git踩坑记">
+<meta property="og:url" content="http://yoursite.com/2017/03/28/git踩坑/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Ja">
-<meta property="og:updated_time" content="2017-03-04T08:53:35.099Z">
+<meta property="og:description" content="1.文件权限的变更导致Git的变动
+
+在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
+
+
+12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
+<meta property="og:updated_time" content="2017-03-28T03:30:09.789Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android模糊一张图片的简单方法之RenderScript">
-<meta name="twitter:description" content="RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Ja">
+<meta name="twitter:title" content="Git踩坑记">
+<meta name="twitter:description" content="1.文件权限的变更导致Git的变动
+
+在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
+
+
+12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
 
 
 
@@ -121,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/04/Android模糊一张图片/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/03/28/git踩坑/"/>
 
 
 
 
 
-  <title> Android模糊一张图片的简单方法之RenderScript | 蒲公英,随风海角天涯 </title>
+  <title> Git踩坑记 | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -240,7 +255,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/Android模糊一张图片/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/28/git踩坑/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -264,7 +279,7 @@
             
             
               
-                Android模糊一张图片的简单方法之RenderScript
+                Git踩坑记
               
             
           </h1>
@@ -279,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T16:53:35+08:00">
-                2017-03-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-28T03:30:09Z">
+                2017-03-28
               </time>
             
 
@@ -298,8 +313,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/04/Android模糊一张图片/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/Android模糊一张图片/" itemprop="commentCount"></span>
+                <a href="/2017/03/28/git踩坑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/28/git踩坑/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -325,21 +340,32 @@
       
 
       
-        <blockquote>
+        <h2 id="1-文件权限的变更导致Git的变动"><a href="#1-文件权限的变更导致Git的变动" class="headerlink" title="1.文件权限的变更导致Git的变动"></a>1.文件权限的变更导致Git的变动</h2><blockquote>
 <blockquote>
-<p>RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Java SDK让开发者在应用程序中管理RenderScript的整个lifecycle, 包括创建上下文，script对象，设置script全局变量，运行script等等。</p>
+<p>在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，<br>就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动<br>仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录</p>
 </blockquote>
 </blockquote>
-<h2 id="Android模糊一张图片的简单方法"><a href="#Android模糊一张图片的简单方法" class="headerlink" title="Android模糊一张图片的简单方法"></a>Android模糊一张图片的简单方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git忽视权限的变动&lt;毕竟文件权限不是我们关心的改变&gt;</div><div class="line">$ git config core.filemode false</div></pre></td></tr></table></figure>
+<h2 id="2-文件名大小写改动git不是别"><a href="#2-文件名大小写改动git不是别" class="headerlink" title="2.文件名大小写改动git不是别"></a>2.文件名大小写改动git不是别</h2><blockquote>
+<blockquote>
+<p>git 默认不区分文件名大小写</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git 使其对文件名大小写敏感</div><div class="line">$ git config core.ignorecase false</div></pre></td></tr></table></figure>
 <blockquote>
 <blockquote>
-<p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
+<p>也可以先删除,然后在添加 git rm xx , git add xx , git commit -m “xx”</p>
+</blockquote>
+</blockquote>
+<h2 id="3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><a href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支" class="headerlink" title="3.强大的cherry-pick 将提交到A分支的commit提交到B分支"></a>3.强大的cherry-pick 将提交到A分支的commit提交到B分支</h2><blockquote>
+<blockquote>
+<p>场景复现 将原本该在dev分支的bug　fixed提交到了master分支 </p>
 </blockquote>
 </blockquote>
 <ol>
-<li>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。</li>
-<li>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)</li>
-<li>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</li>
+<li>找到master刚提交的commit id </li>
+<li>切换到 dev　</li>
+<li>git cherry-pick “commit id xxx”</li>
 </ol>
 
       
@@ -367,8 +393,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/02/24/Camera/" rel="next" title="Camera开发简介">
-                <i class="fa fa-chevron-left"></i> Camera开发简介
+              <a href="/2017/03/28/ubuntu踩坑/" rel="next" title="Ubuntu踩坑记">
+                <i class="fa fa-chevron-left"></i> Ubuntu踩坑记
               </a>
             
           </div>
@@ -377,8 +403,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/04/Glide踩坑/" rel="prev" title="Glide踩坑记">
-                Glide踩坑记 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/28/笔记/" rel="prev" title="Android笔记">
+                Android笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -405,8 +431,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/04/Android模糊一张图片/"
-           data-title="Android模糊一张图片的简单方法之RenderScript" data-url="http://yoursite.com/2017/03/04/Android模糊一张图片/">
+      <div class="ds-thread" data-thread-key="2017/03/28/git踩坑/"
+           data-title="Git踩坑记" data-url="http://yoursite.com/2017/03/28/git踩坑/">
       </div>
     
   </div>
@@ -492,7 +518,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Android模糊一张图片的简单方法"><span class="nav-number">1.</span> <span class="nav-text">Android模糊一张图片的简单方法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-文件权限的变更导致Git的变动"><span class="nav-number">1.</span> <span class="nav-text">1.文件权限的变更导致Git的变动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-文件名大小写改动git不是别"><span class="nav-number">2.</span> <span class="nav-text">2.文件名大小写改动git不是别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><span class="nav-number">3.</span> <span class="nav-text">3.强大的cherry-pick 将提交到A分支的commit提交到B分支</span></a></li></ol></div>
             
 
           </div>
