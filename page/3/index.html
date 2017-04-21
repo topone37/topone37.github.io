@@ -241,7 +241,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/09/Bitmap踩坑/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/17/为你的App创建桌面快捷方式/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -266,8 +266,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/09/Bitmap踩坑/" itemprop="url">
-                  Bitmap踩坑记
+                <a class="post-title-link" href="/2017/02/17/为你的App创建桌面快捷方式/" itemprop="url">
+                  为你的app创建桌面快捷方式
                 </a>
               
             
@@ -283,8 +283,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-09T11:12:11Z">
-                2017-01-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-17T01:59:23Z">
+                2017-02-17
               </time>
             
 
@@ -302,8 +302,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/09/Bitmap踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/09/Bitmap踩坑/" itemprop="commentCount"></span>
+                <a href="/2017/02/17/为你的App创建桌面快捷方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/17/为你的App创建桌面快捷方式/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -331,14 +331,279 @@
       
         
           
-            <h2 id="Bitmap踩坑全集"><a href="#Bitmap踩坑全集" class="headerlink" title="Bitmap踩坑全集"></a>Bitmap踩坑全集</h2><h3 id="第一篇-Bitmap加载图片便绿-画质偏低"><a href="#第一篇-Bitmap加载图片便绿-画质偏低" class="headerlink" title="第一篇 Bitmap加载图片便绿,画质偏低"></a>第一篇 Bitmap加载图片便绿,画质偏低</h3><p>现象描述:<br>    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低</p>
-<p>解决方法:<br>    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,</p>
-<p>inPreferQualityOverSpeed</p>
-<blockquote>
-<p>API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为true，也可以解出高质量的图片，不过这回牺牲解图速度,目前这只对JPEG的编码有效</p>
-</blockquote>
-<p>以下为示例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
+            <h2 id="创建快捷方式"><a href="#创建快捷方式" class="headerlink" title="创建快捷方式"></a>创建快捷方式</h2><h3 id="1-快捷方式的创建官方广为流行的手段"><a href="#1-快捷方式的创建官方广为流行的手段" class="headerlink" title="1.快捷方式的创建官方广为流行的手段"></a>1.快捷方式的创建官方广为流行的手段</h3><p>1.权限声明:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;uses-permission android:name=&quot;com.android.launcher.permission.INSTALL_SHORTCUT&quot;/&gt;</div></pre></td></tr></table></figure></p>
+<p>2.创建代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">       Intent shortCutIntent = new Intent(&quot;com.android.launcher.action.INSTALL_SHORTCUT&quot;);</div><div class="line">//快捷方式的名称</div><div class="line">       shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortCutName);</div><div class="line">//点击快捷方式之后的操作</div><div class="line">       shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);</div><div class="line">//快捷方式对应的图标 (设置图标有两种方式)</div><div class="line">//方式1: 设置bitmap</div><div class="line">       shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap); </div><div class="line">//方式2:设置</div><div class="line">       //shortCutIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,  Intent.ShortcutIconResource.fromContext(context.getApplicationContext(), res));</div><div class="line"></div><div class="line">//是否允许创建多个快捷方式(这个设置很多rom上不生效&lt;华为,小米等&gt; 反正我是存了一个SharePerefrence 只创建一次)</div><div class="line">       shortCutIntent.putExtra(&quot;duplicate&quot;, allowRepeat);</div><div class="line"></div><div class="line">       context.sendBroadcast(shortCutIntent);</div></pre></td></tr></table></figure></p>
+<p>如此正常情况下就可以创建一个桌面快捷方式(原生风格rom)</p>
+<p>3.判断快捷方式是否存在<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">    * 不一定所有的手机都有效，因为国内大部分手机的桌面不是系统原生的&lt;br/&gt;</div><div class="line">    * 桌面有两种，系统桌面(ROM自带)与第三方桌面，一般只考虑系统自带&lt;br/&gt;</div><div class="line">    * 第三方桌面如果没有实现系统响应的方法是无法判断的，比如GO桌面&lt;br/&gt;</div><div class="line">    * 同时通过快捷方式的名称 以及点击之后的Intent来判断</div><div class="line">    */</div><div class="line">   public static boolean isShortCutExist(Context context, String title, Intent intent) &#123;</div><div class="line">       boolean result = false;</div><div class="line">       try &#123;</div><div class="line">           ContentResolver cr = context.getContentResolver();</div><div class="line">           Uri uri = getUriFromLauncher(context);</div><div class="line">           Cursor c = cr.query(uri, new String[]&#123;&quot;title&quot;, &quot;intent&quot;&#125;, &quot;title=?  and intent=?&quot;,</div><div class="line">                   new String[]&#123;title, intent.toUri(0)&#125;, null);</div><div class="line">           if (c != null &amp;&amp; c.getCount() &gt; 0) &#123;</div><div class="line">               result = true;</div><div class="line">           &#125;</div><div class="line">           if (c != null &amp;&amp; !c.isClosed()) &#123;</div><div class="line">               c.close();</div><div class="line">           &#125;</div><div class="line">       &#125; catch (Exception ex) &#123;</div><div class="line">           result = false;</div><div class="line">           ex.printStackTrace();</div><div class="line">       &#125;</div><div class="line">       return result;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   private static Uri getUriFromLauncher(Context context) &#123;</div><div class="line">       StringBuilder uriStr = new StringBuilder();</div><div class="line">       String authority = getAuthorityFromPermissionDefault(context);</div><div class="line">       if (authority == null || authority.trim().equals(&quot;&quot;)) &#123;</div><div class="line">           authority = getAuthorityFromPermission(context, getCurrentLauncherPackageName(context) + &quot;.permission.READ_SETTINGS&quot;);</div><div class="line">       &#125;</div><div class="line">       uriStr.append(&quot;content://&quot;);</div><div class="line">       if (TextUtils.isEmpty(authority)) &#123;</div><div class="line">           int sdkInt = android.os.Build.VERSION.SDK_INT;</div><div class="line">           if (sdkInt &lt; 8) &#123; // Android 2.1.x(API 7)以及以下的</div><div class="line">               uriStr.append(&quot;com.android.launcher.settings&quot;);</div><div class="line">           &#125; else if (sdkInt &lt; 19) &#123;// Android 4.4以下</div><div class="line">               uriStr.append(&quot;com.android.launcher2.settings&quot;);</div><div class="line">           &#125; else &#123;// 4.4以及以上</div><div class="line">               uriStr.append(&quot;com.android.launcher3.settings&quot;);</div><div class="line">           &#125;</div><div class="line">       &#125; else &#123;</div><div class="line">           uriStr.append(authority);</div><div class="line">       &#125;</div><div class="line">       uriStr.append(&quot;/favorites?notify=true&quot;);</div><div class="line">       return Uri.parse(uriStr.toString());</div><div class="line">   &#125;</div><div class="line">   public static String getCurrentLauncherPackageName(Context context) &#123;</div><div class="line">       Intent intent = new Intent(Intent.ACTION_MAIN);</div><div class="line">       intent.addCategory(Intent.CATEGORY_HOME);</div><div class="line">       ResolveInfo res = context.getPackageManager().resolveActivity(intent, 0);</div><div class="line">       if (res == null || res.activityInfo == null) &#123;</div><div class="line">           // should not happen. A home is always installed, isn&apos;t it?</div><div class="line">           return &quot;&quot;;</div><div class="line">       &#125;</div><div class="line">       if (res.activityInfo.packageName.equals(&quot;android&quot;)) &#123;</div><div class="line">           return &quot;&quot;;</div><div class="line">       &#125; else &#123;</div><div class="line">           return res.activityInfo.packageName;</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   private static String mBufferedValue = null;</div><div class="line"></div><div class="line">   public static String getAuthorityFromPermissionDefault(Context context) &#123;</div><div class="line">       if (TextUtils.isEmpty(mBufferedValue))//we get value buffered</div><div class="line">           mBufferedValue = getAuthorityFromPermission(context, &quot;com.android.launcher.permission.READ_SETTINGS&quot;);</div><div class="line">       return mBufferedValue;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   /**</div><div class="line">    * 此函数为费时函数，大概占用500ms左右的时间&lt;br/&gt;</div><div class="line">    * android系统桌面的基本信息由一个launcher.db的Sqlite数据库管理，里面有三张表&lt;br/&gt;</div><div class="line">    * 其中一张表就是favorites。这个db文件一般放在data/data/com.android.launcher(launcher2)文件的databases下&lt;br/&gt;</div><div class="line">    * 但是对于不同的rom会放在不同的地方&lt;br/&gt;</div><div class="line">    * 例如MIUI放在data/data/com.miui.home/databases下面&lt;br/&gt;</div><div class="line">    * htc放在data/data/com.htc.launcher/databases下面&lt;br/</div><div class="line">    *</div><div class="line">    * @param context    context</div><div class="line">    * @param permission 读取设置的权限  READ_SETTINGS_PERMISSION(记得加上READ_SETTINGS的权限)</div><div class="line">    * @return permission</div><div class="line">    */</div><div class="line">   public static String getAuthorityFromPermission(Context context, String permission) &#123;</div><div class="line">       if (TextUtils.isEmpty(permission)) &#123;</div><div class="line">           return &quot;&quot;;</div><div class="line">       &#125;</div><div class="line">       try &#123;</div><div class="line">           List&lt;PackageInfo&gt; packs = context.getPackageManager().getInstalledPackages(PackageManager.GET_PROVIDERS);</div><div class="line">           if (packs == null) &#123;</div><div class="line">               return &quot;&quot;;</div><div class="line">           &#125;</div><div class="line">           for (PackageInfo pack : packs) &#123;</div><div class="line">               ProviderInfo[] providers = pack.providers;</div><div class="line">               if (providers != null) &#123;</div><div class="line">                   for (ProviderInfo provider : providers) &#123;</div><div class="line">                       if (permission.equals(provider.readPermission) || permission.equals(provider.writePermission)) &#123;</div><div class="line">                           return provider.authority;</div><div class="line">                       &#125;</div><div class="line">                   &#125;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125; catch (Exception e) &#123;</div><div class="line">           e.printStackTrace();</div><div class="line">       &#125;</div><div class="line">       return &quot;&quot;;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>3.快捷方式的卸载代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line">  * 移除快捷方式</div><div class="line">  *</div><div class="line">  * @param context      context</div><div class="line">  * @param actionIntent 点击快捷方式的动作 和创建的时候的一致</div><div class="line">  * @param name         name 快捷方式的名称</div><div class="line">  */</div><div class="line"> public static void removeShortcut(Context context, Intent actionIntent, String name) &#123;</div><div class="line">     Intent intent = new Intent(ACTION_REMOVE_SHORTCUT);</div><div class="line">     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);</div><div class="line">     intent.putExtra(&quot;duplicate&quot;, false);</div><div class="line">     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, actionIntent);</div><div class="line">     context.sendBroadcast(intent);</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/获取签名MD5和SHA1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/17/获取签名MD5和SHA1/" itemprop="url">
+                  获取密钥的签名信息
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T02:34:08Z">
+                2017-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/17/获取签名MD5和SHA1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/17/获取签名MD5和SHA1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//获取debug.keystore的签名信息</div><div class="line">keytool -list -v -keystore debug.keystore</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/OpenGL ES2.0开发系列/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/17/OpenGL ES2.0开发系列/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-17T02:33:25Z">
+                2017-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/17/OpenGL ES2.0开发系列/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/17/OpenGL ES2.0开发系列/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <hr>
+<h2 id="title-OpenGL-ES2-0开发系列"><a href="#title-OpenGL-ES2-0开发系列" class="headerlink" title="title:OpenGL ES2.0开发系列"></a>title:OpenGL ES2.0开发系列</h2><p>##1.基本概念：<br>1.OpenGL 绘制的都是图形，包括形状和填充，基本形状是三角形。<br>2.每个形状都有顶点，Vertix，顶点的序列就是一个图形。图形有所谓的正反面，如果我们看向一个图形，<br>它的顶点序列是逆时针方向，那我们看到的就是正面。<br>3.Shader(着色器),用来描述如何绘制(渲染)，GLSL是 OpenGL的编程语言，全称就叫 OpenGL Shader Language。OpenGL渲染需要两种shader，vertex 和 fragment。<br>       3.1 Vertex shader，控制顶点的绘制，指定坐标、变换等。<br>       3.2 Fragment shader，控制形状内区域渲染，纹理填充内容。</p>
+<p>##2. 坐标系：<br>　      　2.1 手机坐标系: 二维坐标系 原点在左上角,x轴向右递增,y轴向下递增 (X,y取值范围为屏幕的分辨率)<br>        2.2 OpenGL坐标系: 三维坐标系 原点在中间,x轴向右，y轴向上,z轴朝向我们 (x,y,z的取值方位都是[-1,1])<br>　　      2.3 纹理坐标系: 二维坐标系 原点在左下角,x轴向右,y轴向上 (x,y的取值范围都是[0,1])</p>
+<p>##3.Coding<br>　　    3.1 init()<br>    GLSurfaceView　“画布” surface<br>    GLSurfaceView.Renderer　渲染逻辑　<br>    初始化代码:<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">glSurfaceView.setEGLContextClientVersion(2);//GLES2.0</div><div class="line">glSurfaceView.setRenderer(new MyRenderer());//设置渲染</div><div class="line">glSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//渲染模式 RENDERMODE_WHEN_DIRTY(懒惰模式,手动调用才去渲染) RENDERMODE_CONTINUOUSLY(时时刻刻的渲染)</div></pre></td></tr></table></figure></p>
+<pre><code>3.2 Renderer解析
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//OPenGL ES2.0版本第一个参数GL10无效</div><div class="line">public interface Renderer &#123;</div><div class="line">   		void onSurfaceCreated(GL10 notuse, EGLConfig config);//GLSurfaceView创建的时候被调用,去做一些初始化的工作，设置一些绘制时不常变化的参数，比如：背景色，是否打开 z-buffer等</div><div class="line">   		void onSurfaceChanged(GL10 notuse, int width, int height);//尺寸发生变化(屏幕横向和纵向切换)的时候被调用(注意:第一次得知 surface 的尺寸时也会回调,如果一些依赖尺寸的初始化工作，也可以放在此处进行)</div><div class="line">   		void onDrawFrame(GL10 notuse);//绘制每一帧的时候调用，定义实际的绘图操作</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+3.3 GLSL程序
+普通View绘制只需要调用canvas一系列绘制方法即可,OPenGL需要加载GLSL程序,让GPU绘制,所以我们需要定义shader代码
+</code></pre><p>　</p>
 
           
         
@@ -415,7 +680,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -84,31 +84,31 @@
 
 
 
-<meta name="description" content="1.文件权限的变更导致Git的变动
+<meta name="description" content="关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题
 
-在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
+场景重现：主页面有一个ViewPager，有两页数据,滑动到第二页,然后切换字体，再切回app，app发生crash ,IndexOutOfBoundException
 
 
-12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
+在字体切换之后,系统会发送一个通知给app，通知其更新界面,然而走的生命周期方法确实onDestroy()-&amp;gt;onCreate()-&amp;gt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/03/28/git踩坑/index.html">
+<meta property="og:title" content="那些年遇见的Crash">
+<meta property="og:url" content="http://yoursite.com/2017/04/21/那些年遇见的Crash/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="1.文件权限的变更导致Git的变动
+<meta property="og:description" content="关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题
 
-在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
+场景重现：主页面有一个ViewPager，有两页数据,滑动到第二页,然后切换字体，再切回app，app发生crash ,IndexOutOfBoundException
 
 
-12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
-<meta property="og:updated_time" content="2017-03-28T03:30:09.789Z">
+在字体切换之后,系统会发送一个通知给app，通知其更新界面,然而走的生命周期方法确实onDestroy()-&amp;gt;onCreate()-&amp;gt;">
+<meta property="og:updated_time" content="2017-04-21T06:09:28.896Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Git踩坑记">
-<meta name="twitter:description" content="1.文件权限的变更导致Git的变动
+<meta name="twitter:title" content="那些年遇见的Crash">
+<meta name="twitter:description" content="关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题
 
-在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
+场景重现：主页面有一个ViewPager，有两页数据,滑动到第二页,然后切换字体，再切回app，app发生crash ,IndexOutOfBoundException
 
 
-12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
+在字体切换之后,系统会发送一个通知给app，通知其更新界面,然而走的生命周期方法确实onDestroy()-&amp;gt;onCreate()-&amp;gt;">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/28/git踩坑/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/21/那些年遇见的Crash/"/>
 
 
 
 
 
-  <title> Git踩坑记 | 蒲公英,随风海角天涯 </title>
+  <title> 那些年遇见的Crash | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +255,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/28/git踩坑/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/那些年遇见的Crash/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -279,7 +279,7 @@
             
             
               
-                Git踩坑记
+                那些年遇见的Crash
               
             
           </h1>
@@ -294,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-28T03:30:09Z">
-                2017-03-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T06:09:28Z">
+                2017-04-21
               </time>
             
 
@@ -313,8 +313,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/28/git踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/28/git踩坑/" itemprop="commentCount"></span>
+                <a href="/2017/04/21/那些年遇见的Crash/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/那些年遇见的Crash/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -340,33 +340,16 @@
       
 
       
-        <h2 id="1-文件权限的变更导致Git的变动"><a href="#1-文件权限的变更导致Git的变动" class="headerlink" title="1.文件权限的变更导致Git的变动"></a>1.文件权限的变更导致Git的变动</h2><blockquote>
+        <h3 id="关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题"><a href="#关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题" class="headerlink" title="关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题"></a>关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题</h3><blockquote>
 <blockquote>
-<p>在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，<br>就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动<br>仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录</p>
+<p>场景重现：主页面有一个ViewPager，有两页数据,滑动到第二页,然后切换字体，再切回app，app发生crash ,IndexOutOfBoundException</p>
 </blockquote>
 </blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git忽视权限的变动&lt;毕竟文件权限不是我们关心的改变&gt;</div><div class="line">$ git config core.filemode false</div></pre></td></tr></table></figure>
-<h2 id="2-文件名大小写改动git不是别"><a href="#2-文件名大小写改动git不是别" class="headerlink" title="2.文件名大小写改动git不是别"></a>2.文件名大小写改动git不是别</h2><blockquote>
-<blockquote>
-<p>git 默认不区分文件名大小写</p>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git 使其对文件名大小写敏感</div><div class="line">$ git config core.ignorecase false</div></pre></td></tr></table></figure>
-<blockquote>
-<blockquote>
-<p>也可以先删除,然后在添加 git rm xx , git add xx , git commit -m “xx”</p>
-</blockquote>
-</blockquote>
-<h2 id="3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><a href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支" class="headerlink" title="3.强大的cherry-pick 将提交到A分支的commit提交到B分支"></a>3.强大的cherry-pick 将提交到A分支的commit提交到B分支</h2><blockquote>
-<blockquote>
-<p>场景复现 将原本该在dev分支的bug　fixed提交到了master分支 </p>
-</blockquote>
-</blockquote>
-<ol>
-<li>找到master刚提交的commit id </li>
-<li>切换到 dev　</li>
-<li>git cherry-pick “commit id xxx”</li>
-</ol>
+<p>在字体切换之后,系统会发送一个通知给app，通知其更新界面,然而走的生命周期方法确实<br>onDestroy()-&gt;onCreate()-&gt;onResume();<br>正常看起并没有什么不妥,但是:</p>
+<p>此时app是作为一种<strong>异常</strong>走的onDestroy()方法，并不是正常的按返回键进行的退出执行的onDestroy()。<br>这个时候系统会自动在onSaveInstanceState()方法里面临时性的保存之前的界面状态或者变量信息。<br>方便在onCreate()的时候，从bundle里面直接取出来使用。<br>但是毕竟是<strong>异常的状态</strong>，有些实体的信息或者fragment堆栈的状态恢复的时候就有可能错乱，导致显示效果出错或者crash。</p>
+<p>配置Activity的configChanges,防止页面被刷新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">android:configChanges=&quot;orientation|screenSize|keyboardHidden|**fontScale**</div></pre></td></tr></table></figure></p>
+<p><strong>有一个尴尬的情况,如果我们改变的是字体样式,有点没辙</strong></p>
+<p>究其原因就是onDestroy的时候,有些数据不太正确,因此在恢复的时候,可能导致crash，最果断直接方法来了,如果有保存的值,直接置为null<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line"></div><div class="line">       if (null != savedInstanceState)</div><div class="line"></div><div class="line">           savedInstanceState = null;</div><div class="line"></div><div class="line">     super.onCreate(savedInstanceState);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -393,8 +376,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/28/ubuntu踩坑/" rel="next" title="Ubuntu踩坑记">
-                <i class="fa fa-chevron-left"></i> Ubuntu踩坑记
+              <a href="/2017/04/21/Git使用笔记/" rel="next" title="Git使用小结">
+                <i class="fa fa-chevron-left"></i> Git使用小结
               </a>
             
           </div>
@@ -403,8 +386,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/28/笔记/" rel="prev" title="Android笔记">
-                Android笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/21/App优化之启动速度优化/" rel="prev" title="App优化之启动速度">
+                App优化之启动速度 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -431,8 +414,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/28/git踩坑/"
-           data-title="Git踩坑记" data-url="http://yoursite.com/2017/03/28/git踩坑/">
+      <div class="ds-thread" data-thread-key="2017/04/21/那些年遇见的Crash/"
+           data-title="那些年遇见的Crash" data-url="http://yoursite.com/2017/04/21/那些年遇见的Crash/">
       </div>
     
   </div>
@@ -479,7 +462,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -518,7 +501,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-文件权限的变更导致Git的变动"><span class="nav-number">1.</span> <span class="nav-text">1.文件权限的变更导致Git的变动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-文件名大小写改动git不是别"><span class="nav-number">2.</span> <span class="nav-text">2.文件名大小写改动git不是别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><span class="nav-number">3.</span> <span class="nav-text">3.强大的cherry-pick 将提交到A分支的commit提交到B分支</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题"><span class="nav-number">1.</span> <span class="nav-text">关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题</span></a></li></ol></div>
             
 
           </div>

@@ -88,11 +88,11 @@
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Glide踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/03/04/Glide踩坑/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/04/21/Glide使用手册/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
 <meta property="og:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
-<meta property="og:updated_time" content="2017-03-04T08:58:04.301Z">
+<meta property="og:updated_time" content="2017-04-21T05:39:06.923Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Glide踩坑记">
 <meta name="twitter:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/04/Glide踩坑/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/21/Glide使用手册/"/>
 
 
 
@@ -243,7 +243,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/Glide踩坑/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Glide使用手册/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T16:58:04+08:00">
-                2017-03-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T05:39:06Z">
+                2017-04-21
               </time>
             
 
@@ -301,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/04/Glide踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/Glide踩坑/" itemprop="commentCount"></span>
+                <a href="/2017/04/21/Glide使用手册/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Glide使用手册/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -354,8 +354,12 @@
 <h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
 <p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
-<h3 id="第五篇-Glide清除缓存"><a href="#第五篇-Glide清除缓存" class="headerlink" title="第五篇 Glide清除缓存"></a>第五篇 Glide清除缓存</h3><p>双清方法:</p>
+<h3 id="第六篇-Glide清除缓存"><a href="#第六篇-Glide清除缓存" class="headerlink" title="第六篇 Glide清除缓存"></a>第六篇 Glide清除缓存</h3><p>双清方法:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Glide.get(this).clearDiskCache();//请在非UI线程中调用</div><div class="line">Glide.get(this).clearMemory();//请在主线程中调用</div></pre></td></tr></table></figure>
+<h3 id="第七篇-Glide加载加密的数据"><a href="#第七篇-Glide加载加密的数据" class="headerlink" title="第七篇 Glide加载加密的数据"></a>第七篇 Glide加载加密的数据</h3><p>Glide的Load方法是可以接受byte[] 我们当然可以每次解图之前将输入流转换成byte[]进行加载但是,就没有办法很好的使用到Glide内置的缓存策略了</p>
+<p>1.自定义GlideModule (注意混淆)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public class CipherGlideModule implements GlideModule &#123;</div><div class="line">    @Override</div><div class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void registerComponents(Context context, Glide glide) &#123;</div><div class="line">        /**</div><div class="line">         * String.class 输入源</div><div class="line">         * InputStream 输出</div><div class="line">         */</div><div class="line">        glide.register(String.class, InputStream.class, new ImageLoader.Factory());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//mainfest.xml中声明 : </div><div class="line">&lt;meta-data</div><div class="line">    android:name=&quot;xxx.xxx.CipherGlideModule&quot;</div><div class="line">        android:value=&quot;GlideModule&quot; /&gt;</div></pre></td></tr></table></figure></p>
+<p>2.自定义ImageLoader<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader implements ModelLoader&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">    public ImageLoader() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public DataFetcher&lt;InputStream&gt; getResourceFetcher(String model, int width, int height) &#123;</div><div class="line">        return new ImageDataFetcher(model);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static class Factory implements ModelLoaderFactory&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public ModelLoader&lt;String, InputStream&gt; build(Context context, GenericLoaderFactory factories) &#123;</div><div class="line">            return new ImageLoader();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void teardown() &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.自定义ImageDataFetcher<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">public class ImageDataFetcher implements DataFetcher&lt;InputStream&gt; &#123;</div><div class="line"></div><div class="line">    private volatile boolean mIsCanceled;</div><div class="line">    private final String mFilePath;</div><div class="line">    private InputStream mInputStream;</div><div class="line"></div><div class="line">    public ImageDataFetcher(String filePath) &#123;</div><div class="line">        mFilePath = filePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这个方法是在非UI线程中执行,我们利用此方法来加载我们的加密数据</div><div class="line">     *</div><div class="line">     * @param priority</div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public InputStream loadData(Priority priority) throws Exception &#123;</div><div class="line">        if (mIsCanceled) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        mInputStream = fetchStream(mFilePath);</div><div class="line">        return mInputStream;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 处理完成之后清理工作</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cleanup() &#123;</div><div class="line">        if (mInputStream != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                mInputStream.close();</div><div class="line">            &#125; catch (IOException e) &#123;</div><div class="line">            &#125; finally &#123;</div><div class="line">                mInputStream = null;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 该文件的唯一ID</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public String getId() &#123;</div><div class="line">        return mFilePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在UI线程中调用，取消加载任务</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cancel() &#123;</div><div class="line">        mIsCanceled = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 返回解密后的数据流</div><div class="line">     *</div><div class="line">     * @param filePath 文件名</div><div class="line">     * @return inputStream</div><div class="line">     */</div><div class="line">    private InputStream fetchStream(String filePath) &#123;</div><div class="line">        InputStream inputStream = null;</div><div class="line">        // 返回解密数据流</div><div class="line">        return inputStream;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -382,8 +386,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/04/Android模糊一张图片/" rel="next" title="Android模糊一张图片的简单方法之RenderScript">
-                <i class="fa fa-chevron-left"></i> Android模糊一张图片的简单方法之RenderScript
+              <a href="/2017/04/21/ImageView的使用/" rel="next" title="ImageView的使用小手段">
+                <i class="fa fa-chevron-left"></i> ImageView的使用小手段
               </a>
             
           </div>
@@ -392,8 +396,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/04/App启动速度/" rel="prev" title="App启动加速">
-                App启动加速 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/21/Git使用笔记/" rel="prev" title="Git使用小结">
+                Git使用小结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -420,8 +424,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/04/Glide踩坑/"
-           data-title="Glide踩坑记" data-url="http://yoursite.com/2017/03/04/Glide踩坑/">
+      <div class="ds-thread" data-thread-key="2017/04/21/Glide使用手册/"
+           data-title="Glide踩坑记" data-url="http://yoursite.com/2017/04/21/Glide使用手册/">
       </div>
     
   </div>
@@ -468,7 +472,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -507,7 +511,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Glide踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">Glide踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二篇-Glide加载图片偏绿或者质量偏低"><span class="nav-number">1.2.</span> <span class="nav-text">第二篇 Glide加载图片偏绿或者质量偏低</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三篇-Glide混淆脚本没加导致的Crash"><span class="nav-number">1.3.</span> <span class="nav-text">第三篇 Glide混淆脚本没加导致的Crash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四篇-Glide无法给Gone的ImageView设置图片"><span class="nav-number">1.4.</span> <span class="nav-text">第四篇 Glide无法给Gone的ImageView设置图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五篇-Glide为通知栏-Notification设置图片不生效"><span class="nav-number">1.5.</span> <span class="nav-text">第五篇 Glide为通知栏(Notification设置图片不生效)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五篇-Glide清除缓存"><span class="nav-number">1.6.</span> <span class="nav-text">第五篇 Glide清除缓存</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Glide踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">Glide踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二篇-Glide加载图片偏绿或者质量偏低"><span class="nav-number">1.2.</span> <span class="nav-text">第二篇 Glide加载图片偏绿或者质量偏低</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三篇-Glide混淆脚本没加导致的Crash"><span class="nav-number">1.3.</span> <span class="nav-text">第三篇 Glide混淆脚本没加导致的Crash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四篇-Glide无法给Gone的ImageView设置图片"><span class="nav-number">1.4.</span> <span class="nav-text">第四篇 Glide无法给Gone的ImageView设置图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五篇-Glide为通知栏-Notification设置图片不生效"><span class="nav-number">1.5.</span> <span class="nav-text">第五篇 Glide为通知栏(Notification设置图片不生效)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六篇-Glide清除缓存"><span class="nav-number">1.6.</span> <span class="nav-text">第六篇 Glide清除缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第七篇-Glide加载加密的数据"><span class="nav-number">1.7.</span> <span class="nav-text">第七篇 Glide加载加密的数据</span></a></li></ol></li></ol></div>
             
 
           </div>

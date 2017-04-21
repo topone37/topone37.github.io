@@ -84,31 +84,31 @@
 
 
 
-<meta name="description" content="获取View的宽高正确姿势
+<meta name="description" content="1.文件权限的变更导致Git的变动
 
-在我们的正常开发中,我们避免不了 调用View.getWidth, View.getHeight，很多时候，我们得到的却是0 (因为很大可能：我们获取的时候，控件并没有绘制和布局完成 )
+在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
 
 
-1. 正确知识1 (很常用的姿势哦)123456789101112//通过addOnGlobalLayoutListener 获取监听事件，当控件绘制和布局完成时获取宽高view">
+12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
 <meta property="og:type" content="article">
-<meta property="og:title" content="获取View的宽高正确姿势">
-<meta property="og:url" content="http://yoursite.com/2017/04/05/获取view的宽高/index.html">
+<meta property="og:title" content="Git使用小结">
+<meta property="og:url" content="http://yoursite.com/2017/04/21/Git使用笔记/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="获取View的宽高正确姿势
+<meta property="og:description" content="1.文件权限的变更导致Git的变动
 
-在我们的正常开发中,我们避免不了 调用View.getWidth, View.getHeight，很多时候，我们得到的却是0 (因为很大可能：我们获取的时候，控件并没有绘制和布局完成 )
+在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
 
 
-1. 正确知识1 (很常用的姿势哦)123456789101112//通过addOnGlobalLayoutListener 获取监听事件，当控件绘制和布局完成时获取宽高view">
-<meta property="og:updated_time" content="2017-04-05T07:51:56.716Z">
+12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
+<meta property="og:updated_time" content="2017-04-21T05:53:27.565Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="获取View的宽高正确姿势">
-<meta name="twitter:description" content="获取View的宽高正确姿势
+<meta name="twitter:title" content="Git使用小结">
+<meta name="twitter:description" content="1.文件权限的变更导致Git的变动
 
-在我们的正常开发中,我们避免不了 调用View.getWidth, View.getHeight，很多时候，我们得到的却是0 (因为很大可能：我们获取的时候，控件并没有绘制和布局完成 )
+在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录
 
 
-1. 正确知识1 (很常用的姿势哦)123456789101112//通过addOnGlobalLayoutListener 获取监听事件，当控件绘制和布局完成时获取宽高view">
+12//配置git忽视权限的变动&amp;lt;毕竟文件权限不是我们关心的改变&amp;gt;$ git config core.f">
 
 
 
@@ -136,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/05/获取view的宽高/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/21/Git使用笔记/"/>
 
 
 
 
 
-  <title> 获取View的宽高正确姿势 | 蒲公英,随风海角天涯 </title>
+  <title> Git使用小结 | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +255,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/05/获取view的宽高/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Git使用笔记/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -279,7 +279,7 @@
             
             
               
-                获取View的宽高正确姿势
+                Git使用小结
               
             
           </h1>
@@ -294,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-05T15:51:56+08:00">
-                2017-04-05
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T05:53:27Z">
+                2017-04-21
               </time>
             
 
@@ -313,8 +313,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/05/获取view的宽高/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/05/获取view的宽高/" itemprop="commentCount"></span>
+                <a href="/2017/04/21/Git使用笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Git使用笔记/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -340,18 +340,52 @@
       
 
       
-        <h2 id="获取View的宽高正确姿势"><a href="#获取View的宽高正确姿势" class="headerlink" title="获取View的宽高正确姿势"></a>获取View的宽高正确姿势</h2><blockquote>
+        <h2 id="1-文件权限的变更导致Git的变动"><a href="#1-文件权限的变更导致Git的变动" class="headerlink" title="1.文件权限的变更导致Git的变动"></a>1.文件权限的变更导致Git的变动</h2><blockquote>
 <blockquote>
-<p>在我们的正常开发中,我们避免不了 调用View.getWidth, View.getHeight，很多时候，我们得到的却是0 (因为很大可能：我们获取的时候，控件并没有绘制和布局完成 )</p>
+<p>在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，<br>就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动<br>仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录</p>
 </blockquote>
 </blockquote>
-<h3 id="1-正确知识1-很常用的姿势哦"><a href="#1-正确知识1-很常用的姿势哦" class="headerlink" title="1. 正确知识1 (很常用的姿势哦)"></a>1. 正确知识1 (很常用的姿势哦)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//通过addOnGlobalLayoutListener 获取监听事件，当控件绘制和布局完成时获取宽高</div><div class="line">view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() &#123;</div><div class="line">    @Override</div><div class="line">    public void onGlobalLayout() &#123;</div><div class="line">        if (Build.VERSION.SDK_INT &gt;= 16) &#123;</div><div class="line">            view.getViewTreeObserver().removeOnGlobalLayoutListener(this);</div><div class="line">        &#125;else &#123;</div><div class="line">            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);</div><div class="line">        &#125;</div><div class="line">        int width = view.getWidth();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>###2. 正确姿势2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//当 view layout 处理完成时，回调UI线程时获取宽高</div><div class="line">view.post(new Runnable() &#123;</div><div class="line">    @Override</div><div class="line">    public void run() &#123;</div><div class="line">        int width = view.getWidth();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h3 id="ps-getMeasuredWidth-与getWidth-的区别"><a href="#ps-getMeasuredWidth-与getWidth-的区别" class="headerlink" title="ps:getMeasuredWidth()与getWidth()的区别"></a>ps:getMeasuredWidth()与getWidth()的区别</h3><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git忽视权限的变动&lt;毕竟文件权限不是我们关心的改变&gt;</div><div class="line">$ git config core.filemode false</div></pre></td></tr></table></figure>
+<h2 id="2-文件名大小写改动git不识别"><a href="#2-文件名大小写改动git不识别" class="headerlink" title="2.文件名大小写改动git不识别"></a>2.文件名大小写改动git不识别</h2><blockquote>
 <blockquote>
-<p>getMeasuredWidth():一个是绘制的测量出来的宽高(控件本身的宽高)<br>getWidth():这是控件展示时真正的宽度(毕竟宽高不仅取决于控件本身的宽高，还有父容器的限制)       </p>
+<p>git 默认不区分文件名大小写</p>
 </blockquote>
 </blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git 使其对文件名大小写敏感</div><div class="line">$ git config core.ignorecase false</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>也可以先删除,然后在添加 git rm xx , git add xx , git commit -m “xx”</p>
+</blockquote>
+</blockquote>
+<h2 id="3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><a href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支" class="headerlink" title="3.强大的cherry-pick 将提交到A分支的commit提交到B分支"></a>3.强大的cherry-pick 将提交到A分支的commit提交到B分支</h2><blockquote>
+<blockquote>
+<p>场景复现 将原本该在dev分支的bug　fixed提交到了master分支 </p>
+</blockquote>
+</blockquote>
+<ol>
+<li>找到master刚提交的commit id </li>
+<li>切换到 dev　</li>
+<li>git cherry-pick “commit id xxx”</li>
+</ol>
+<h2 id="4-本地代码reset之后-push-failed"><a href="#4-本地代码reset之后-push-failed" class="headerlink" title="4.本地代码reset之后,push　failed"></a>4.本地代码reset之后,push　failed</h2><ol>
+<li>打开git bash 来操作</li>
+<li>切换到git托管的目录</li>
+<li>git push -f (force) //加上-f参数　强制刷新remote/origin/xxxxx</li>
+</ol>
+<h2 id="5-后续添加-gitignore不生效"><a href="#5-后续添加-gitignore不生效" class="headerlink" title="5.后续添加.gitignore不生效"></a>5.后续添加.gitignore不生效</h2><blockquote>
+<blockquote>
+<p>在用 Git 进行代码管理的过程中，我们会发现后添加进去的 .gitignore 文件，<br>或者是中途修改了 .gitignore 文件后，.gitignore 文件没有生效，我们需要通过清除 track 缓存和 强制 track 来解决问题</p>
+</blockquote>
+</blockquote>
+<p>Git 代码管理中，我们在没有添加 .gitignore 文件的前提下提交了代码之后再提交 .gitignore 文件，或者是中途添加某一文件类型到 .gitignore 文件中，需要通过以下命令行的方式，让 .gitignore 文件生效：<br>查看源代码打印帮助</p>
+<ol>
+<li><p>Git 代码管理中，我们在没有添加 .gitignore 文件的前提下提交了代码之后再提交 .gitignore 文件，或者是中途添加某一文件类型到 .gitignore 文件中，需要通过以下命令行的方式，让 .gitignore 文件生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//清除缓存</div><div class="line">git rm -r --cached .</div><div class="line">//添加</div><div class="line">git add .</div><div class="line">//提交</div><div class="line">git commit -m &quot;xxxxx&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果是中途从 .gitignore 文件中移除某一文件类型，想要这个文件类型重新被 track，需要通过以下命令行的方式，让 .gitignore 文件生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//添加的时候加上-f参数</div><div class="line">git add -f *.class</div><div class="line">//提交</div><div class="line">git commit -m &quot;xxx&quot;</div></pre></td></tr></table></figure>
+</li>
+</ol>
 
       
     </div>
@@ -378,8 +412,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/28/笔记/" rel="next" title="Android笔记">
-                <i class="fa fa-chevron-left"></i> Android笔记
+              <a href="/2017/04/21/Glide使用手册/" rel="next" title="Glide踩坑记">
+                <i class="fa fa-chevron-left"></i> Glide踩坑记
               </a>
             
           </div>
@@ -388,8 +422,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/17/Bitmap踩坑/" rel="prev" title="Bitmap解图质量偏低">
-                Bitmap解图质量偏低 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/21/那些年遇见的Crash/" rel="prev" title="那些年遇见的Crash">
+                那些年遇见的Crash <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -416,8 +450,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/04/05/获取view的宽高/"
-           data-title="获取View的宽高正确姿势" data-url="http://yoursite.com/2017/04/05/获取view的宽高/">
+      <div class="ds-thread" data-thread-key="2017/04/21/Git使用笔记/"
+           data-title="Git使用小结" data-url="http://yoursite.com/2017/04/21/Git使用笔记/">
       </div>
     
   </div>
@@ -503,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取View的宽高正确姿势"><span class="nav-number">1.</span> <span class="nav-text">获取View的宽高正确姿势</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-正确知识1-很常用的姿势哦"><span class="nav-number">1.1.</span> <span class="nav-text">1. 正确知识1 (很常用的姿势哦)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ps-getMeasuredWidth-与getWidth-的区别"><span class="nav-number">1.2.</span> <span class="nav-text">ps:getMeasuredWidth()与getWidth()的区别</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-文件权限的变更导致Git的变动"><span class="nav-number">1.</span> <span class="nav-text">1.文件权限的变更导致Git的变动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-文件名大小写改动git不识别"><span class="nav-number">2.</span> <span class="nav-text">2.文件名大小写改动git不识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><span class="nav-number">3.</span> <span class="nav-text">3.强大的cherry-pick 将提交到A分支的commit提交到B分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-本地代码reset之后-push-failed"><span class="nav-number">4.</span> <span class="nav-text">4.本地代码reset之后,push　failed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-后续添加-gitignore不生效"><span class="nav-number">5.</span> <span class="nav-text">5.后续添加.gitignore不生效</span></a></li></ol></div>
             
 
           </div>

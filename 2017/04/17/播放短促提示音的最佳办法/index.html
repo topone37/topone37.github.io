@@ -84,28 +84,25 @@
 
 
 
-<meta name="description" content="Bitmap踩坑全集第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低
-解决方法:    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,
-inPreferQualityOverSpeed
+<meta name="description" content="第一篇 播放短促的声音需求描述:    在Android中播放声音,可能大部分人想到的都是MediaPlayer，但是该类会占用大量的系统资源,播放时还需要缓冲，存在较大的延迟,因此短促游戏音效没法用这个去实现，系统提供一个类来完成这一个工作:
+SoudPool
 
-API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为t">
+SoudPool设计的初衷就是用于无延时地播放游戏中的短促音效,因此实际开发中,使用该类声音资源不要超过7s，否则可能加载失败或者内存">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Bitmap踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/01/09/Bitmap踩坑/index.html">
+<meta property="og:title" content="播放短促提示音的最佳办法">
+<meta property="og:url" content="http://yoursite.com/2017/04/17/播放短促提示音的最佳办法/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="Bitmap踩坑全集第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低
-解决方法:    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,
-inPreferQualityOverSpeed
+<meta property="og:description" content="第一篇 播放短促的声音需求描述:    在Android中播放声音,可能大部分人想到的都是MediaPlayer，但是该类会占用大量的系统资源,播放时还需要缓冲，存在较大的延迟,因此短促游戏音效没法用这个去实现，系统提供一个类来完成这一个工作:
+SoudPool
 
-API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为t">
-<meta property="og:updated_time" content="2017-01-09T11:12:11.425Z">
+SoudPool设计的初衷就是用于无延时地播放游戏中的短促音效,因此实际开发中,使用该类声音资源不要超过7s，否则可能加载失败或者内存">
+<meta property="og:updated_time" content="2017-04-06T02:49:23.161Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bitmap踩坑记">
-<meta name="twitter:description" content="Bitmap踩坑全集第一篇 Bitmap加载图片便绿,画质偏低现象描述:    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低
-解决方法:    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,
-inPreferQualityOverSpeed
+<meta name="twitter:title" content="播放短促提示音的最佳办法">
+<meta name="twitter:description" content="第一篇 播放短促的声音需求描述:    在Android中播放声音,可能大部分人想到的都是MediaPlayer，但是该类会占用大量的系统资源,播放时还需要缓冲，存在较大的延迟,因此短促游戏音效没法用这个去实现，系统提供一个类来完成这一个工作:
+SoudPool
 
-API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为t">
+SoudPool设计的初衷就是用于无延时地播放游戏中的短促音效,因此实际开发中,使用该类声音资源不要超过7s，否则可能加载失败或者内存">
 
 
 
@@ -133,13 +130,13 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/01/09/Bitmap踩坑/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/04/17/播放短促提示音的最佳办法/"/>
 
 
 
 
 
-  <title> Bitmap踩坑记 | 蒲公英,随风海角天涯 </title>
+  <title> 播放短促提示音的最佳办法 | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -252,7 +249,7 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/09/Bitmap踩坑/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/播放短促提示音的最佳办法/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -276,7 +273,7 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
             
             
               
-                Bitmap踩坑记
+                播放短促提示音的最佳办法
               
             
           </h1>
@@ -291,8 +288,8 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-09T19:12:11+08:00">
-                2017-01-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
+                2017-04-17
               </time>
             
 
@@ -310,8 +307,8 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/09/Bitmap踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/09/Bitmap踩坑/" itemprop="commentCount"></span>
+                <a href="/2017/04/17/播放短促提示音的最佳办法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/播放短促提示音的最佳办法/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -337,14 +334,11 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
       
 
       
-        <h2 id="Bitmap踩坑全集"><a href="#Bitmap踩坑全集" class="headerlink" title="Bitmap踩坑全集"></a>Bitmap踩坑全集</h2><h3 id="第一篇-Bitmap加载图片便绿-画质偏低"><a href="#第一篇-Bitmap加载图片便绿-画质偏低" class="headerlink" title="第一篇 Bitmap加载图片便绿,画质偏低"></a>第一篇 Bitmap加载图片便绿,画质偏低</h3><p>现象描述:<br>    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低</p>
-<p>解决方法:<br>    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一大队的配置，其中有一些配置会对我们有帮助,</p>
-<p>inPreferQualityOverSpeed</p>
+        <h3 id="第一篇-播放短促的声音"><a href="#第一篇-播放短促的声音" class="headerlink" title="第一篇 播放短促的声音"></a>第一篇 播放短促的声音</h3><p>需求描述:<br>    在Android中播放声音,可能大部分人想到的都是MediaPlayer，但是该类会占用大量的系统资源,播放时还需要缓冲，存在较大的延迟,因此<br>短促游戏音效没法用这个去实现，系统提供一个类来完成这一个工作:</p>
+<p>SoudPool</p>
 <blockquote>
-<p>API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为true，也可以解出高质量的图片，不过这回牺牲解图速度,目前这只对JPEG的编码有效</p>
+<p>SoudPool设计的初衷就是用于无延时地播放游戏中的短促音效,因此实际开发中,使用该类声音资源不要超过7s，否则可能加载失败或者内存占用过大</p>
 </blockquote>
-<p>以下为示例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -371,13 +365,17 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/04/17/Bitmap踩坑/" rel="next" title="Bitmap解图质量偏低">
+                <i class="fa fa-chevron-left"></i> Bitmap解图质量偏低
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/17/OpenGL ES2.0开发系列/" rel="prev" title="">
+              <a href="/2017/04/17/android4.1webp加载问题/" rel="prev" title="">
                  <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -405,8 +403,8 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/09/Bitmap踩坑/"
-           data-title="Bitmap踩坑记" data-url="http://yoursite.com/2017/01/09/Bitmap踩坑/">
+      <div class="ds-thread" data-thread-key="2017/04/17/播放短促提示音的最佳办法/"
+           data-title="播放短促提示音的最佳办法" data-url="http://yoursite.com/2017/04/17/播放短促提示音的最佳办法/">
       </div>
     
   </div>
@@ -453,7 +451,7 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -492,7 +490,7 @@ API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bitmap踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">Bitmap踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-Bitmap加载图片便绿-画质偏低"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 Bitmap加载图片便绿,画质偏低</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-播放短促的声音"><span class="nav-number">1.</span> <span class="nav-text">第一篇 播放短促的声音</span></a></li></ol></div>
             
 
           </div>
