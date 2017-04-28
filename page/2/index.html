@@ -241,6 +241,279 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Redex踩坑记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/21/Redex踩坑记/" itemprop="url">
+                  FaceBook Redex使用总结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T01:44:47Z">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/21/Redex踩坑记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Redex踩坑记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Redex踩坑全集"><a href="#Redex踩坑全集" class="headerlink" title="Redex踩坑全集"></a>Redex踩坑全集</h2><h3 id="第一步-安装Redex"><a href="#第一步-安装Redex" class="headerlink" title="第一步 安装Redex"></a>第一步 安装Redex</h3><p> 以下内容基本来自<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">1. 安装以下前置条件</div><div class="line"></div><div class="line">``` java</div><div class="line"></div><div class="line"> sudo apt-get install \</div><div class="line">    g++ \</div><div class="line">    automake \</div><div class="line">    autoconf \</div><div class="line">    autoconf-archive \</div><div class="line">    libtool \</div><div class="line">    libboost-all-dev \</div><div class="line">    liblz4-dev \</div><div class="line">    liblzma-dev \</div><div class="line">    make \</div><div class="line">    zlib1g-dev \</div><div class="line">    binutils-dev \</div><div class="line">    libjemalloc-dev \</div><div class="line">    libiberty-dev \</div><div class="line">    libjsoncpp-dev</div></pre></td></tr></table></figure></p>
+<ol>
+<li>clone　Redex源码到本地,编译合安装</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">git clone https://github.com/facebook/redex.git</div><div class="line"></div><div class="line">//进入redex目录</div><div class="line">cd　redex</div><div class="line"></div><div class="line">//编译 安装</div><div class="line">autoreconf -ivf &amp;&amp; ./configure &amp;&amp; make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<ol>
+<li>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redex input.apk -o output.apk //output.apk就是你的产物咯</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="填坑"><a href="#填坑" class="headerlink" title="填坑"></a>填坑</h3><ol>
+<li>找不到zipalign<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Couldn&apos;t find zipalign. See README.md to resolve this</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>解决方案:<br>    添加zipalign到环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//添加zipaligin到环境变量 sdk/build-tool/xxx</div><div class="line">sudo vim /etv/profile</div><div class="line">export ZIP_HOME=xxxx</div><div class="line">PATH=...:$ZIP_HOME</div><div class="line"></div><div class="line">//刷新一下，让配置在窗口实时生效</div><div class="line">source /etc/profile</div></pre></td></tr></table></figure></p>
+<p>2.安装提示没有签名(因为修改了dex，所以必须要手动重新签名) &lt;以及4.4以下手机按照官网提示，重新签名之后仍不好使,<br>下面的命令可以搞定&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES]</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//强大的</div><div class="line"> jarsigner  -digestalg SHA1 -sigalg MD5withRSA  -tsa https://timestamp.geotrust.com/tsa  -verbose -keystore ts_hz -signedjar output.apk(输入) input.apk(输入) alias(签名的alias)</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/android4.1webp加载问题/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/17/android4.1webp加载问题/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/17/android4.1webp加载问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/android4.1webp加载问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在华为android 4.1的手机上.webp格式的图片无法加载出来(setImageResourece不生效)</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/Bitmap踩坑/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -283,7 +556,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T16:23:26+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
                 2017-04-17
               </time>
             
@@ -339,6 +612,300 @@
 </blockquote>
 <p>以下为示例代码:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/ubuntu踩坑/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/17/ubuntu踩坑/" itemprop="url">
+                  Ubuntu踩坑记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/17/ubuntu踩坑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/ubuntu踩坑/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-Ubuntu下面使用AndroidStudio开发-文件权限的变更导致Git的变动"><a href="#1-Ubuntu下面使用AndroidStudio开发-文件权限的变更导致Git的变动" class="headerlink" title="1.Ubuntu下面使用AndroidStudio开发,文件权限的变更导致Git的变动"></a>1.Ubuntu下面使用AndroidStudio开发,文件权限的变更导致Git的变动</h2><blockquote>
+<blockquote>
+<p>在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，<br>就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动<br>仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git忽视权限的变动&lt;毕竟文件权限不是我们关心的改变&gt;</div><div class="line">$ git config core.filemode false</div></pre></td></tr></table></figure>
+<h2 id="2-Ubuntu安装Virtual-Box玩耍Win7启动失败"><a href="#2-Ubuntu安装Virtual-Box玩耍Win7启动失败" class="headerlink" title="2.Ubuntu安装Virtual Box玩耍Win7启动失败"></a>2.Ubuntu安装Virtual Box玩耍Win7启动失败</h2><p>问题描述：<br>    VirtualBox无法启动，VirtualBox出现Kernel driver not installed (rc=-1908) 错误（Ubuntu Linux内核更新后VirtualBox无法启动的解决办法）</p>
+<p>解决办法：</p>
+<p>1 将当前用户加入vboxusers用户组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//后面填入你的</div><div class="line">sudo usermod -G vboxusers -a (username)</div></pre></td></tr></table></figure>
+<p>2 安装如下组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install linux-headers-`uname -r`</div><div class="line"></div><div class="line">sudo apt-get install virtualbox-dkms</div><div class="line"></div><div class="line">sudo dpkg-reconfigure virtualbox-dkms)</div></pre></td></tr></table></figure>
+<p>3 加载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ll /dev/ | grep vboxdrv</div><div class="line">sudo modprobe vboxdrv</div></pre></td></tr></table></figure>
+<p>4 重新安装vboxdrv</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/vboxdrv setup</div></pre></td></tr></table></figure>
+<p>5 启动VirtualBox</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">VirtualBox</div></pre></td></tr></table></figure>
+<h2 id="3-Ubuntu升级时-boot空间不足"><a href="#3-Ubuntu升级时-boot空间不足" class="headerlink" title="3.Ubuntu升级时/boot空间不足"></a>3.Ubuntu升级时/boot空间不足</h2><ol>
+<li>查看安装的内核</li>
+</ol>
+<figure class="highlight plain"><figcaption><span>--get-selections |grep linux-image```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">2. 也可直接查看/boot下有哪些文件</div><div class="line"></div><div class="line">```ls /boot</div></pre></td></tr></table></figure>
+<ol>
+<li>查看当前运行内核</li>
+</ol>
+<figure class="highlight plain"><figcaption><span>-a```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">4. 将旧的内核删除（尽量保留2-3个以便恢复）</div><div class="line"></div><div class="line">```sudo apt-get purge linux-image-x.x.x-xx-generic</div></pre></td></tr></table></figure>
+<ol>
+<li>清理/usr/src 文件</li>
+</ol>
+<figure class="highlight plain"><figcaption><span>apt-get purge linux-headers-x.x.x-xx```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">##　4.禁止Ubuntu连接Android设别之后自动打开</div></pre></td></tr></table></figure>
+<pre><code>gsettings set org.gnome.desktop.media-handling automount false
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">## 5.ubuntu清理缓存</div></pre></td></tr></table></figure>
+<p>sudo apt-get autoclean                //清理旧版本的软件缓存<br>sudo apt-get clean                   // 清理所有软件缓存<br>sudo apt-get autoremove             //删除系统不再使用的孤立软件<br>```</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/播放短促提示音的最佳办法/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/17/播放短促提示音的最佳办法/" itemprop="url">
+                  播放短促提示音的最佳办法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/17/播放短促提示音的最佳办法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/播放短促提示音的最佳办法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="第一篇-播放短促的声音"><a href="#第一篇-播放短促的声音" class="headerlink" title="第一篇 播放短促的声音"></a>第一篇 播放短促的声音</h3><p>需求描述:<br>    在Android中播放声音,可能大部分人想到的都是MediaPlayer，但是该类会占用大量的系统资源,播放时还需要缓冲，存在较大的延迟,因此<br>短促游戏音效没法用这个去实现，系统提供一个类来完成这一个工作:</p>
+<p>SoudPool</p>
+<blockquote>
+<p>SoudPool设计的初衷就是用于无延时地播放游戏中的短促音效,因此实际开发中,使用该类声音资源不要超过7s，否则可能加载失败或者内存占用过大</p>
+</blockquote>
 
           
         
@@ -477,142 +1044,6 @@
 <h3 id="ps-getMeasuredWidth-与getWidth-的区别"><a href="#ps-getMeasuredWidth-与getWidth-的区别" class="headerlink" title="ps:getMeasuredWidth()与getWidth()的区别"></a>ps:getMeasuredWidth()与getWidth()的区别</h3><blockquote>
 <blockquote>
 <p>getMeasuredWidth():一个是绘制的测量出来的宽高(控件本身的宽高)<br>getWidth():这是控件展示时真正的宽度(毕竟宽高不仅取决于控件本身的宽高，还有父容器的限制)       </p>
-</blockquote>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/28/笔记/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/28/笔记/" itemprop="url">
-                  Android笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-28T03:33:37Z">
-                2017-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/28/笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/28/笔记/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-去除ViewPager-ListView-GridView-拉到边缘的黑色背景色"><a href="#1-去除ViewPager-ListView-GridView-拉到边缘的黑色背景色" class="headerlink" title="1.去除ViewPager ListView GridView 拉到边缘的黑色背景色"></a>1.去除ViewPager ListView GridView 拉到边缘的黑色背景色</h2><blockquote>
-<p>&gt;<br>android2.3之前 xml中配置     android:fadingEdge=”none”<br>android2.3以后 代码中设置  xxView.setOverScrollMode(View.OVER_SCROLL_NEVER)</p>
-</blockquote>
-<h2 id="2-AsyncTask的并串行之坑"><a href="#2-AsyncTask的并串行之坑" class="headerlink" title="2.AsyncTask的并串行之坑"></a>2.AsyncTask的并串行之坑</h2><blockquote>
-<blockquote>
-<p>android1.6之前 任务是串行调度<br>android1.6~2.3 任务是并行调度<br>android3.0+ 任务串行 　但是可以通过该方法 executeOnExecutor(Executor) 并行</p>
 </blockquote>
 </blockquote>
 
@@ -1331,431 +1762,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/OpenGL ES笔记-1/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/06/OpenGL ES笔记-1/" itemprop="url">
-                  OpenGL ES笔记-1
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T06:13:37Z">
-                2017-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/06/OpenGL ES笔记-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/06/OpenGL ES笔记-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<blockquote>
-<p>OpenGL　ES是从OpenGL裁剪定制而来(去除了glBegin/glEnd,四边形,多边形等非必要特性),</p>
-</blockquote>
-</blockquote>
-<p>##在Android中使用OpenGL　ES</p>
-<p>###GLSurfaceView<br>GLSurfaceView是Android中能够很直接使用OpenGL　ES的方式之一，它的主要作用为:</p>
-<blockquote>
-<p>&gt;</p>
-<ol>
-<li>起到连接OpenGL ES与Android 的View层次结构之间的桥梁作用。</li>
-<li>使得Open GL ES库适应于Anndroid系统的Activity生命周期。</li>
-<li>使得选择合适的Frame buffer像素格式变得容易。</li>
-<li>创建和管理单独绘图线程以达到平滑动画效果。</li>
-<li>提供了方便使用的调试工具来跟踪OpenGL ES函数调用以帮助检查错误。</li>
-</ol>
-</blockquote>
-<p>###GLSurfaceView.Renderer</p>
-<blockquote>
-<blockquote>
-<p>Renderer类是用来控制GLSurfaceView图形绘制的接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public interface Renderer &#123;</div><div class="line">        /**</div><div class="line">         * Called when the surface is created or recreated.</div><div class="line">         * Called when the rendering thread</div><div class="line">         * starts and whenever the EGL context is lost. The EGL context will typically</div><div class="line">         * be lost when the Android device awakes after going to sleep.</div><div class="line">         */</div><div class="line">        void onSurfaceCreated(GL10 gl, EGLConfig config);</div><div class="line"></div><div class="line">        /**</div><div class="line">         * Called when the surface changed size.</div><div class="line">         * Called after the surface is created and whenever</div><div class="line">         * the OpenGL ES surface size changes.</div><div class="line">         */</div><div class="line">        void onSurfaceChanged(GL10 gl, int width, int height);</div><div class="line"></div><div class="line">        /**</div><div class="line">         * Called to draw the current frame.</div><div class="line">         */</div><div class="line">        void onDrawFrame(GL10 gl);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-</blockquote>
-</blockquote>
-<p>###Hello World版本的Renderer<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">public class OpenGLRenderer implements Renderer &#123;</div><div class="line"></div><div class="line">    public void onSurfaceCreated(GL10 gl, EGLConfig config) &#123;</div><div class="line">	 //设置背景颜色为黑色(RGBA)</div><div class="line">	 gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f); </div><div class="line"></div><div class="line">	 // Enable Smooth Shading, default not really needed.</div><div class="line">	 gl.glShadeModel(GL10.GL_SMOOTH);</div><div class="line"></div><div class="line">	 // Depth buffer setup.</div><div class="line">	 gl.glClearDepthf(1.0f);</div><div class="line"></div><div class="line">	 // Enables depth testing.</div><div class="line">	 gl.glEnable(GL10.GL_DEPTH_TEST);</div><div class="line"></div><div class="line">	 // The type of depth testing to do.</div><div class="line">	 gl.glDepthFunc(GL10.GL_LEQUAL);</div><div class="line"></div><div class="line">	 // Really nice perspective calculations.</div><div class="line">	 gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT,GL10.GL_NICEST);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    public void onDrawFrame(GL10 gl) &#123;</div><div class="line">	 // Clears the screen and depth buffer.</div><div class="line">	 gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void onSurfaceChanged(GL10 gl, int width, int height) &#123;</div><div class="line">	 // Sets the current view port to the new size.</div><div class="line">	 gl.glViewport(0, 0, width, height);</div><div class="line"></div><div class="line">	 // Select the projection matrix</div><div class="line">	 gl.glMatrixMode(GL10.GL_PROJECTION);</div><div class="line"></div><div class="line">	 // Reset the projection matrix</div><div class="line">	 gl.glLoadIdentity();</div><div class="line"></div><div class="line">	 // Calculate the aspect ratio of the window</div><div class="line">	 GLU.gluPerspective(gl, 45.0f, (float) width / (float) height, 0.1f, 100.0f);</div><div class="line"></div><div class="line">	 // Select the modelview matrix</div><div class="line">	 gl.glMatrixMode(GL10.GL_MODELVIEW);</div><div class="line"></div><div class="line">	 // Reset the modelview matrix</div><div class="line">	 gl.glLoadIdentity();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/selector踩坑记/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/04/selector踩坑记/" itemprop="url">
-                  selector踩坑记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:59:04Z">
-                2017-03-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/04/selector踩坑记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/selector踩坑记/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="selector踩坑全集"><a href="#selector踩坑全集" class="headerlink" title="selector踩坑全集"></a>selector踩坑全集</h2><h3 id="第一篇-给按钮设置点击效果selector无效"><a href="#第一篇-给按钮设置点击效果selector无效" class="headerlink" title="第一篇 给按钮设置点击效果selector无效"></a>第一篇 给按钮设置点击效果selector无效</h3><p>现象描述:<br>    selector设置,<code>android:state_pressed=&quot;true&quot;</code>不生效<br>解决方法:<br>    将pressed状态的item放在第一行(坑)</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/Android模糊一张图片/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/04/Android模糊一张图片/" itemprop="url">
-                  Android模糊一张图片的简单方法之RenderScript
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T08:53:35Z">
-                2017-03-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/04/Android模糊一张图片/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/Android模糊一张图片/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<blockquote>
-<p>RenderScript是一种基于异构平台，高效计算的强大工具，尤其擅长图像，音频处理以及复杂的科学计算。RenderScript包括一个内核（kernel）编写语言和一组Java SDK。内核语言的语法类似C99标准，google为kernel提供了运行环境以及“标准库”。标准库主要提供了数学计算，向量/矩阵计算，以及一些OpenGL的功能（在4.2上已经被舍弃了），和log（调试用）。Java SDK让开发者在应用程序中管理RenderScript的整个lifecycle, 包括创建上下文，script对象，设置script全局变量，运行script等等。</p>
-</blockquote>
-</blockquote>
-<h2 id="Android模糊一张图片的简单方法"><a href="#Android模糊一张图片的简单方法" class="headerlink" title="Android模糊一张图片的简单方法"></a>Android模糊一张图片的简单方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bitmap <span class="title">blurBitmap</span><span class="params">(Bitmap bitmap, <span class="keyword">float</span> radius, Context context)</span> </span>&#123;</div><div class="line">    <span class="comment">//Create renderscript</span></div><div class="line">    RenderScript rs = RenderScript.create(context);</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation from Bitmap</span></div><div class="line">    Allocation allocation = Allocation.createFromBitmap(rs, bitmap);</div><div class="line">    </div><div class="line">    Type t = allocation.getType();</div><div class="line"> </div><div class="line">    <span class="comment">//Create allocation with the same type</span></div><div class="line">    Allocation blurredAllocation = Allocation.createTyped(rs, t);</div><div class="line"> </div><div class="line">    <span class="comment">//Create script</span></div><div class="line">    ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));</div><div class="line">    <span class="comment">//Set blur radius (maximum 25.0)</span></div><div class="line">    blurScript.setRadius(radius);</div><div class="line">    <span class="comment">//Set input for script</span></div><div class="line">    blurScript.setInput(allocation);</div><div class="line">    <span class="comment">//Call script for output allocation</span></div><div class="line">    blurScript.forEach(blurredAllocation);</div><div class="line"> </div><div class="line">    <span class="comment">//Copy script result into bitmap</span></div><div class="line">    blurredAllocation.copyTo(bitmap);</div><div class="line"> </div><div class="line">    <span class="comment">//Destroy everything to free memory</span></div><div class="line">    allocation.destroy();</div><div class="line">    blurredAllocation.destroy();</div><div class="line">    blurScript.destroy();</div><div class="line">    t.destroy();</div><div class="line">    rs.destroy();</div><div class="line">    <span class="keyword">return</span> bitmap;</div></pre></td></tr></table></figure>
-<blockquote>
-<blockquote>
-<p>可以看到这个方法返回一个模糊了的bitmap。让我介绍一下上面代码中使用到的三个重要的对象：</p>
-</blockquote>
-</blockquote>
-<ol>
-<li>Allocation: 内存分配是在java端完成的因此你不应该在每个像素上都要调用的函数中malloc。我创建的第一个allocation是用bitmap中的数据装填的。第二个没有初始化，它包含了一个与第一个allocation的大小和type都相同多2D数组。</li>
-<li>Type: “一个Type描述了 一个Allocation或者并行操作的Element和dimensions ” (摘自 developer.android.com)</li>
-<li>Element: “一个 Element代表一个Allocation内的一个item。一个 Element大致相当于RenderScript kernel里的一个c类型。Elements可以简单或者复杂” (摘自 developer.android.com)</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1803,7 +1809,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
