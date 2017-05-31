@@ -241,6 +241,1047 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/31/JNI错误记录/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/31/JNI错误记录/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-31T09:44:32Z">
+                2017-05-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/31/JNI错误记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/31/JNI错误记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">E/dalvikvm(30944): JNI ERROR (app bug): accessed stale local reference 0xbc00021 (index 8 in a table of size 8)</div><div class="line">E/dalvikvm(30944): VM aborting</div><div class="line">A/libc(30944): Fatal signal 11 (SIGSEGV) at 0xdeadd00d (code=1), thread 30944 (oid.temperature)</div><div class="line">`</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<blockquote>
+<p>字面意思是引用了一个已经过时的本地引用,比如你引用一个被干掉的jobject对象</p>
+<p>现在它在垃圾回收过程中移动对象，这可能会导致很多问题。想象一下，你有一个静态变量指向一个对象，然后这个对象被gc移动。由于android使用java对象的直接指针，这意味着您的静态变量现在指向内存中的随机地址，由任何对象占用或被不同排序对象占用。这几乎可以保证您下次使用此变量时将获得EXC_BAD_ACCESS。所以android给你的JNI错误（应用程序错误）错误，以防止你得到不可缓解的EXC_BAD_ACCESS。现在有两种方法来避免这个错误。您可以将清单中的targetSdkVersion设置为11或更低版本。这将启用JNI错误兼容性模式并防止任何问题。这就是为什么你的老例子正在工作的原因。您可以通过调用env-&gt; NewGlobalRef（ref）来避免使用指向java对象的静态变量或使jobject引用全局，然后再存储它们。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">jclass activityThread ;</div><div class="line">jclass tmp = env-&gt;FindClass(&quot;android/app/ActivityThread&quot; );</div><div class="line">activityThread = (jclass)env-&gt;NewGlobalRef(tmp);// &lt;记得调用相应的方法进行释放&gt;</div></pre></td></tr></table></figure>
+<p>2.给一个结构体的char * 类型的属性赋值,乱码现象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">StickerData * stickerData = (StickerData *) malloc( sizeof(StickerData) );</div><div class="line">const char * path = env-&gt;GetStringUTFChars(jpath,0);</div><div class="line">size_t length = strlen(path);</div><div class="line">stickerData-&gt;path =(char *) malloc(length * sizeof(char));</div><div class="line">strcpy(  stickerData-&gt;path, path);</div><div class="line">env-&gt;ReleaseStringUTFChars(jpath,path);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/opengles/2.基础概念/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/26/opengles/2.基础概念/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
+                2017-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/26/opengles/2.基础概念/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/opengles/2.基础概念/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>####1.顶点着色器</p>
+<blockquote>
+<blockquote>
+<p>着色器（Shader）是在GPU上运行的小程序。从名称可以看出，可通过处理它们来处理顶点。此程序使用OpenGL ES SL语言来编写。它是一个描述顶点或像素特性的简单程序</p>
+</blockquote>
+</blockquote>
+<p>对于发送给GPU的每一个顶点，都要执行一次顶点着色器。其功能是<strong>把每个顶点在虚拟空间中的三维坐标变换为可以在屏幕上显示的二维坐标，并带有用于z-buffer的深度信息</strong>。顶点着色器可以操作的属性有：<strong>位置、颜色、纹理坐标</strong>，但是不能创建新的顶点。 </p>
+<p>####2.片元着色器</p>
+<p>片元着色器<strong>计算每个像素的颜色和其它属性。它通过应用光照值、凹凸贴图，阴影，镜面高光，半透明等处理来计算像素的颜色并输出。它也可改变像素的深度(z-buffering)或在多个渲染目标被激活的状态下输出多种颜色</strong>。一个片元着色器不能产生复杂的效果，因为它只在一个像素上进行操作，而不知道场景的几何形状。 </p>
+<p>####3.着色器语言</p>
+<p>着色器语言（Shading Language）是一种高级的图形编程语言，仅适合于GPU编程，其源自应用广泛的C语言。对于顶点着色器和片元着色器的开发都需要用到着色器语言进行开发。它是面向过程的而非面向对象。 </p>
+<p>####4.坐标系</p>
+<p><strong>OpenGL ES采用的是右手坐标</strong>，选取屏幕中心为原点，从原点到屏幕边缘默认长度为1，也就是说<strong>默认情况下，从原点到（1,0,0）的距离和到（0,1,0）的距离在屏幕上展示的并不相同(因为屏幕一般都不是正方形)</strong>。即向右为X正轴方向，向左为X负轴方向，向上为Y轴正轴方向，向下为Y轴负轴方向，屏幕面垂直向上为Z轴正轴方向，垂直向下为Z轴负轴方向。</p>
+<p>####5.图形的绘制</p>
+<p>前面提到OpenGL ES2.0的世界里面只有点、线、三角形，其它更为复杂的几何形状都是由三角形构成的。包括正方形、圆形、正方体、球体等。但是其他更为复杂的物体，我们不可能都自己去用三角形构建，这个时候就需要通过加载利用其他软件（比如3DMax）构建的3D模型。</p>
+<p>####6.投影</p>
+<p>OpenGL ES 的世界是3D的，但是手机屏幕能够给我展示的终究是一个平面，只不过是在绘制的过程中利用色彩和线条让画面呈现出3D的效果。OpenGL ES将这种<strong>从3D到2D的转换过程利用投影的方式使计算相对使用者来说变得简单可设置</strong>。<br>OpenGL ES中有两种投影方式：正交投影和透视投影。<strong>正交投影，物体不会随距离观测点的位置而大小发生变化</strong>。而<strong>透视投影，距离观测点越远，物体越小，距离观测点越近，物体越大</strong>。</p>
+<p>####7.光照</p>
+<p>如果利用直接给出颜色的方式来对3D场景中的物体进行着色渲染，很难使3D场景拥有较强的真实感。一般来说，曲面物体比平面物体更能体现出光照效果。想用数学模型完全模拟真实世界的光照情况是很难的，而OpenGL ES 2.0采用的光照模型相对真实世界的光照是进行了很大的简化。在OpenGL ES 2.0中，光照由三种元素组成（也可以说是三种通道组成），分别为环境光、镜面光及散射光。</p>
+<p>环境光是指从四面八方照射到物体上，其具体公式为：<br>    环境光照射结果=材质反射系数∗环境光强度</p>
+<p>散射光是指现实世界中组草的物体表面被光照射时，反射光在各个方向基本均匀的情况，其具体公式为：<br>    散射光照射结果=材质的反射系数∗散射光强度∗max(cos(入射角)，0)</p>
+<p>实际开发中往往分两步计算：<br>    散射光最终强度=散射光强度∗max(cos(入射角)，0)<br>    散射光照射结果=材质的反射系数∗散射光最终强度</p>
+<p>镜面光是指现实世界中光滑的表面被照射时会有方向很集中的反射光，与散射光最终强度依赖于入射光与被照射点的法向量夹角不同，镜面光的强度还依赖于观察者的位置，具体公式如下： </p>
+<p>镜面光照射结果=材质的反射系数∗镜面光强度∗max(0,cos(半向量与法向量的夹角)粗糙度)</p>
+<p>实际开发中也是往往分两步计算： </p>
+<p> 镜面光最终强度=镜面光强度∗max(0,cos(半向量与法向量的夹角)粗糙度)<br> 镜面光照射结果=材质的反射系数∗镜面光最终强度</p>
+<p>####8.纹理映射</p>
+<p>现实世界中的物体往往是绚丽多彩的，要模拟现实世界的绚丽多彩，绘制出更加真实、酷炫的3D物体，就需要用到纹理映射了。<strong>纹理映射是将2D的纹理映射到3D场景中的立体物体上</strong>。</p>
+<p><strong>OpenGL ES 2.0过程及理解</strong><br>从OpenGL ES 2.0的渲染管线图中，可以看到OpenGL ES 2.0渲染过程为：<br>读取顶点数据——执行顶点着色器——组装图元——光栅化图元——执行片元着色器——写入帧缓冲区——显示到屏幕上。</p>
+<ol>
+<li>OpenGL作为本地库直接运行在硬件上，没有虚拟机，也没有垃圾回收或者内存压缩。在Java层定义图像的数据需要能被OpenGL存取，因此，需要把内存从Java堆复制到本地堆。</li>
+<li>顶点着色器是针对每个顶点都会执行的程序，是确定每个顶点的位置。同理，片元着色器是针对每个片元都会执行的程序，确定每个片元的颜色。</li>
+<li>着色器需要进行编译，然后链接到OpenGL程序中。一个OpenGL的程序就是把一个顶点着色器和一个片段着色器链接在一起变成单个对象。</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/cordova笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/26/cordova笔记/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
+                2017-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/26/cordova笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/cordova笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>需要node.js环境</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/RecyclerView使用的笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/26/RecyclerView使用的笔记/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
+                2017-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/26/RecyclerView使用的笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/RecyclerView使用的笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>场景:</p>
+<blockquote>
+<blockquote>
+<p>Recyclerview(LinearLayoutManager)嵌套 Recyclerview(GridLayoutManager)</p>
+</blockquote>
+</blockquote>
+<p>####内部的Recyclerview不显示,测试发现将高度写死可以看见部分,解决方案,动态计算内部Recyclerview的高度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line">package com.ufotosoft.gallery;</div><div class="line"></div><div class="line">import android.content.Context;</div><div class="line">import android.support.v7.widget.GridLayoutManager;</div><div class="line">import android.support.v7.widget.RecyclerView;</div><div class="line">import android.view.View;</div><div class="line">import android.view.ViewGroup;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 动态计算高度,将Recyclerview高度设成固定值</div><div class="line"> */</div><div class="line"></div><div class="line">public class GridLayoutManagerPlus extends GridLayoutManager &#123;</div><div class="line">    public GridLayoutManagerPlus(Context context, int spanCount) &#123;</div><div class="line">        super(context, spanCount);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public GridLayoutManagerPlus(Context context, int spanCount, int orientation, boolean reverseLayout) &#123;</div><div class="line">        super(context, spanCount, orientation, reverseLayout);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private int[] mMeasuredDimension = new int[2];</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) &#123;</div><div class="line">        final int widthMode = View.MeasureSpec.getMode(widthSpec);</div><div class="line">        final int heightMode = View.MeasureSpec.getMode(heightSpec);</div><div class="line">        final int widthSize = View.MeasureSpec.getSize(widthSpec);</div><div class="line">        final int heightSize = View.MeasureSpec.getSize(heightSpec);</div><div class="line">        int width = 0;</div><div class="line">        int height = 0;</div><div class="line">        int count = getItemCount();</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">            int span = getSpanCount() / getSpanSizeLookup().getSpanSize(i);</div><div class="line">            measureScrapChild(recycler, i,</div><div class="line">                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),</div><div class="line">                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),</div><div class="line">                    mMeasuredDimension);</div><div class="line">            if (getOrientation() == HORIZONTAL) &#123;</div><div class="line">                if (i % span == 0) &#123;</div><div class="line">                    width = width + mMeasuredDimension[0];</div><div class="line">                &#125;</div><div class="line">                if (i == 0) &#123;</div><div class="line">                    height = mMeasuredDimension[1];</div><div class="line">                &#125;</div><div class="line">            &#125; else &#123;</div><div class="line">                if (i % span == 0) &#123;</div><div class="line">                    height = height + mMeasuredDimension[1];</div><div class="line">                &#125;</div><div class="line">                if (i == 0) &#123;</div><div class="line">                    width = mMeasuredDimension[0];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        switch (widthMode) &#123;</div><div class="line">            case View.MeasureSpec.EXACTLY:</div><div class="line">                width = widthSize;</div><div class="line">            case View.MeasureSpec.AT_MOST:</div><div class="line">            case View.MeasureSpec.UNSPECIFIED:</div><div class="line">        &#125;</div><div class="line">        switch (heightMode) &#123;</div><div class="line">            case View.MeasureSpec.EXACTLY:</div><div class="line">                height = heightSize;</div><div class="line">            case View.MeasureSpec.AT_MOST:</div><div class="line">            case View.MeasureSpec.UNSPECIFIED:</div><div class="line">        &#125;</div><div class="line">        setMeasuredDimension(width, height);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,</div><div class="line">                                   int heightSpec, int[] measuredDimension) &#123;</div><div class="line">        if (position &lt; getItemCount()) &#123;</div><div class="line">            try &#123;</div><div class="line">                View view = recycler.getViewForPosition(position);//fix 动态添加时报IndexOutOfBoundsException</div><div class="line">                if (view != null) &#123;</div><div class="line">                    RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();</div><div class="line">                    int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,</div><div class="line">                            getPaddingLeft() + getPaddingRight(), p.width);</div><div class="line">                    int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,</div><div class="line">                            getPaddingTop() + getPaddingBottom(), p.height);</div><div class="line">                    view.measure(childWidthSpec, childHeightSpec);</div><div class="line">                    measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;</div><div class="line">                    measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;</div><div class="line">                    recycler.recycleView(view);</div><div class="line">                &#125;</div><div class="line">            &#125; catch (Exception e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###GridLayoutManager实现,Recyclerview两边贴边,中间有间距,重写ItemDecoration<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div></pre></td><td class="code"><pre><div class="line">package com.ufotosoft.gallery;</div><div class="line"></div><div class="line">import android.graphics.Canvas;</div><div class="line">import android.graphics.Paint;</div><div class="line">import android.graphics.Rect;</div><div class="line">import android.support.v7.widget.RecyclerView;</div><div class="line">import android.util.Log;</div><div class="line">import android.view.View;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 适用于垂直滚动网格布局的 RecyclerView 分割线</div><div class="line"> * 注意：不适用于水平滚动网格布局</div><div class="line"> * 缺陷：不适合设置虚线，画虚线需要设置 layerType 为 software，滑动列表时性能低下</div><div class="line"> *</div><div class="line"> * Created by afon on 2017/2/9.</div><div class="line"> */</div><div class="line"></div><div class="line">public class RecyclerViewGridDivider extends RecyclerView.ItemDecoration &#123;</div><div class="line">    public static final String TAG = &quot;RecyclerViewGridDivider&quot;;</div><div class="line"></div><div class="line">    private Paint backgroundPaint; // 背景画笔</div><div class="line">    private Paint dividerPaint; // 分割线画笔</div><div class="line"></div><div class="line">    private final int colCount; // 列数量</div><div class="line">    private final int colSeparateSize; // item 水平间距</div><div class="line">    private final int rowSeparateSize; // item 垂直间距</div><div class="line"></div><div class="line">    private int backgroundColor = 0x00000000; // 背景颜色</div><div class="line">    private int dividerColor = 0xffdddddd; // 分割线颜色</div><div class="line">    private int dividerSize = 0; // 分割线大小</div><div class="line">    private int colDividerMarginTop = 0; // 水平分割线 marignTop</div><div class="line">    private int colDividerMarginBottom = 0; // 水平分割线 marginBottom</div><div class="line">    private int rowDividerMarginLeft = 0; // 垂直分割线 marginLeft</div><div class="line">    private int rowDividerMarginRight = 0; // 垂直分割线 marginRight</div><div class="line"></div><div class="line">    private boolean dividerClipToPadding = true; // 如果 RecyclerView 设置了 padding，是否把分割线画在 padding 之内</div><div class="line">    private boolean fillItemDivider = false; // 是否填充每个分割线与分割线之间的 margin</div><div class="line">    private boolean showTopDivider = true; // show top divider of this RecyclerView</div><div class="line">    private boolean showBottomDivider = true; // show bottom divider of this RecyclerView</div><div class="line">    private boolean showLeftDivider = true; // show left divider of this RecyclerView</div><div class="line">    private boolean showRightDivider = true; // show right divider of this RecyclerView</div><div class="line"></div><div class="line">    private float[] lineBuffers = new float[4]; // 缓存的分割线坐标点，每四个一组，分别代表 (x0, y0), (x1, y1)</div><div class="line">    private int[] insetBuffers = new int[2]; // 缓存的左右间距，每两个一组，分别代表 left, right 间距。用于 getItemOffsets 方法内设置左右间距</div><div class="line">    private final int dividerOffsetX; // 每个 item 之间的分割线偏移量</div><div class="line">    private final int dividerOffsetY; // 每个 item 之间的分割线偏移量</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 自定义分割线</div><div class="line">     * 注意：如果没有设置分割线大小(setDividerSize)，默认不画分割线，只有 item 之间的间距</div><div class="line">     *</div><div class="line">     * @param colCount 列数量</div><div class="line">     * @param colSeparateSize item 水平间距</div><div class="line">     * @param rowSeparateSize item 垂直间距</div><div class="line">     */</div><div class="line">    public RecyclerViewGridDivider(int colCount, int colSeparateSize, int rowSeparateSize) &#123;</div><div class="line">        if (colCount &lt;= 1) &#123;</div><div class="line">            throw new IllegalArgumentException(&quot;wrong args! colCount must larger than 1&quot;);</div><div class="line">        &#125;</div><div class="line">        this.colCount = colCount;</div><div class="line">        this.colSeparateSize = colSeparateSize;</div><div class="line">        this.rowSeparateSize = rowSeparateSize;</div><div class="line"></div><div class="line">        backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);</div><div class="line">        backgroundPaint.setColor(backgroundColor);</div><div class="line">        backgroundPaint.setStyle(Paint.Style.FILL);</div><div class="line"></div><div class="line">        dividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);</div><div class="line">        dividerPaint.setColor(dividerColor);</div><div class="line">        dividerPaint.setStrokeWidth(dividerSize);</div><div class="line">        dividerPaint.setStyle(Paint.Style.FILL);</div><div class="line"></div><div class="line">        dividerOffsetX = colSeparateSize / 2;</div><div class="line">        dividerOffsetY = rowSeparateSize / 2;</div><div class="line"></div><div class="line">        // 预分配 getItemOffsets 方法内设置的 left, right 间距。如果不这样计算，水平方向上的各个 item 的宽度将不相等</div><div class="line">        float inset = colSeparateSize / colCount;</div><div class="line">        insetBuffers = new int[colCount * 2];</div><div class="line">        for (int i = 0 ; i &lt; colCount ; i++) &#123;</div><div class="line">            // 计算规则：每个 item 的 left + right 要相等，前一个 item 的 right 加上后一个 item 的 left 等于 colSeparateSize</div><div class="line">            insetBuffers[i * 2 + 0] = (int) (inset * i); // left</div><div class="line">            insetBuffers[i * 2 + 1] = (int) (inset * (colCount - 1 - i)); // right</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置背景画笔</div><div class="line">     */</div><div class="line">    public void setBackgroundPaint(Paint backgroundPaint) &#123;</div><div class="line">        this.backgroundPaint = backgroundPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 获取背景画笔</div><div class="line">     */</div><div class="line">    public Paint getBackgroundPaint() &#123;</div><div class="line">        return backgroundPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置背景颜色</div><div class="line">     */</div><div class="line">    public void setBackgroundColor(int backgroundColor) &#123;</div><div class="line">        this.backgroundColor = backgroundColor;</div><div class="line">        backgroundPaint.setColor(backgroundColor);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线画笔</div><div class="line">     */</div><div class="line">    public void setDividerPaint(Paint dividerPaint) &#123;</div><div class="line">        this.dividerPaint = dividerPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 获取分割线画笔</div><div class="line">     */</div><div class="line">    public Paint getDividerPaint() &#123;</div><div class="line">        return dividerPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线大小</div><div class="line">     */</div><div class="line">    public void setDividerSize(int dividerSize) &#123;</div><div class="line">        this.dividerSize = dividerSize;</div><div class="line">        dividerPaint.setStrokeWidth(dividerSize);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线颜色</div><div class="line">     */</div><div class="line">    public void setDividerColor(int dividerColor) &#123;</div><div class="line">        this.dividerColor = dividerColor;</div><div class="line">        dividerPaint.setColor(dividerColor);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置是否把分割线画在 RecyclerView 的 padding 之内</div><div class="line">     */</div><div class="line">    public void setDividerClipToPadding(boolean dividerClipToPadding) &#123;</div><div class="line">        this.dividerClipToPadding = dividerClipToPadding;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线 margin</div><div class="line">     *</div><div class="line">     * @param colDividerMarginTop 水平分割线 marignTop</div><div class="line">     * @param colDividerMarginBottom 水平分割线 marginBottom</div><div class="line">     */</div><div class="line">    public void setColDividerMargin(int colDividerMarginTop, int colDividerMarginBottom) &#123;</div><div class="line">        this.colDividerMarginTop = colDividerMarginTop;</div><div class="line">        this.colDividerMarginBottom = colDividerMarginBottom;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线 margin</div><div class="line">     *</div><div class="line">     * @param rowDividerMarginLeft 垂直分割线 marginLeft</div><div class="line">     * @param rowDividerMarginRight 垂直分割线 marginRight</div><div class="line">     */</div><div class="line">    public void setRowDividerMargin(int rowDividerMarginLeft, int rowDividerMarginRight) &#123;</div><div class="line">        this.rowDividerMarginLeft = rowDividerMarginLeft;</div><div class="line">        this.rowDividerMarginRight = rowDividerMarginRight;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 是否填充每个分割线与分割线之间的 margin</div><div class="line">     */</div><div class="line">    public void setFillItemDivider(boolean fillItemDivider) &#123;</div><div class="line">        this.fillItemDivider = fillItemDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowTopDivider(boolean showTopDivider) &#123;</div><div class="line">        this.showTopDivider = showTopDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowBottomDivider(boolean showBottomDivider) &#123;</div><div class="line">        this.showBottomDivider = showBottomDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowLeftDivider(boolean showLeftDivider) &#123;</div><div class="line">        this.showLeftDivider = showLeftDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowRightDivider(boolean showRightDivider) &#123;</div><div class="line">        this.showRightDivider = showRightDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) &#123;</div><div class="line">        super.getItemOffsets(outRect, view, parent, state);</div><div class="line"></div><div class="line">        final int itemPosition = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewAdapterPosition();</div><div class="line"></div><div class="line">        if (itemPosition &lt; colCount) &#123;</div><div class="line">            outRect.top = 0;</div><div class="line">        &#125; else &#123;</div><div class="line">            outRect.top = rowSeparateSize;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        outRect.bottom = 0;</div><div class="line"></div><div class="line">        int i = itemPosition % colCount;</div><div class="line">        outRect.left = insetBuffers[i * 2 + 0];</div><div class="line">        outRect.right = insetBuffers[i * 2 + 1];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) &#123;</div><div class="line">        super.onDraw(c, parent, state);</div><div class="line"></div><div class="line">        final int paddingLeft = parent.getPaddingLeft();</div><div class="line">        final int paddingTop = parent.getPaddingTop();</div><div class="line">        final int paddingRight = parent.getPaddingRight();</div><div class="line">        final int paddingBottom = parent.getPaddingBottom();</div><div class="line"></div><div class="line">        c.drawRect(parent.getLeft() - paddingLeft,</div><div class="line">                parent.getTop() - paddingTop,</div><div class="line">                parent.getRight() + paddingRight,</div><div class="line">                parent.getBottom() + paddingBottom, backgroundPaint);</div><div class="line"></div><div class="line">        // 如果分割线的大小没有设置，默认不画分割线，只有 item 之间的间距</div><div class="line">        if (dividerSize &lt;= 0) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        final int itemCount = parent.getChildCount(); // 当前 RecyclerView 的子 view 的数量</div><div class="line">        final int rowCount = (int) Math.ceil( (double) itemCount / colCount); // 行数量</div><div class="line">        final int fullLineItemCount = colCount * rowCount; // 填满一整行的 RecyclerView 子 view 数量</div><div class="line">        final int lastRowStart = fullLineItemCount - colCount; // 最后一行开始的位置</div><div class="line">        final int lineCount = (colCount + 1) * rowCount + colCount * (rowCount + 1); // 需要绘制的分割线数量</div><div class="line"></div><div class="line">        // 用这种方式避免频繁申请内存</div><div class="line">        if (lineBuffers.length &lt; lineCount * 4) &#123;</div><div class="line">            lineBuffers = new float[lineCount * 4];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        int lineOffset = 0;</div><div class="line"></div><div class="line">        for (int i = 0 ; i &lt; itemCount ; i++) &#123;</div><div class="line">            final boolean isFirstCol = i % colCount == 0; // 是否第一列</div><div class="line">            final boolean isLastCol = (i + 1) % colCount == 0; // 是否最后一列</div><div class="line">            final boolean isFirstRow = i &lt; colCount; // 是否第一行</div><div class="line">            final boolean isLastRow = i &gt;= lastRowStart; // 是否最后一行</div><div class="line"></div><div class="line">            final boolean isLeftTopCorner = isFirstCol &amp;&amp; isFirstRow; // 是否左上角</div><div class="line">            final boolean isRightTopCorner = isLastCol &amp;&amp; isFirstRow; // 是否右上角</div><div class="line">            final boolean isLeftBottomCorner = isFirstCol &amp;&amp; isLastRow; // 是否左下角</div><div class="line">            final boolean isRightBottomCorner = isLastCol &amp;&amp; isLastRow; // 是否左下角</div><div class="line"></div><div class="line">            final View itemView = parent.getChildAt(i);</div><div class="line">            final int top = itemView.getTop() - dividerOffsetY;</div><div class="line">            final int bottom = itemView.getBottom() + dividerOffsetY;</div><div class="line">            final int left = itemView.getLeft() - dividerOffsetX;</div><div class="line">            final int right = itemView.getRight() + dividerOffsetX;</div><div class="line"></div><div class="line">            final int clipTop = !dividerClipToPadding &amp;&amp; !showTopDivider &amp;&amp; isFirstRow ? top - paddingTop : top;</div><div class="line">            final int clipBottom = !dividerClipToPadding &amp;&amp; !showBottomDivider &amp;&amp; isLastRow ? bottom + paddingBottom : bottom;</div><div class="line">            final int clipLeft = !dividerClipToPadding &amp;&amp; !showLeftDivider &amp;&amp; isFirstCol ? left - paddingLeft : left;</div><div class="line">            final int clipRight = !dividerClipToPadding &amp;&amp; !showRightDivider &amp;&amp; isLastCol ? right + paddingRight : right;</div><div class="line"></div><div class="line">            if (showLeftDivider &amp;&amp; isFirstCol) &#123;</div><div class="line">                final int offsetTop = fillItemDivider &amp;&amp; (!isFirstRow || isLeftTopCorner) ? 0 : colDividerMarginTop;</div><div class="line">                final int offsetBottom = fillItemDivider &amp;&amp; (!isLastRow || isLeftBottomCorner) ? 0 : colDividerMarginBottom;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, left, clipTop + offsetTop, left, clipBottom - offsetBottom); // the left side of this item</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (showTopDivider &amp;&amp; isFirstRow) &#123;</div><div class="line">                final int offsetLeft = fillItemDivider &amp;&amp; (!isFirstCol || isLeftTopCorner) ? 0 : rowDividerMarginLeft;</div><div class="line">                final int offsetRight = fillItemDivider &amp;&amp; (!isLastCol || isRightTopCorner) ? 0 : rowDividerMarginRight;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, clipLeft + offsetLeft, top, clipRight - offsetRight, top); // the top side of this item</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (showRightDivider &amp;&amp; isLastCol || !isLastCol) &#123;</div><div class="line">                final int offsetTop = fillItemDivider &amp;&amp; (!isFirstRow || isRightTopCorner) ? 0 : colDividerMarginTop;</div><div class="line">                final int offsetBottom = fillItemDivider &amp;&amp; (!isLastRow || isRightBottomCorner) ? 0 : colDividerMarginBottom;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, right, clipTop + offsetTop, right, clipBottom - offsetBottom); // the right side of this item</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (showBottomDivider &amp;&amp; isLastRow || !isLastRow) &#123;</div><div class="line">                final int offsetLeft = fillItemDivider &amp;&amp; (!isFirstCol || isLeftBottomCorner) ? 0 : rowDividerMarginLeft;</div><div class="line">                final int offsetRight = fillItemDivider &amp;&amp; (!isLastCol || isRightBottomCorner) ? 0 : rowDividerMarginRight;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, clipLeft + offsetLeft, bottom, clipRight - offsetRight, bottom); // the bottom side of this item</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 使用 drawLines 方法比依次调用 drawLine 要快</div><div class="line">        c.drawLines(lineBuffers, 0, lineOffset * 4, dividerPaint);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private int addLineBuffer(int lineOffset, int x0, int y0, int x1, int y1) &#123;</div><div class="line">        lineBuffers[lineOffset * 4 + 0] = x0; // x0</div><div class="line">        lineBuffers[lineOffset * 4 + 1] = y0; // y0</div><div class="line">        lineBuffers[lineOffset * 4 + 2] = x1; // x1</div><div class="line">        lineBuffers[lineOffset * 4 + 3] = y1; // y1</div><div class="line">        return ++lineOffset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void debug(int index, int i, String strArgs) &#123;</div><div class="line">        if (i == index) &#123;</div><div class="line">            Log.e(TAG, &quot;##d debug: i = &quot; + i + &quot;, &quot; + strArgs);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColCount() &#123;</div><div class="line">        return colCount;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColSeparateSize() &#123;</div><div class="line">        return colSeparateSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getRowSeparateSize() &#123;</div><div class="line">        return rowSeparateSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getDividerSize() &#123;</div><div class="line">        return dividerSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColDividerMarginTop() &#123;</div><div class="line">        return colDividerMarginTop;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColDividerMarginBottom() &#123;</div><div class="line">        return colDividerMarginBottom;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getRowDividerMarginLeft() &#123;</div><div class="line">        return rowDividerMarginLeft;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getRowDividerMarginRight() &#123;</div><div class="line">        return rowDividerMarginRight;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isDividerClipToPadding() &#123;</div><div class="line">        return dividerClipToPadding;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isFillItemDivider() &#123;</div><div class="line">        return fillItemDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowTopDivider() &#123;</div><div class="line">        return showTopDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowBottomDivider() &#123;</div><div class="line">        return showBottomDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowLeftDivider() &#123;</div><div class="line">        return showLeftDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowRightDivider() &#123;</div><div class="line">        return showRightDivider;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>&gt;</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/Android相册开发/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/26/Android相册开发/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
+                2017-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/26/Android相册开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/Android相册开发/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>1.查询数据库的图片并且按照相册分组,其中包括全部图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line">	</div><div class="line">public static class BucketInfo&#123;//一个相册对象</div><div class="line">        public int bucket_id;</div><div class="line">        public String bucket_display_name;</div><div class="line">        public String thumb_data;</div><div class="line">        public int count;</div><div class="line">        public List&lt;PhotoInfo&gt; innerItem;</div><div class="line">&#125;</div><div class="line">    public static List&lt;BucketInfo&gt; test(ContentResolver cr) &#123;</div><div class="line">        List&lt;BucketInfo&gt; list = new ArrayList&lt;BucketInfo&gt;();</div><div class="line">        Cursor cs = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,</div><div class="line">                new String[]&#123;&quot;_data&quot;, &quot;date_added&quot;, &quot;_id&quot;, &quot;bucket_id&quot;,</div><div class="line">                        &quot;bucket_display_name&quot;&#125;, MediaStore.Images.Media.MIME_TYPE + &quot; like ?&quot;,</div><div class="line">                new String[]&#123;&quot;image/%&quot;&#125;, &quot;date_added DESC&quot;);</div><div class="line">        if (cs == null) &#123;</div><div class="line">            try &#123;</div><div class="line">                cs.close();</div><div class="line">            &#125; catch (Exception e) &#123;</div><div class="line">            &#125;</div><div class="line">            return list;</div><div class="line">        &#125;</div><div class="line">        int count = cs.getCount();</div><div class="line">        HashMap&lt;Integer, BucketInfo&gt; hmap = new HashMap&lt;Integer, BucketInfo&gt;();</div><div class="line">        cs.moveToFirst();</div><div class="line">        //all photos </div><div class="line">        BucketInfo bucketinfo_allPhotos = new BucketInfo();</div><div class="line">        bucketinfo_allPhotos.bucket_display_name = GalleryDataServer.ALL_PHOTO_BUCKET_NAME;</div><div class="line">        bucketinfo_allPhotos.bucket_id = GalleryDataServer.ALL_PHOTO_BUCKET_ID;</div><div class="line">        bucketinfo_allPhotos.innerItem = new ArrayList&lt;PhotoInfo&gt;();</div><div class="line">        bucketinfo_allPhotos.count = count;</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">            PhotoInfo photoInfo = new PhotoInfo();</div><div class="line">            String data = cs.getString(0);</div><div class="line">            photoInfo._data = data;</div><div class="line">            long time = cs.getLong(1);</div><div class="line">            photoInfo.date_added = time;</div><div class="line">            int _id = cs.getInt(2);</div><div class="line">            photoInfo._id = _id;</div><div class="line"></div><div class="line">            int bucketid = cs.getInt(3);</div><div class="line">            String bucketname = cs.getString(4);</div><div class="line"></div><div class="line">            if (!hmap.containsKey(bucketid)) &#123;</div><div class="line">                BucketInfo bucketInfo = new BucketInfo();</div><div class="line">                bucketInfo.bucket_display_name = bucketname;</div><div class="line">                bucketInfo.bucket_id = bucketid;</div><div class="line">                bucketInfo.thumb_data = data;</div><div class="line">                bucketInfo.innerItem = new ArrayList&lt;PhotoInfo&gt;();</div><div class="line">                bucketInfo.innerItem.add(photoInfo);</div><div class="line">                bucketInfo.count = bucketInfo.innerItem.size();</div><div class="line">                hmap.put(bucketid, bucketInfo);</div><div class="line">                list.add(bucketInfo);</div><div class="line">            &#125; else &#123;</div><div class="line">                BucketInfo bucketInfo = hmap.remove(bucketid);</div><div class="line">                int index = 0;</div><div class="line">                if (list.contains(bucketInfo)) &#123;</div><div class="line">                    index = list.indexOf(bucketInfo);</div><div class="line">                    list.remove(index);</div><div class="line">                &#125;</div><div class="line">                bucketInfo.bucket_display_name = bucketname;</div><div class="line">                bucketInfo.bucket_id = bucketid;</div><div class="line">                bucketInfo.innerItem.add(photoInfo);</div><div class="line">                bucketInfo.count = bucketInfo.innerItem.size();</div><div class="line">                hmap.put(bucketid, bucketInfo);</div><div class="line">                list.add(index, bucketInfo);</div><div class="line">            &#125;</div><div class="line">            if(TextUtils.isEmpty(bucketinfo_allPhotos.thumb_data))&#123;</div><div class="line">                bucketinfo_allPhotos.thumb_data = data;</div><div class="line">            &#125;</div><div class="line">            bucketinfo_allPhotos.innerItem.add(photoInfo);</div><div class="line">            // String str = try_new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).format(try_new Date(</div><div class="line">            // time * 1000));</div><div class="line">            cs.moveToNext();</div><div class="line">        &#125;</div><div class="line">        try &#123;</div><div class="line">            cs.close();</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">        &#125;</div><div class="line">        list.add(0,bucketinfo_allPhotos);</div><div class="line">        return list;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>2.将相册相同日期的分成一组</p>
+<blockquote>
+<blockquote>
+<p>之前通过SimpleFormat转成yyyy-MM-dd 判断是否是同一天,在照片很多的时候,非常耗时,后面直接通过比较时间戳,效率大大的提高<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public static final int SECONDS_IN_DAY = 60 * 60 * 24;</div><div class="line">public static final long MILLIS_IN_DAY = 1000L * SECONDS_IN_DAY;</div><div class="line">public static boolean isSameDayOfMillis(final long ms1, final long ms2) &#123;</div><div class="line">    final long interval = ms1 - ms2;</div><div class="line">    return interval &lt; MILLIS_IN_DAY</div><div class="line">            &amp;&amp; interval &gt; -1L * MILLIS_IN_DAY</div><div class="line">            &amp;&amp; toDay(ms1*1000) == toDay(ms2*1000);</div><div class="line">&#125;</div><div class="line">private static long toDay(long millis) &#123;</div><div class="line">    return (millis + TimeZone.getDefault().getOffset(millis)) / MILLIS_IN_DAY;</div><div class="line">&#125;</div><div class="line">public static ArrayList&lt;ArrayList&lt;PhotoInfo&gt;&gt; SplitPhotoInfoListByDate(List&lt;PhotoInfo&gt; itemList) &#123;</div><div class="line">    ArrayList&lt;ArrayList&lt;PhotoInfo&gt;&gt; splitedList = new ArrayList&lt;ArrayList&lt;PhotoInfo&gt;&gt;();</div><div class="line">    ArrayList&lt;PhotoInfo&gt; oneDayPhotoList = new ArrayList&lt;PhotoInfo&gt;();</div><div class="line">    long date=0;</div><div class="line">    int splitedListIndex = -1;</div><div class="line">    for (int i = 0; i &lt; itemList.size(); i++) &#123;</div><div class="line">        long strDate = itemList.get(i).date_added;</div><div class="line">        if (!isSameDayOfMillis(date,strDate)) &#123;</div><div class="line">            splitedListIndex++;</div><div class="line">            date = strDate;</div><div class="line">            oneDayPhotoList = new ArrayList&lt;PhotoInfo&gt;();</div><div class="line">            splitedList.add(oneDayPhotoList);</div><div class="line">        &#125;</div><div class="line">        splitedList.get(splitedListIndex).add(itemList.get(i));</div><div class="line">    &#125;</div><div class="line">    return splitedList;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+<p>3.手动加入日期着一个属性分类</p>
+<blockquote>
+<blockquote>
+<p>本方法多做一件事,拆分得更细致,每一行一行都分出来的,<strong>4</strong>代表的是一行4列,这样是因为我使用的RecyclerView 嵌套的方法,内部Recyclerview高度写死,导致Recyclerview复用失效,导致卡顿,所以每一行是一个数据组,而不是每一天的数据是一个数据组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">public static ArrayList&lt;ArrayList&lt;PhotoInfo&gt;&gt; FormatePhotoInfoListFromSplitedListForAdapter(ArrayList&lt;ArrayList&lt;PhotoInfo&gt;&gt; splitedList) &#123;</div><div class="line">       ArrayList&lt;ArrayList&lt;PhotoInfo&gt;&gt; formatedList = new ArrayList&lt;ArrayList&lt;PhotoInfo&gt;&gt;();</div><div class="line"></div><div class="line">       for (int i = 0; i &lt; splitedList.size(); i++) &#123;</div><div class="line">           ArrayList&lt;PhotoInfo&gt; photoInfosInOneDay = splitedList.get(i);</div><div class="line"></div><div class="line">           ArrayList&lt;PhotoInfo&gt; dataItem = new ArrayList&lt;PhotoInfo&gt;();</div><div class="line">           dataItem.add(new PhotoDateInfo(photoInfosInOneDay.get(0).date_added));</div><div class="line">           formatedList.add(dataItem);</div><div class="line"></div><div class="line">           for (int j = 0; (j * 4) &lt; photoInfosInOneDay.size(); j++) &#123;</div><div class="line">               int photoInOneDayIndex = 0;</div><div class="line">               ArrayList&lt;PhotoInfo&gt; photoLineItem = new ArrayList&lt;PhotoInfo&gt;();</div><div class="line">               for (int k = 0; k &lt; 4; k++) &#123;</div><div class="line">                   photoInOneDayIndex = j * 4 + k;</div><div class="line">                   if (photoInOneDayIndex &lt; photoInfosInOneDay.size()) &#123;</div><div class="line">                       photoLineItem.add(photoInfosInOneDay.get(photoInOneDayIndex));</div><div class="line">                   &#125; else &#123;</div><div class="line">                       break;</div><div class="line">                   &#125;</div><div class="line">               &#125;</div><div class="line"></div><div class="line">               formatedList.add(photoLineItem);</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       return formatedList;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/opengles/1.简介/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/26/opengles/1.简介/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
+                2017-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/26/opengles/1.简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/opengles/1.简介/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">简介</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>OpenGL (Open Graphics Library)一个跨编程语言，跨平台的编程接口规则的专业的图形程序接口，主要用于三维图像，一个功能强大的底层图形库</p>
+<p>OpenGL ES (OpenGL for Embedded Systems) 是 OpenGL 三维图形 API 的子集，针对手机、PDA和游戏主机等嵌入式设备而设计。</p>
+</blockquote>
+</blockquote>
+<p>###OpenGL　ES的使用场景:</p>
+<ol>
+<li>图片处理。比如图片色调转换、美颜，滤镜等。</li>
+<li>摄像头预览效果处理。比如美颜相机、恶搞相机等。</li>
+<li>视频处理。摄像头预览效果处理可以，这个自然也不在话下了。</li>
+<li>3D游戏。比如神庙逃亡、都市赛车等。</li>
+</ol>
+<p>###OpenGL ES版本及Android支持情况</p>
+<p>OpenGL ES当前主要版本有1.0/1.1/2.0/3.0/3.1。这些版本的主要情况如下：</p>
+<ol>
+<li>OpenGL ES1.0是基于OpenGL 1.3的，OpenGL ES1.1是基于OpenGL 1.5的。Ａndroid 1.0和更高的版本支持这个API规范。</li>
+<li>OpenGL ES 1.x是针对固定硬件管线的。</li>
+<li>OpenGL ES2.0是基于OpenGL 2.0的，不兼容OpenGL ES 1.x。Android 2.2(API 8)和更高的版本支持这个API规范。</li>
+<li>OpenGL ES 2.x是针对可编程硬件管线的。</li>
+<li>OpenGL ES3.0的技术特性几乎完全来自OpenGL 3.x的，向下兼容OpenGL ES 2.x。Android 4.3(API 18)及更高的版本支持这个API规范。</li>
+</ol>
+<p>###选择OpenGL ES2.0的优势</p>
+<ol>
+<li>兼容性,3.x版本向下兼容2.0,机型4.3以下手机可以使用</li>
+<li>OpenGL ES 2.0中的“顶点着色器”取代了OpenGL ES 1.x中的“变换和光照阶段”，“片元着色器”取代了“纹理颜色和环境求和”、“雾”、“Alpha测试”等阶段。虽然在一定的程度上增加了代码复杂度，但是灵活性却大大增加，同时也能够处理OpenGL ES 1.x中难以完成的处理任务。 </li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/Glide使用手册/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/26/Glide使用手册/" itemprop="url">
+                  Glide踩坑记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
+                2017-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/26/Glide使用手册/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/Glide使用手册/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><p>现象描述:<br>    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,<br>图片就直接被拉伸了.以下为出问题的代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
+<p>解决方法:<br>    这是替换过程中一个动画阶段，Glide提供一个方法,果断 <figure class="highlight plain"><figcaption><span>'0.0'不要动画了 ,修改后代码:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` java</div><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .dontAnimate()</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure></p>
+<h3 id="第二篇-Glide加载图片偏绿或者质量偏低"><a href="#第二篇-Glide加载图片偏绿或者质量偏低" class="headerlink" title="第二篇 Glide加载图片偏绿或者质量偏低"></a>第二篇 Glide加载图片偏绿或者质量偏低</h3><p>现象描述:<br>    用Glide加载图片感觉便绿色,普通出现这种问题一般都是压缩造成的.</p>
+<p>解决方法:<br>    1.缓存原图 2.修改bitmap的编码(Glide默认编码为RGB_565 替换成ARGB_8888),这样一般能解决大部分问题,<br>(不过这样一来，Glide的加载速度自然就下降了,毕竟增加一倍的解码内存，不是有特殊需求，不要随便使用),以下为示例代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.缓存原图</span></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .diskCacheStrategy(DiskCacheStrategy.SOURCE)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改Bitmap的编码为ARGB_8888</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlideConfig</span> <span class="keyword">implements</span> <span class="title">GlideModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</div><div class="line">        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Glide glide)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//在manifest.xml配置上以上信息</span></div><div class="line">        &lt;meta-data</div><div class="line">            android:name=<span class="string">"com.xxx.xxx.GlideConfig"</span></div><div class="line">            android:value=<span class="string">"GlideModule"</span>/&gt;</div></pre></td></tr></table></figure>
+<h3 id="第三篇-Glide混淆脚本没加导致的Crash"><a href="#第三篇-Glide混淆脚本没加导致的Crash" class="headerlink" title="第三篇 Glide混淆脚本没加导致的Crash"></a>第三篇 Glide混淆脚本没加导致的Crash</h3><p>现象描述:<br>    在加了第二篇提到的一些配置，其中GlideModule是需要在manifest中指定的，debug版本一直没事，realease版本各种Crash,报错信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Unable to find GlideModule to find GlideModule implementation...</div></pre></td></tr></table></figure>
+<p>一开始我就想到了混淆脚本,结果遇到了两个坑：</p>
+<ol>
+<li>网上提供的混淆脚本包名是Glide之前的包名 　</li>
+<li>Glide内部混淆没关系,但是实现了GlideModule接口的类不能混淆,因为manifest中明确的指明了包名+类名的，混淆了自然就找不到了</li>
+</ol>
+<p>解决方法:<br>    1.加上必要的混淆脚本:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">implements</span>  <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">module</span>.<span class="title">GlideModule</span></span></div><div class="line">-<span class="title">keep</span> <span class="title">public</span> <span class="title">enum</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">load</span>.<span class="title">resource</span>.<span class="title">bitmap</span>.<span class="title">ImageHeaderParser</span>$** &#123;</div><div class="line">    **[] $VALUES;</div><div class="line">    <span class="keyword">public</span> *;</div><div class="line">&#125;</div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">bumptech</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="第四篇-Glide无法给Gone的ImageView设置图片"><a href="#第四篇-Glide无法给Gone的ImageView设置图片" class="headerlink" title="第四篇 Glide无法给Gone的ImageView设置图片"></a>第四篇 Glide无法给Gone的ImageView设置图片</h3><p>现象描述:<br>    因为有一个需求,其实就是广告，位置是个ImageView,没有拉到广告之前，我设置的是Gone，拉到图片之后,设置上图片，然后设置为可见，结果广告拉到了，但是对应位置没有任何反应，图片地址是可以正确打开的,以下为示例代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RequestListener callback = new RequestListener() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) &#123;                  </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">		            iv.setVisibility(View.VISIBLE);</div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line"></div><div class="line">iv.setVisibility(View.GONE);//如果你的ImageViewVisibility为Gone,以上回调没有作用,改成INVISIBLE即可</div><div class="line">Glide.with(mContext).load(url)</div><div class="line">                    .listener(callback)</div><div class="line">                    .into(iv);</div></pre></td></tr></table></figure>
+<p>解决方法:<br>    经过我测试，首先两个回调根本没有执行,网上搜到了一个国外程序员的回答</p>
+<blockquote>
+<p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
+</blockquote>
+<p>他指出Glide需要知道我们控件的大小，加上override(w,h)去指定控件的大小,在我这里我直接将Visiable设置为可见就OK了</p>
+<h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
+<p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
+<h3 id="第六篇-Glide清除缓存"><a href="#第六篇-Glide清除缓存" class="headerlink" title="第六篇 Glide清除缓存"></a>第六篇 Glide清除缓存</h3><p>双清方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Glide.get(this).clearDiskCache();//请在非UI线程中调用</div><div class="line">Glide.get(this).clearMemory();//请在主线程中调用</div></pre></td></tr></table></figure>
+<h3 id="第七篇-Glide加载加密的数据"><a href="#第七篇-Glide加载加密的数据" class="headerlink" title="第七篇 Glide加载加密的数据"></a>第七篇 Glide加载加密的数据</h3><p>Glide的Load方法是可以接受byte[] 我们当然可以每次解图之前将输入流转换成byte[]进行加载但是,就没有办法很好的使用到Glide内置的缓存策略了</p>
+<p>1.自定义GlideModule (注意混淆)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public class CipherGlideModule implements GlideModule &#123;</div><div class="line">    @Override</div><div class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void registerComponents(Context context, Glide glide) &#123;</div><div class="line">        /**</div><div class="line">         * String.class 输入源</div><div class="line">         * InputStream 输出</div><div class="line">         */</div><div class="line">        glide.register(String.class, InputStream.class, new ImageLoader.Factory());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//mainfest.xml中声明 : </div><div class="line">&lt;meta-data</div><div class="line">    android:name=&quot;xxx.xxx.CipherGlideModule&quot;</div><div class="line">        android:value=&quot;GlideModule&quot; /&gt;</div></pre></td></tr></table></figure></p>
+<p>2.自定义ImageLoader<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader implements ModelLoader&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">    public ImageLoader() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public DataFetcher&lt;InputStream&gt; getResourceFetcher(String model, int width, int height) &#123;</div><div class="line">        return new ImageDataFetcher(model);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static class Factory implements ModelLoaderFactory&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public ModelLoader&lt;String, InputStream&gt; build(Context context, GenericLoaderFactory factories) &#123;</div><div class="line">            return new ImageLoader();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void teardown() &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.自定义ImageDataFetcher<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">public class ImageDataFetcher implements DataFetcher&lt;InputStream&gt; &#123;</div><div class="line"></div><div class="line">    private volatile boolean mIsCanceled;</div><div class="line">    private final String mFilePath;</div><div class="line">    private InputStream mInputStream;</div><div class="line"></div><div class="line">    public ImageDataFetcher(String filePath) &#123;</div><div class="line">        mFilePath = filePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这个方法是在非UI线程中执行,我们利用此方法来加载我们的加密数据</div><div class="line">     *</div><div class="line">     * @param priority</div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public InputStream loadData(Priority priority) throws Exception &#123;</div><div class="line">        if (mIsCanceled) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        mInputStream = fetchStream(mFilePath);</div><div class="line">        return mInputStream;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 处理完成之后清理工作</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cleanup() &#123;</div><div class="line">        if (mInputStream != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                mInputStream.close();</div><div class="line">            &#125; catch (IOException e) &#123;</div><div class="line">            &#125; finally &#123;</div><div class="line">                mInputStream = null;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 该文件的唯一ID</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public String getId() &#123;</div><div class="line">        return mFilePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在UI线程中调用，取消加载任务</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cancel() &#123;</div><div class="line">        mIsCanceled = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 返回解密后的数据流</div><div class="line">     *</div><div class="line">     * @param filePath 文件名</div><div class="line">     * @return inputStream</div><div class="line">     */</div><div class="line">    private InputStream fetchStream(String filePath) &#123;</div><div class="line">        InputStream inputStream = null;</div><div class="line">        // 返回解密数据流</div><div class="line">        return inputStream;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>Glide滑动的时候不去加载图片<blockquote>
+<blockquote>
+<p>监听滑动事件,不滑动的时候才去加载图片,遇见一个Crash,就是Acticity onDestory的时候,依然触发了我们的方法,java.lang.IllegalArgumentException: You cannot start a load for a destroyed activity,解决方法,onDestroy的时候,注销监听器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() &#123;</div><div class="line">           @Override</div><div class="line">           public void onScrollStateChanged(RecyclerView recyclerView, int newState) &#123;</div><div class="line">               switch (newState) &#123;</div><div class="line">                   case SCROLL_STATE_IDLE:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">                   case SCROLL_STATE_SETTLING:</div><div class="line">                   case SCROLL_STATE_DRAGGING:</div><div class="line">                       Glide.with(mActivity).pauseRequests();</div><div class="line">                       break;</div><div class="line">                   default:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/28/笔记/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -701,1028 +1742,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/22/插件化/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/22/插件化/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-22T02:03:31Z">
-                2017-04-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/22/插件化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/22/插件化/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>TPF腾讯开源的插件化框架: 类似于Android系统本身对应于其他应用的管理<br>安装 &gt; 运行 &gt; 卸载</p>
-<h3 id="TPF框架与Android系统本身管理不同点"><a href="#TPF框架与Android系统本身管理不同点" class="headerlink" title="TPF框架与Android系统本身管理不同点"></a>TPF框架与Android系统本身管理不同点</h3><ol>
-<li>应用程序的安装有android系统负责完成，而插件应用的安装流程由插件框架负责完成；</li>
-<li>插件应用的卸载也不走系统的卸载流程，而是由宿主负责完成的。</li>
-<li>插件应用<strong>没有走系统的安装流程</strong>，组件等信息没有被注册到系统里面，要使插件应用能正常的运行，插件框架需要将这些插件应用内部的组件全部<strong>“合法化”*</strong>；</li>
-</ol>
-<h3 id="插件框架是插件化功能的核心-它运行在宿主程序中-宿主程序在启动的过程中就是将框架加载好"><a href="#插件框架是插件化功能的核心-它运行在宿主程序中-宿主程序在启动的过程中就是将框架加载好" class="headerlink" title="插件框架是插件化功能的核心,它运行在宿主程序中,宿主程序在启动的过程中就是将框架加载好"></a>插件框架是插件化功能的核心,它运行在宿主程序中,宿主程序在启动的过程中就是将框架加载好</h3><ol>
-<li>必须自己去识别插件应用并完成拷贝解析工作</li>
-<li>必须给插件应用组件<strong>赋予android系统正常的生命周期</strong>才能让插件应用正常运行。</li>
-<li>必须自己去清理将要卸载的应用数据和正在运行的功能及组件。</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Bitmap回收导致的一个Crash/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/21/Bitmap回收导致的一个Crash/" itemprop="url">
-                  Bitmap回收导致的一个Crash
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T07:08:57Z">
-                2017-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/21/Bitmap回收导致的一个Crash/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Bitmap回收导致的一个Crash/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<blockquote>
-<p> java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@47a540 </p>
-</blockquote>
-</blockquote>
-<p>遍历了一遍代码，所有设置bitmap的地方都有判断</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (mOriBmp != null &amp;&amp; !mOriBmp.isRecycled()) &#123;</div><div class="line">    mIvShow.setImageBitmap(mOriBmp);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>错误是报在 CustomImageView的onDraw()方法中,即界面被重新绘制的时候<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    protected void onDraw(Canvas canvas) &#123;</div><div class="line">        super.onDraw(canvas);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后搜索了整个页面,只有在OnDestroy方法中调用了 Bitmap.recycl()方法 然后并不是这里问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> @Override</div><div class="line"> protected void onDestroy() &#123;</div><div class="line">        if (mOriBmp != null &amp;&amp; !mOriBmp.isRecycled()) &#123;</div><div class="line">            mOriBmp.recycle();</div><div class="line">            mOriBmp = null;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>问题解决:<br>    场景 有一个bitmap对象 是全局的，会多次使用改bitmap，每次使用之前对它进行回收处理,导致切到后台之后再回来，点击处理，把上一个正在显示图片给回收了，重新绘制页面的时候<br>由于绘制了被回收的bitmap</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/App优化之启动速度优化/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/21/App优化之启动速度优化/" itemprop="url">
-                  App优化之启动速度
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T06:41:52Z">
-                2017-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/21/App优化之启动速度优化/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/App优化之启动速度优化/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-启动分类"><a href="#1-启动分类" class="headerlink" title="1 启动分类"></a>1 启动分类</h2><ol>
-<li>冷启动 </li>
-<li>热启动</li>
-<li>温启动</li>
-</ol>
-<p>1.1 冷启动</p>
-<ol>
-<li>加载并启动app </li>
-<li>在app启动后,立即展示空白的window</li>
-<li>创建app进程 (<br>3.1 创建app对象,<br>3.2 启动 main thread ,<br>3.3 创建MainActivity,<br>3.4 inflate view ,<br>3.5 布置屏幕,<br>3.6 进行首次绘制)<br>一旦app进程完成了第一次绘制，系统进程就会用main activity替换已经展示的background window。之后用户才可以使用app。</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/那些年遇见的Crash/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/21/那些年遇见的Crash/" itemprop="url">
-                  那些年遇见的Crash
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T06:09:28Z">
-                2017-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/21/那些年遇见的Crash/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/那些年遇见的Crash/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题"><a href="#关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题" class="headerlink" title="关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题"></a>关于Android切换系统字体大小和字体样式导致App崩溃或者界面错乱的问题</h3><blockquote>
-<blockquote>
-<p>场景重现：主页面有一个ViewPager，有两页数据,滑动到第二页,然后切换字体，再切回app，app发生crash ,IndexOutOfBoundException</p>
-</blockquote>
-</blockquote>
-<p>在字体切换之后,系统会发送一个通知给app，通知其更新界面,然而走的生命周期方法确实<br>onDestroy()-&gt;onCreate()-&gt;onResume();<br>正常看起并没有什么不妥,但是:</p>
-<p>此时app是作为一种<strong>异常</strong>走的onDestroy()方法，并不是正常的按返回键进行的退出执行的onDestroy()。<br>这个时候系统会自动在onSaveInstanceState()方法里面临时性的保存之前的界面状态或者变量信息。<br>方便在onCreate()的时候，从bundle里面直接取出来使用。<br>但是毕竟是<strong>异常的状态</strong>，有些实体的信息或者fragment堆栈的状态恢复的时候就有可能错乱，导致显示效果出错或者crash。</p>
-<p>配置Activity的configChanges,防止页面被刷新<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">android:configChanges=&quot;orientation|screenSize|keyboardHidden|**fontScale**</div></pre></td></tr></table></figure></p>
-<p><strong>有一个尴尬的情况,如果我们改变的是字体样式,有点没辙</strong></p>
-<p>究其原因就是onDestroy的时候,有些数据不太正确,因此在恢复的时候,可能导致crash，最果断直接方法来了,如果有保存的值,直接置为null<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line"></div><div class="line">       if (null != savedInstanceState)</div><div class="line"></div><div class="line">           savedInstanceState = null;</div><div class="line"></div><div class="line">     super.onCreate(savedInstanceState);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Git使用笔记/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/21/Git使用笔记/" itemprop="url">
-                  Git使用小结
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T05:53:27Z">
-                2017-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/21/Git使用笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Git使用笔记/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-文件权限的变更导致Git的变动"><a href="#1-文件权限的变更导致Git的变动" class="headerlink" title="1.文件权限的变更导致Git的变动"></a>1.文件权限的变更导致Git的变动</h2><blockquote>
-<blockquote>
-<p>在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，<br>就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动<br>仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录</p>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git忽视权限的变动&lt;毕竟文件权限不是我们关心的改变&gt;</div><div class="line">$ git config core.filemode false</div></pre></td></tr></table></figure>
-<h2 id="2-文件名大小写改动git不识别"><a href="#2-文件名大小写改动git不识别" class="headerlink" title="2.文件名大小写改动git不识别"></a>2.文件名大小写改动git不识别</h2><blockquote>
-<blockquote>
-<p>git 默认不区分文件名大小写</p>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git 使其对文件名大小写敏感</div><div class="line">$ git config core.ignorecase false</div></pre></td></tr></table></figure>
-<blockquote>
-<blockquote>
-<p>也可以先删除,然后在添加 git rm xx , git add xx , git commit -m “xx”</p>
-</blockquote>
-</blockquote>
-<h2 id="3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><a href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支" class="headerlink" title="3.强大的cherry-pick 将提交到A分支的commit提交到B分支"></a>3.强大的cherry-pick 将提交到A分支的commit提交到B分支</h2><blockquote>
-<blockquote>
-<p>场景复现 将原本该在dev分支的bug　fixed提交到了master分支 </p>
-</blockquote>
-</blockquote>
-<ol>
-<li>找到master刚提交的commit id </li>
-<li>切换到 dev　</li>
-<li>git cherry-pick “commit id xxx”</li>
-</ol>
-<h2 id="4-本地代码reset之后-push-failed"><a href="#4-本地代码reset之后-push-failed" class="headerlink" title="4.本地代码reset之后,push　failed"></a>4.本地代码reset之后,push　failed</h2><ol>
-<li>打开git bash 来操作</li>
-<li>切换到git托管的目录</li>
-<li>git push -f (force) //加上-f参数　强制刷新remote/origin/xxxxx</li>
-</ol>
-<h2 id="5-后续添加-gitignore不生效"><a href="#5-后续添加-gitignore不生效" class="headerlink" title="5.后续添加.gitignore不生效"></a>5.后续添加.gitignore不生效</h2><blockquote>
-<blockquote>
-<p>在用 Git 进行代码管理的过程中，我们会发现后添加进去的 .gitignore 文件，<br>或者是中途修改了 .gitignore 文件后，.gitignore 文件没有生效，我们需要通过清除 track 缓存和 强制 track 来解决问题</p>
-</blockquote>
-</blockquote>
-<p>Git 代码管理中，我们在没有添加 .gitignore 文件的前提下提交了代码之后再提交 .gitignore 文件，或者是中途添加某一文件类型到 .gitignore 文件中，需要通过以下命令行的方式，让 .gitignore 文件生效：<br>查看源代码打印帮助</p>
-<ol>
-<li><p>Git 代码管理中，我们在没有添加 .gitignore 文件的前提下提交了代码之后再提交 .gitignore 文件，或者是中途添加某一文件类型到 .gitignore 文件中，需要通过以下命令行的方式，让 .gitignore 文件生效：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//清除缓存</div><div class="line">git rm -r --cached .</div><div class="line">//添加</div><div class="line">git add .</div><div class="line">//提交</div><div class="line">git commit -m &quot;xxxxx&quot;</div></pre></td></tr></table></figure>
-</li>
-<li><p>如果是中途从 .gitignore 文件中移除某一文件类型，想要这个文件类型重新被 track，需要通过以下命令行的方式，让 .gitignore 文件生效：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//添加的时候加上-f参数</div><div class="line">git add -f *.class</div><div class="line">//提交</div><div class="line">git commit -m &quot;xxx&quot;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Glide使用手册/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/21/Glide使用手册/" itemprop="url">
-                  Glide踩坑记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T05:39:06Z">
-                2017-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/21/Glide使用手册/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Glide使用手册/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><p>现象描述:<br>    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,<br>图片就直接被拉伸了.以下为出问题的代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    这是替换过程中一个动画阶段，Glide提供一个方法,果断 <figure class="highlight plain"><figcaption><span>'0.0'不要动画了 ,修改后代码:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` java</div><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .dontAnimate()</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure></p>
-<h3 id="第二篇-Glide加载图片偏绿或者质量偏低"><a href="#第二篇-Glide加载图片偏绿或者质量偏低" class="headerlink" title="第二篇 Glide加载图片偏绿或者质量偏低"></a>第二篇 Glide加载图片偏绿或者质量偏低</h3><p>现象描述:<br>    用Glide加载图片感觉便绿色,普通出现这种问题一般都是压缩造成的.</p>
-<p>解决方法:<br>    1.缓存原图 2.修改bitmap的编码(Glide默认编码为RGB_565 替换成ARGB_8888),这样一般能解决大部分问题,<br>(不过这样一来，Glide的加载速度自然就下降了,毕竟增加一倍的解码内存，不是有特殊需求，不要随便使用),以下为示例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.缓存原图</span></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .diskCacheStrategy(DiskCacheStrategy.SOURCE)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改Bitmap的编码为ARGB_8888</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlideConfig</span> <span class="keyword">implements</span> <span class="title">GlideModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</div><div class="line">        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Glide glide)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//在manifest.xml配置上以上信息</span></div><div class="line">        &lt;meta-data</div><div class="line">            android:name=<span class="string">"com.xxx.xxx.GlideConfig"</span></div><div class="line">            android:value=<span class="string">"GlideModule"</span>/&gt;</div></pre></td></tr></table></figure>
-<h3 id="第三篇-Glide混淆脚本没加导致的Crash"><a href="#第三篇-Glide混淆脚本没加导致的Crash" class="headerlink" title="第三篇 Glide混淆脚本没加导致的Crash"></a>第三篇 Glide混淆脚本没加导致的Crash</h3><p>现象描述:<br>    在加了第二篇提到的一些配置，其中GlideModule是需要在manifest中指定的，debug版本一直没事，realease版本各种Crash,报错信息:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Unable to find GlideModule to find GlideModule implementation...</div></pre></td></tr></table></figure>
-<p>一开始我就想到了混淆脚本,结果遇到了两个坑：</p>
-<ol>
-<li>网上提供的混淆脚本包名是Glide之前的包名 　</li>
-<li>Glide内部混淆没关系,但是实现了GlideModule接口的类不能混淆,因为manifest中明确的指明了包名+类名的，混淆了自然就找不到了</li>
-</ol>
-<p>解决方法:<br>    1.加上必要的混淆脚本:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">implements</span>  <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">module</span>.<span class="title">GlideModule</span></span></div><div class="line">-<span class="title">keep</span> <span class="title">public</span> <span class="title">enum</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">load</span>.<span class="title">resource</span>.<span class="title">bitmap</span>.<span class="title">ImageHeaderParser</span>$** &#123;</div><div class="line">    **[] $VALUES;</div><div class="line">    <span class="keyword">public</span> *;</div><div class="line">&#125;</div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">bumptech</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="第四篇-Glide无法给Gone的ImageView设置图片"><a href="#第四篇-Glide无法给Gone的ImageView设置图片" class="headerlink" title="第四篇 Glide无法给Gone的ImageView设置图片"></a>第四篇 Glide无法给Gone的ImageView设置图片</h3><p>现象描述:<br>    因为有一个需求,其实就是广告，位置是个ImageView,没有拉到广告之前，我设置的是Gone，拉到图片之后,设置上图片，然后设置为可见，结果广告拉到了，但是对应位置没有任何反应，图片地址是可以正确打开的,以下为示例代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RequestListener callback = new RequestListener() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) &#123;                  </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">		            iv.setVisibility(View.VISIBLE);</div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line"></div><div class="line">iv.setVisibility(View.GONE);//如果你的ImageViewVisibility为Gone,以上回调没有作用,改成INVISIBLE即可</div><div class="line">Glide.with(mContext).load(url)</div><div class="line">                    .listener(callback)</div><div class="line">                    .into(iv);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    经过我测试，首先两个回调根本没有执行,网上搜到了一个国外程序员的回答</p>
-<blockquote>
-<p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
-</blockquote>
-<p>他指出Glide需要知道我们控件的大小，加上override(w,h)去指定控件的大小,在我这里我直接将Visiable设置为可见就OK了</p>
-<h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
-<h3 id="第六篇-Glide清除缓存"><a href="#第六篇-Glide清除缓存" class="headerlink" title="第六篇 Glide清除缓存"></a>第六篇 Glide清除缓存</h3><p>双清方法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Glide.get(this).clearDiskCache();//请在非UI线程中调用</div><div class="line">Glide.get(this).clearMemory();//请在主线程中调用</div></pre></td></tr></table></figure>
-<h3 id="第七篇-Glide加载加密的数据"><a href="#第七篇-Glide加载加密的数据" class="headerlink" title="第七篇 Glide加载加密的数据"></a>第七篇 Glide加载加密的数据</h3><p>Glide的Load方法是可以接受byte[] 我们当然可以每次解图之前将输入流转换成byte[]进行加载但是,就没有办法很好的使用到Glide内置的缓存策略了</p>
-<p>1.自定义GlideModule (注意混淆)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public class CipherGlideModule implements GlideModule &#123;</div><div class="line">    @Override</div><div class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void registerComponents(Context context, Glide glide) &#123;</div><div class="line">        /**</div><div class="line">         * String.class 输入源</div><div class="line">         * InputStream 输出</div><div class="line">         */</div><div class="line">        glide.register(String.class, InputStream.class, new ImageLoader.Factory());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//mainfest.xml中声明 : </div><div class="line">&lt;meta-data</div><div class="line">    android:name=&quot;xxx.xxx.CipherGlideModule&quot;</div><div class="line">        android:value=&quot;GlideModule&quot; /&gt;</div></pre></td></tr></table></figure></p>
-<p>2.自定义ImageLoader<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader implements ModelLoader&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">    public ImageLoader() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public DataFetcher&lt;InputStream&gt; getResourceFetcher(String model, int width, int height) &#123;</div><div class="line">        return new ImageDataFetcher(model);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static class Factory implements ModelLoaderFactory&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public ModelLoader&lt;String, InputStream&gt; build(Context context, GenericLoaderFactory factories) &#123;</div><div class="line">            return new ImageLoader();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void teardown() &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>3.自定义ImageDataFetcher<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">public class ImageDataFetcher implements DataFetcher&lt;InputStream&gt; &#123;</div><div class="line"></div><div class="line">    private volatile boolean mIsCanceled;</div><div class="line">    private final String mFilePath;</div><div class="line">    private InputStream mInputStream;</div><div class="line"></div><div class="line">    public ImageDataFetcher(String filePath) &#123;</div><div class="line">        mFilePath = filePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这个方法是在非UI线程中执行,我们利用此方法来加载我们的加密数据</div><div class="line">     *</div><div class="line">     * @param priority</div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public InputStream loadData(Priority priority) throws Exception &#123;</div><div class="line">        if (mIsCanceled) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        mInputStream = fetchStream(mFilePath);</div><div class="line">        return mInputStream;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 处理完成之后清理工作</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cleanup() &#123;</div><div class="line">        if (mInputStream != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                mInputStream.close();</div><div class="line">            &#125; catch (IOException e) &#123;</div><div class="line">            &#125; finally &#123;</div><div class="line">                mInputStream = null;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 该文件的唯一ID</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public String getId() &#123;</div><div class="line">        return mFilePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在UI线程中调用，取消加载任务</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cancel() &#123;</div><div class="line">        mIsCanceled = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 返回解密后的数据流</div><div class="line">     *</div><div class="line">     * @param filePath 文件名</div><div class="line">     * @return inputStream</div><div class="line">     */</div><div class="line">    private InputStream fetchStream(String filePath) &#123;</div><div class="line">        InputStream inputStream = null;</div><div class="line">        // 返回解密数据流</div><div class="line">        return inputStream;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/ImageView的使用/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/21/ImageView的使用/" itemprop="url">
-                  ImageView的使用小手段
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T01:45:17Z">
-                2017-04-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/21/ImageView的使用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/ImageView的使用/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="将ImageView的图片置空"><a href="#将ImageView的图片置空" class="headerlink" title="将ImageView的图片置空"></a>将ImageView的图片置空</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line"> * If this view doesn&apos;t do any drawing on its own, set this flag to</div><div class="line"> * allow further optimizations. By default, this flag is not set on</div><div class="line"> * View, but could be set on some View subclasses such as ViewGroup.</div><div class="line"> *</div><div class="line"> * Typically, if you override &#123;@link #onDraw(android.graphics.Canvas)&#125;</div><div class="line"> * you should clear this flag.</div><div class="line"> *</div><div class="line"> * @param willNotDraw whether or not this View draw on its own</div><div class="line"> */</div><div class="line">public void setWillNotDraw(boolean willNotDraw) &#123;</div><div class="line">    setFlags(willNotDraw ? WILL_NOT_DRAW : 0, DRAW_MASK);</div><div class="line">&#125;</div><div class="line">   </div><div class="line">　　　　//清空图片</div><div class="line">iv_show.setWillNotDraw(true)</div><div class="line">//清空图片</div><div class="line">iv_show.setWillNotDraw(false)</div><div class="line">iv_show.setImageResoure(R.di.img)</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1765,7 +1789,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -88,11 +88,11 @@
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Glide踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/04/21/Glide使用手册/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/05/26/Glide使用手册/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
 <meta property="og:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
 12345Glide.with(mContext)     .load(imgUrl)     .placeholder(R.drawable">
-<meta property="og:updated_time" content="2017-04-21T05:39:06.923Z">
+<meta property="og:updated_time" content="2017-05-12T05:09:02.401Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Glide踩坑记">
 <meta name="twitter:description" content="Glide踩坑全集第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下现象描述:    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,图片就直接被拉伸了.以下为出问题的代码:
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/21/Glide使用手册/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/05/26/Glide使用手册/"/>
 
 
 
@@ -243,7 +243,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Glide使用手册/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/Glide使用手册/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T13:39:06+08:00">
-                2017-04-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T09:50:07+08:00">
+                2017-05-26
               </time>
             
 
@@ -301,8 +301,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/21/Glide使用手册/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Glide使用手册/" itemprop="commentCount"></span>
+                <a href="/2017/05/26/Glide使用手册/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/Glide使用手册/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -360,6 +360,15 @@
 <p>1.自定义GlideModule (注意混淆)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public class CipherGlideModule implements GlideModule &#123;</div><div class="line">    @Override</div><div class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void registerComponents(Context context, Glide glide) &#123;</div><div class="line">        /**</div><div class="line">         * String.class 输入源</div><div class="line">         * InputStream 输出</div><div class="line">         */</div><div class="line">        glide.register(String.class, InputStream.class, new ImageLoader.Factory());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//mainfest.xml中声明 : </div><div class="line">&lt;meta-data</div><div class="line">    android:name=&quot;xxx.xxx.CipherGlideModule&quot;</div><div class="line">        android:value=&quot;GlideModule&quot; /&gt;</div></pre></td></tr></table></figure></p>
 <p>2.自定义ImageLoader<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader implements ModelLoader&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">    public ImageLoader() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public DataFetcher&lt;InputStream&gt; getResourceFetcher(String model, int width, int height) &#123;</div><div class="line">        return new ImageDataFetcher(model);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static class Factory implements ModelLoaderFactory&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public ModelLoader&lt;String, InputStream&gt; build(Context context, GenericLoaderFactory factories) &#123;</div><div class="line">            return new ImageLoader();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void teardown() &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>3.自定义ImageDataFetcher<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">public class ImageDataFetcher implements DataFetcher&lt;InputStream&gt; &#123;</div><div class="line"></div><div class="line">    private volatile boolean mIsCanceled;</div><div class="line">    private final String mFilePath;</div><div class="line">    private InputStream mInputStream;</div><div class="line"></div><div class="line">    public ImageDataFetcher(String filePath) &#123;</div><div class="line">        mFilePath = filePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这个方法是在非UI线程中执行,我们利用此方法来加载我们的加密数据</div><div class="line">     *</div><div class="line">     * @param priority</div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public InputStream loadData(Priority priority) throws Exception &#123;</div><div class="line">        if (mIsCanceled) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        mInputStream = fetchStream(mFilePath);</div><div class="line">        return mInputStream;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 处理完成之后清理工作</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cleanup() &#123;</div><div class="line">        if (mInputStream != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                mInputStream.close();</div><div class="line">            &#125; catch (IOException e) &#123;</div><div class="line">            &#125; finally &#123;</div><div class="line">                mInputStream = null;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 该文件的唯一ID</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public String getId() &#123;</div><div class="line">        return mFilePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在UI线程中调用，取消加载任务</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cancel() &#123;</div><div class="line">        mIsCanceled = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 返回解密后的数据流</div><div class="line">     *</div><div class="line">     * @param filePath 文件名</div><div class="line">     * @return inputStream</div><div class="line">     */</div><div class="line">    private InputStream fetchStream(String filePath) &#123;</div><div class="line">        InputStream inputStream = null;</div><div class="line">        // 返回解密数据流</div><div class="line">        return inputStream;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>Glide滑动的时候不去加载图片<blockquote>
+<blockquote>
+<p>监听滑动事件,不滑动的时候才去加载图片,遇见一个Crash,就是Acticity onDestory的时候,依然触发了我们的方法,java.lang.IllegalArgumentException: You cannot start a load for a destroyed activity,解决方法,onDestroy的时候,注销监听器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() &#123;</div><div class="line">           @Override</div><div class="line">           public void onScrollStateChanged(RecyclerView recyclerView, int newState) &#123;</div><div class="line">               switch (newState) &#123;</div><div class="line">                   case SCROLL_STATE_IDLE:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">                   case SCROLL_STATE_SETTLING:</div><div class="line">                   case SCROLL_STATE_DRAGGING:</div><div class="line">                       Glide.with(mActivity).pauseRequests();</div><div class="line">                       break;</div><div class="line">                   default:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+</li>
+</ol>
 
       
     </div>
@@ -386,8 +395,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/21/ImageView的使用/" rel="next" title="ImageView的使用小手段">
-                <i class="fa fa-chevron-left"></i> ImageView的使用小手段
+              <a href="/2017/04/28/笔记/" rel="next" title="Android笔记">
+                <i class="fa fa-chevron-left"></i> Android笔记
               </a>
             
           </div>
@@ -396,8 +405,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/04/21/Git使用笔记/" rel="prev" title="Git使用小结">
-                Git使用小结 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/26/opengles/1.简介/" rel="prev" title="">
+                 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -424,8 +433,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/04/21/Glide使用手册/"
-           data-title="Glide踩坑记" data-url="http://yoursite.com/2017/04/21/Glide使用手册/">
+      <div class="ds-thread" data-thread-key="2017/05/26/Glide使用手册/"
+           data-title="Glide踩坑记" data-url="http://yoursite.com/2017/05/26/Glide使用手册/">
       </div>
     
   </div>
@@ -472,7 +481,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
