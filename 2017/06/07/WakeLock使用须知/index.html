@@ -84,16 +84,31 @@
 
 
 
-<meta name="description" content="selector踩坑全集第一篇 给按钮设置点击效果selector无效现象描述:    selector设置,android:state_pressed=&amp;quot;true&amp;quot;不生效解决方法:    将pressed状态的item放在第一行(坑)">
+<meta name="description" content="Android中WakeLock机制:
+
+WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行
+
+
+如果只是需要保持屏幕开启">
 <meta property="og:type" content="article">
-<meta property="og:title" content="selector踩坑记">
-<meta property="og:url" content="http://yoursite.com/2017/03/04/selector踩坑记/index.html">
+<meta property="og:title" content="使用WakeLocak保持后台唤醒">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/WakeLock使用须知/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="selector踩坑全集第一篇 给按钮设置点击效果selector无效现象描述:    selector设置,android:state_pressed=&amp;quot;true&amp;quot;不生效解决方法:    将pressed状态的item放在第一行(坑)">
-<meta property="og:updated_time" content="2017-03-04T08:59:04.926Z">
+<meta property="og:description" content="Android中WakeLock机制:
+
+WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行
+
+
+如果只是需要保持屏幕开启">
+<meta property="og:updated_time" content="2017-06-07T05:54:24.960Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="selector踩坑记">
-<meta name="twitter:description" content="selector踩坑全集第一篇 给按钮设置点击效果selector无效现象描述:    selector设置,android:state_pressed=&amp;quot;true&amp;quot;不生效解决方法:    将pressed状态的item放在第一行(坑)">
+<meta name="twitter:title" content="使用WakeLocak保持后台唤醒">
+<meta name="twitter:description" content="Android中WakeLock机制:
+
+WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行
+
+
+如果只是需要保持屏幕开启">
 
 
 
@@ -121,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/04/selector踩坑记/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/WakeLock使用须知/"/>
 
 
 
 
 
-  <title> selector踩坑记 | 蒲公英,随风海角天涯 </title>
+  <title> 使用WakeLocak保持后台唤醒 | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -240,7 +255,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/04/selector踩坑记/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/WakeLock使用须知/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -264,7 +279,7 @@
             
             
               
-                selector踩坑记
+                使用WakeLocak保持后台唤醒
               
             
           </h1>
@@ -279,8 +294,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-04T16:59:04+08:00">
-                2017-03-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-07T13:54:24+08:00">
+                2017-06-07
               </time>
             
 
@@ -298,8 +313,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/04/selector踩坑记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/04/selector踩坑记/" itemprop="commentCount"></span>
+                <a href="/2017/06/07/WakeLock使用须知/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/07/WakeLock使用须知/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -325,7 +340,24 @@
       
 
       
-        <h2 id="selector踩坑全集"><a href="#selector踩坑全集" class="headerlink" title="selector踩坑全集"></a>selector踩坑全集</h2><h3 id="第一篇-给按钮设置点击效果selector无效"><a href="#第一篇-给按钮设置点击效果selector无效" class="headerlink" title="第一篇 给按钮设置点击效果selector无效"></a>第一篇 给按钮设置点击效果selector无效</h3><p>现象描述:<br>    selector设置,<code>android:state_pressed=&quot;true&quot;</code>不生效<br>解决方法:<br>    将pressed状态的item放在第一行(坑)</p>
+        <h3 id="Android中WakeLock机制"><a href="#Android中WakeLock机制" class="headerlink" title="Android中WakeLock机制:"></a>Android中WakeLock机制:</h3><blockquote>
+<blockquote>
+<p>WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，<br>WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行</p>
+</blockquote>
+</blockquote>
+<p>如果只是需要保持屏幕开启, 比如阅读器应用或者游戏, 可以在 activity 中使用 FLAG_KEEP_SCREEN_ON. 唤醒锁更加倾向于后台服务, 运转 CPU 在休眠之前完成某些特定任务. 比如下载或者mp3播放.</p>
+<p>使用:</p>
+<ol>
+<li><p>权限声明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot;/&gt;</div><div class="line">&lt;uses-permission android:name=&quot;android.permission.DEVICE_POWER&quot;/&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>获取锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">WakeLock wakeLock = null;  </div><div class="line">    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行  </div><div class="line">    private void acquireWakeLock()  </div><div class="line">    &#123;  </div><div class="line">        if (null == wakeLock)  </div><div class="line">        &#123;  </div><div class="line">            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);  </div><div class="line">            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, &quot;PostLocationService&quot;);  </div><div class="line">            if (null != wakeLock)  </div><div class="line">            &#123;  </div><div class="line">                wakeLock.acquire();  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>释放锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//释放设备电源锁  </div><div class="line">   private void releaseWakeLock()  </div><div class="line">   &#123;  </div><div class="line">       if (null != wakeLock)  </div><div class="line">       &#123;  </div><div class="line">           wakeLock.release();  </div><div class="line">           wakeLock = null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
 
       
     </div>
@@ -352,8 +384,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/04/Android模糊一张图片/" rel="next" title="Android模糊一张图片的简单方法之RenderScript">
-                <i class="fa fa-chevron-left"></i> Android模糊一张图片的简单方法之RenderScript
+              <a href="/2017/06/06/Recyclerview记录/" rel="next" title="">
+                <i class="fa fa-chevron-left"></i> 
               </a>
             
           </div>
@@ -362,8 +394,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/06/OpenGL ES笔记-1/" rel="prev" title="OpenGL ES笔记-1">
-                OpenGL ES笔记-1 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/07/笔记/" rel="prev" title="Android笔记">
+                Android笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -390,8 +422,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/04/selector踩坑记/"
-           data-title="selector踩坑记" data-url="http://yoursite.com/2017/03/04/selector踩坑记/">
+      <div class="ds-thread" data-thread-key="2017/06/07/WakeLock使用须知/"
+           data-title="使用WakeLocak保持后台唤醒" data-url="http://yoursite.com/2017/06/07/WakeLock使用须知/">
       </div>
     
   </div>
@@ -477,7 +509,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#selector踩坑全集"><span class="nav-number">1.</span> <span class="nav-text">selector踩坑全集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一篇-给按钮设置点击效果selector无效"><span class="nav-number">1.1.</span> <span class="nav-text">第一篇 给按钮设置点击效果selector无效</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中WakeLock机制"><span class="nav-number">1.</span> <span class="nav-text">Android中WakeLock机制:</span></a></li></ol></div>
             
 
           </div>

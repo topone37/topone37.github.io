@@ -241,6 +241,488 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/Glide使用手册/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/26/Glide使用手册/" itemprop="url">
+                  Glide踩坑记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
+                2017-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/05/26/Glide使用手册/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/Glide使用手册/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><p>现象描述:<br>    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,<br>图片就直接被拉伸了.以下为出问题的代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
+<p>解决方法:<br>    这是替换过程中一个动画阶段，Glide提供一个方法,果断 <figure class="highlight plain"><figcaption><span>'0.0'不要动画了 ,修改后代码:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` java</div><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .dontAnimate()</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure></p>
+<h3 id="第二篇-Glide加载图片偏绿或者质量偏低"><a href="#第二篇-Glide加载图片偏绿或者质量偏低" class="headerlink" title="第二篇 Glide加载图片偏绿或者质量偏低"></a>第二篇 Glide加载图片偏绿或者质量偏低</h3><p>现象描述:<br>    用Glide加载图片感觉便绿色,普通出现这种问题一般都是压缩造成的.</p>
+<p>解决方法:<br>    1.缓存原图 2.修改bitmap的编码(Glide默认编码为RGB_565 替换成ARGB_8888),这样一般能解决大部分问题,<br>(不过这样一来，Glide的加载速度自然就下降了,毕竟增加一倍的解码内存，不是有特殊需求，不要随便使用),以下为示例代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.缓存原图</span></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .diskCacheStrategy(DiskCacheStrategy.SOURCE)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改Bitmap的编码为ARGB_8888</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlideConfig</span> <span class="keyword">implements</span> <span class="title">GlideModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</div><div class="line">        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Glide glide)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//在manifest.xml配置上以上信息</span></div><div class="line">        &lt;meta-data</div><div class="line">            android:name=<span class="string">"com.xxx.xxx.GlideConfig"</span></div><div class="line">            android:value=<span class="string">"GlideModule"</span>/&gt;</div></pre></td></tr></table></figure>
+<h3 id="第三篇-Glide混淆脚本没加导致的Crash"><a href="#第三篇-Glide混淆脚本没加导致的Crash" class="headerlink" title="第三篇 Glide混淆脚本没加导致的Crash"></a>第三篇 Glide混淆脚本没加导致的Crash</h3><p>现象描述:<br>    在加了第二篇提到的一些配置，其中GlideModule是需要在manifest中指定的，debug版本一直没事，realease版本各种Crash,报错信息:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Unable to find GlideModule to find GlideModule implementation...</div></pre></td></tr></table></figure>
+<p>一开始我就想到了混淆脚本,结果遇到了两个坑：</p>
+<ol>
+<li>网上提供的混淆脚本包名是Glide之前的包名 　</li>
+<li>Glide内部混淆没关系,但是实现了GlideModule接口的类不能混淆,因为manifest中明确的指明了包名+类名的，混淆了自然就找不到了</li>
+</ol>
+<p>解决方法:<br>    1.加上必要的混淆脚本:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">implements</span>  <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">module</span>.<span class="title">GlideModule</span></span></div><div class="line">-<span class="title">keep</span> <span class="title">public</span> <span class="title">enum</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">load</span>.<span class="title">resource</span>.<span class="title">bitmap</span>.<span class="title">ImageHeaderParser</span>$** &#123;</div><div class="line">    **[] $VALUES;</div><div class="line">    <span class="keyword">public</span> *;</div><div class="line">&#125;</div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">bumptech</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="第四篇-Glide无法给Gone的ImageView设置图片"><a href="#第四篇-Glide无法给Gone的ImageView设置图片" class="headerlink" title="第四篇 Glide无法给Gone的ImageView设置图片"></a>第四篇 Glide无法给Gone的ImageView设置图片</h3><p>现象描述:<br>    因为有一个需求,其实就是广告，位置是个ImageView,没有拉到广告之前，我设置的是Gone，拉到图片之后,设置上图片，然后设置为可见，结果广告拉到了，但是对应位置没有任何反应，图片地址是可以正确打开的,以下为示例代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RequestListener callback = new RequestListener() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) &#123;                  </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">		            iv.setVisibility(View.VISIBLE);</div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line"></div><div class="line">iv.setVisibility(View.GONE);//如果你的ImageViewVisibility为Gone,以上回调没有作用,改成INVISIBLE即可</div><div class="line">Glide.with(mContext).load(url)</div><div class="line">                    .listener(callback)</div><div class="line">                    .into(iv);</div></pre></td></tr></table></figure>
+<p>解决方法:<br>    经过我测试，首先两个回调根本没有执行,网上搜到了一个国外程序员的回答</p>
+<blockquote>
+<p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
+</blockquote>
+<p>他指出Glide需要知道我们控件的大小，加上override(w,h)去指定控件的大小,在我这里我直接将Visiable设置为可见就OK了</p>
+<h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
+<p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
+<h3 id="第六篇-Glide清除缓存"><a href="#第六篇-Glide清除缓存" class="headerlink" title="第六篇 Glide清除缓存"></a>第六篇 Glide清除缓存</h3><p>双清方法:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Glide.get(this).clearDiskCache();//请在非UI线程中调用</div><div class="line">Glide.get(this).clearMemory();//请在主线程中调用</div></pre></td></tr></table></figure>
+<h3 id="第七篇-Glide加载加密的数据"><a href="#第七篇-Glide加载加密的数据" class="headerlink" title="第七篇 Glide加载加密的数据"></a>第七篇 Glide加载加密的数据</h3><p>Glide的Load方法是可以接受byte[] 我们当然可以每次解图之前将输入流转换成byte[]进行加载但是,就没有办法很好的使用到Glide内置的缓存策略了</p>
+<p>1.自定义GlideModule (注意混淆)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public class CipherGlideModule implements GlideModule &#123;</div><div class="line">    @Override</div><div class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void registerComponents(Context context, Glide glide) &#123;</div><div class="line">        /**</div><div class="line">         * String.class 输入源</div><div class="line">         * InputStream 输出</div><div class="line">         */</div><div class="line">        glide.register(String.class, InputStream.class, new ImageLoader.Factory());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//mainfest.xml中声明 : </div><div class="line">&lt;meta-data</div><div class="line">    android:name=&quot;xxx.xxx.CipherGlideModule&quot;</div><div class="line">        android:value=&quot;GlideModule&quot; /&gt;</div></pre></td></tr></table></figure></p>
+<p>2.自定义ImageLoader<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader implements ModelLoader&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">    public ImageLoader() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public DataFetcher&lt;InputStream&gt; getResourceFetcher(String model, int width, int height) &#123;</div><div class="line">        return new ImageDataFetcher(model);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static class Factory implements ModelLoaderFactory&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public ModelLoader&lt;String, InputStream&gt; build(Context context, GenericLoaderFactory factories) &#123;</div><div class="line">            return new ImageLoader();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void teardown() &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3.自定义ImageDataFetcher<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">public class ImageDataFetcher implements DataFetcher&lt;InputStream&gt; &#123;</div><div class="line"></div><div class="line">    private volatile boolean mIsCanceled;</div><div class="line">    private final String mFilePath;</div><div class="line">    private InputStream mInputStream;</div><div class="line"></div><div class="line">    public ImageDataFetcher(String filePath) &#123;</div><div class="line">        mFilePath = filePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这个方法是在非UI线程中执行,我们利用此方法来加载我们的加密数据</div><div class="line">     *</div><div class="line">     * @param priority</div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public InputStream loadData(Priority priority) throws Exception &#123;</div><div class="line">        if (mIsCanceled) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        mInputStream = fetchStream(mFilePath);</div><div class="line">        return mInputStream;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 处理完成之后清理工作</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cleanup() &#123;</div><div class="line">        if (mInputStream != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                mInputStream.close();</div><div class="line">            &#125; catch (IOException e) &#123;</div><div class="line">            &#125; finally &#123;</div><div class="line">                mInputStream = null;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 该文件的唯一ID</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public String getId() &#123;</div><div class="line">        return mFilePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在UI线程中调用，取消加载任务</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cancel() &#123;</div><div class="line">        mIsCanceled = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 返回解密后的数据流</div><div class="line">     *</div><div class="line">     * @param filePath 文件名</div><div class="line">     * @return inputStream</div><div class="line">     */</div><div class="line">    private InputStream fetchStream(String filePath) &#123;</div><div class="line">        InputStream inputStream = null;</div><div class="line">        // 返回解密数据流</div><div class="line">        return inputStream;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>Glide滑动的时候不去加载图片<blockquote>
+<blockquote>
+<p>监听滑动事件,不滑动的时候才去加载图片,遇见一个Crash,就是Acticity onDestory的时候,依然触发了我们的方法,java.lang.IllegalArgumentException: You cannot start a load for a destroyed activity,解决方法,onDestroy的时候,注销监听器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() &#123;</div><div class="line">           @Override</div><div class="line">           public void onScrollStateChanged(RecyclerView recyclerView, int newState) &#123;</div><div class="line">               switch (newState) &#123;</div><div class="line">                   case SCROLL_STATE_IDLE:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">                   case SCROLL_STATE_SETTLING:</div><div class="line">                   case SCROLL_STATE_DRAGGING:</div><div class="line">                       Glide.with(mActivity).pauseRequests();</div><div class="line">                       break;</div><div class="line">                   default:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/22/Android相机开发/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/22/Android相机开发/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-22T08:05:44Z">
+                2017-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/22/Android相机开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/22/Android相机开发/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>//bufferSize的计算完整公式 预览的宽*高*每个像素点占用的bit数/8(1 byte = 8 bit )
+    int bufferSize = mPreviewWidth * mPreviewHeight * ImageFormat.getBitsPerPixel(mCameraDevice.getParameters().getPreviewFormat()) / 8;
+
+
+        if (mPreviewBuffer == null || mPreviewBuffer[0].length &lt; mPreviewWidth * mPreviewHeight * 12 / 8) {
+            Log.d(&quot;startpreview&quot;, &quot;try_new buffer&quot;);
+            mPreviewBuffer = new byte[][]{
+                    new byte[mPreviewWidth * mPreviewHeight * 3 / 2],
+                    new byte[mPreviewWidth * mPreviewHeight * 3 / 2],
+                    new byte[mPreviewWidth * mPreviewHeight * 3 / 2]};
+        }
+
+        mCameraDevice.addCallbackBuffer(mPreviewBuffer[mBufIndex]);
+        mCameraDevice.setPreviewCallbackWithBuffer(CameraActivity.this);
+</code></pre><p> public static int getBitsPerPixel(int format) {<br>        switch (format) {<br>            case RGB_565:<br>                return 16;<br>            case NV16:<br>                return 16;<br>            case YUY2:<br>                return 16;<br>            case YV12:<br>                return 12;<br>            case Y8:<br>                return 8;<br>            case Y16:<br>            case DEPTH16:<br>                return 16;<br>            case NV21:<br>                return 12;<br>            case YUV_420_888:<br>                return 12;<br>            case YUV_422_888:<br>                return 16;<br>            case YUV_444_888:<br>                return 24;<br>            case FLEX_RGB_888:<br>                return 24;<br>            case FLEX_RGBA_8888:<br>                return 32;<br>            case RAW_SENSOR:<br>                return 16;<br>            case RAW10:<br>                return 10;<br>            case RAW12:<br>                return 12;<br>        }<br>        return -1;<br>    }</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/22/Gradle加速编译/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/22/Gradle加速编译/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-22T02:39:53Z">
+                2017-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/22/Gradle加速编译/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/22/Gradle加速编译/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>调整gradle配置</p>
+<p>开启daemon</p>
+<p>相比没有开启daemon，开启daemon有如下好处</p>
+<p>不需要每次启动gradle进程（JVM实例），减少了初始化相关的工作<br>daemon可以缓存项目结构，文件，task等，尽可能复用之前的编译成果，缩短编译过程<br>开启daemon很简单，以Mac为例，在家目录下的.gradle/gradle.properties文件（如没有，可需要新建文件），加上如下的代码即可。</p>
+<p>1<br>org.gradle.daemon=true<br>或者传递gradle参数</p>
+<p>1<br>./gradlew task –daemon<br>为了确保gradle配置生效，建议使用gradle —stop停止已有的daemon。</p>
+<p>1<br>./gradlew –stop<br>再次执行gradle任务就可以应用daemon了，留意的话，可以看到类似这样的日志输出。</p>
+<p>1<br>Starting a Gradle Daemon (subsequent builds will be faster)<br>设置heap大小</p>
+<p>为Gradle分配足够大的内存，则可以同样加速编译。如下修改文件gradle.properties</p>
+<p>1<br>org.gradle.jvmargs=-Xmx5120m -XX:MaxPermSize=2048m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8<br>由于Flipboard依赖繁多，且文件也多，并结合自身设备8G内存，这里为Gradle分配最大5G。效果目前看起来不错，大家可以根据自己的情况不断调整得到一个最优的值。</p>
+<p>开启offline</p>
+<p>开启offline之后，可以强制Gradle使用本地缓存的依赖，避免了网络读写操作，即使是需要从网络进行检查这些依赖。</p>
+<p>1<br>./gradlew –offline taskName<br>如上使用时，加上—offline参数即可。</p>
+<p>注意，如果是某个依赖在本地不存在，则会编译出错，解决方法，只需要暂时关闭offline,等依赖下载到本地后，在后续的执行中加入offline即可。</p>
+<p>设置并行构建</p>
+<p>现在的工程往往使用了很多模块，默认情况下Gradle处理多模块时，往往是挨个按顺序处理。可以想象，这种编译起来会有多慢。好在Gradle提供了并行构建的功能，可以让我们充分利用机器的性能，减少编译构建的时间。</p>
+<p>修改gradle.properties文件</p>
+<p>1<br>org.gradle.parallel=true<br>或向gradle传递参数</p>
+<p>1<br>./gradlew task –parallel<br>当我们配置完成，再次执行gradle task，会得到类似这样的信息，信息标明了开启Parallel以及每个task使用的线程信息。</p>
+<p>./gradlew clean –info</p>
+<p>Parallel execution is an incubating feature.<br>…….<br>:libs:x:clean (Thread[Task worker Thread 3,5,main]) completed. Took 0.005 secs.<br>:libs:xx:clean (Thread[Daemon worker Thread 3,5,main]) started.<br>:libs:xxx:clean (Thread[Task worker Thread 2,5,main]) completed. Took 0.003 secs.<br>:libs:xxxx:clean (Thread[Task worker Thread 3,5,main]) started.<br>:libs:xxxxx:clean (Thread[Task worker Thread 2,5,main]) started.<br>:libs:xxxxxx:clean (Thread[Task worker,5,main]) completed. Took 0.004 secs.<br>:libs:json-gson:clean (Thread[Task worker,5,main]) started.<br>多modules工程优化</p>
+<p>现在的一个Project往往有很多modules，导致我们的编译会变慢。使用—configure-on-demand会在执行任务时仅仅会配置相关的modules，而不是左右的modules。尤其是对于多模块的project来说，使用起来会有不小的提升。</p>
+<p>1<br>./gradlew assembleChinaFastDebug –configure-on-demand<br>尝试停止已有的daemon</p>
+<p>当我们开启了daemon有段时间后，会发现编译会变得慢了下来，这时候，我们可以尝试结束已有的daemon，确保后续的执行任务使用开启全新的daemon。如下停止已经存在的gradle daemon.</p>
+<p>1<br>2<br>3<br>./gradlew –stop<br>Stopping Daemon(s)<br>1 Daemon stopped<br>debug构建关闭proguard</p>
+<p>提到Proguard大家想到的都是代码混淆，其实除了代码混淆之外，Proguard还可以进行代码压缩，优化和预验证。这其中的代码优化可能会占据更多的时间。 比如一个开启了代码优化的配置如下</p>
+<p>1<br>-optimizationpasses 5<br>这就意味着这个代码优化会经过5次，即上一次的优化输出结果作为下一次的优化的输入。反反复复的分析，知道完成配置的次数。</p>
+<p>在Android中，我们可以配置debug禁用Proguard即可。</p>
+<p>9<br>buildTypes {<br>    debug {<br>        minifyEnabled false<br>    }</p>
+<pre><code>release {
+    minifyEnabled true
+}
+</code></pre><p>}<br>以Flipboard为例，当从设置optimizationpasses=5改成debug禁用proguard，编译时间减少了将近3分多钟。</p>
+<p>进行profile分析</p>
+<p>如果上面的所有配置可能到没有达到明显的效果，那么我们就应该使用profile功能来分析一下具体卡在哪里了。</p>
+<p>gradle提供了性能分析的功能，就profile，使用很简单，执行任务时带上—profile参数即可。比如</p>
+<p>1<br>./gradlew assembleChinaRelease –profile<br>待到执行完毕，在project根目录下的build/reports/profile目录有对应的结果文件，如profile-2017-04-08-23-06-37.html，使用浏览器打开，看到的效果是这样的 gradle profile summary</p>
+<p>从上面的summary可知，上面的主要耗时表现在Task Execution上，于是我们切换到Task Execution这个tab Gradle profile task execution</p>
+<p>我们可以发现上面的:apps:droidyue:crashlyticsUploadDeobsChinaRelease居然耗费了4m26.26s，那么这是一个什么任务呢？</p>
+<p>其实它是著名的bug收集工具crashlytics的上传混淆映射文件的操作，由于crashlytics的服务器在国外，导致这个网络操作会很慢。</p>
+<p>解决方法是，我们可以选择性的应用crashlytics插件，具体可以参考Error-prone,Google出品的Java和Android Bug分析利器中关于选择开启error-prone的部分。</p>
+<p>通过profile我们可以清晰地看出耗时的根源在哪里，并开始有的放矢地进行解决。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/22/插件化/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1233,404 +1715,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/Bitmap踩坑/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/17/Bitmap踩坑/" itemprop="url">
-                  Bitmap解图质量偏低
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
-                2017-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/17/Bitmap踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/Bitmap踩坑/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="第一篇-Bitmap加载图片便绿-画质偏低"><a href="#第一篇-Bitmap加载图片便绿-画质偏低" class="headerlink" title="第一篇 Bitmap加载图片便绿,画质偏低"></a>第一篇 Bitmap加载图片便绿,画质偏低</h3><p>现象描述:<br>    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低</p>
-<p>解决方法:<br>    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一系列参数，其中有一些配置会对我们有帮助,</p>
-<p><em>inPreferQualityOverSpeed</em></p>
-<blockquote>
-<p>API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为true，也可以解出高质量的图片，不过这回牺牲解图速度,目前这只对JPEG的编码有效</p>
-</blockquote>
-<p>以下为示例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/android4.1webp加载问题/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/17/android4.1webp加载问题/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
-                2017-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/17/android4.1webp加载问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/android4.1webp加载问题/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在华为android 4.1的手机上.webp格式的图片无法加载出来(setImageResourece不生效)</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/播放短促提示音的最佳办法/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/17/播放短促提示音的最佳办法/" itemprop="url">
-                  播放短促提示音的最佳办法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
-                2017-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/17/播放短促提示音的最佳办法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/播放短促提示音的最佳办法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="第一篇-播放短促的声音"><a href="#第一篇-播放短促的声音" class="headerlink" title="第一篇 播放短促的声音"></a>第一篇 播放短促的声音</h3><p>需求描述:<br>    在Android中播放声音,可能大部分人想到的都是MediaPlayer，但是该类会占用大量的系统资源,播放时还需要缓冲，存在较大的延迟,因此<br>短促游戏音效没法用这个去实现，系统提供一个类来完成这一个工作:</p>
-<p>SoudPool</p>
-<blockquote>
-<p>SoudPool设计的初衷就是用于无延时地播放游戏中的短促音效,因此实际开发中,使用该类声音资源不要超过7s，否则可能加载失败或者内存占用过大</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1678,7 +1762,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
