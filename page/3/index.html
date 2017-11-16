@@ -241,6 +241,309 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Git使用笔记/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/21/Git使用笔记/" itemprop="url">
+                  Git使用小结
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T05:53:27Z">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/21/Git使用笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Git使用笔记/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-文件权限的变更导致Git的变动"><a href="#1-文件权限的变更导致Git的变动" class="headerlink" title="1.文件权限的变更导致Git的变动"></a>1.文件权限的变更导致Git的变动</h2><blockquote>
+<blockquote>
+<p>在之前把开发环境由Windows转入Ubuntu之后，发现一个特别奇怪的问题，<br>就是AndroidStudio的文件经常改着改着突然所有的文件都出现了改动<br>仔细对比你会发现没有什么代码改动，这次无意中发现，是因为git对文件权限的改动也做了记录</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git忽视权限的变动&lt;毕竟文件权限不是我们关心的改变&gt;</div><div class="line">$ git config core.filemode false</div></pre></td></tr></table></figure>
+<h2 id="2-文件名大小写改动git不识别"><a href="#2-文件名大小写改动git不识别" class="headerlink" title="2.文件名大小写改动git不识别"></a>2.文件名大小写改动git不识别</h2><blockquote>
+<blockquote>
+<p>git 默认不区分文件名大小写</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//配置git 使其对文件名大小写敏感</div><div class="line">$ git config core.ignorecase false</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>也可以先删除,然后在添加 git rm xx , git add xx , git commit -m “xx”</p>
+</blockquote>
+</blockquote>
+<h2 id="3-强大的cherry-pick-将提交到A分支的commit提交到B分支"><a href="#3-强大的cherry-pick-将提交到A分支的commit提交到B分支" class="headerlink" title="3.强大的cherry-pick 将提交到A分支的commit提交到B分支"></a>3.强大的cherry-pick 将提交到A分支的commit提交到B分支</h2><blockquote>
+<blockquote>
+<p>场景复现 将原本该在dev分支的bug　fixed提交到了master分支 </p>
+</blockquote>
+</blockquote>
+<ol>
+<li>找到master刚提交的commit id </li>
+<li>切换到 dev　</li>
+<li>git cherry-pick “commit id xxx”</li>
+</ol>
+<h2 id="4-本地代码reset之后-push-failed"><a href="#4-本地代码reset之后-push-failed" class="headerlink" title="4.本地代码reset之后,push　failed"></a>4.本地代码reset之后,push　failed</h2><ol>
+<li>打开git bash 来操作</li>
+<li>切换到git托管的目录</li>
+<li>git push -f (force) //加上-f参数　强制刷新remote/origin/xxxxx</li>
+</ol>
+<h2 id="5-后续添加-gitignore不生效"><a href="#5-后续添加-gitignore不生效" class="headerlink" title="5.后续添加.gitignore不生效"></a>5.后续添加.gitignore不生效</h2><blockquote>
+<blockquote>
+<p>在用 Git 进行代码管理的过程中，我们会发现后添加进去的 .gitignore 文件，<br>或者是中途修改了 .gitignore 文件后，.gitignore 文件没有生效，我们需要通过清除 track 缓存和 强制 track 来解决问题</p>
+</blockquote>
+</blockquote>
+<p>Git 代码管理中，我们在没有添加 .gitignore 文件的前提下提交了代码之后再提交 .gitignore 文件，或者是中途添加某一文件类型到 .gitignore 文件中，需要通过以下命令行的方式，让 .gitignore 文件生效：<br>查看源代码打印帮助</p>
+<ol>
+<li><p>Git 代码管理中，我们在没有添加 .gitignore 文件的前提下提交了代码之后再提交 .gitignore 文件，或者是中途添加某一文件类型到 .gitignore 文件中，需要通过以下命令行的方式，让 .gitignore 文件生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//清除缓存</div><div class="line">git rm -r --cached .</div><div class="line">//添加</div><div class="line">git add .</div><div class="line">//提交</div><div class="line">git commit -m &quot;xxxxx&quot;</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果是中途从 .gitignore 文件中移除某一文件类型，想要这个文件类型重新被 track，需要通过以下命令行的方式，让 .gitignore 文件生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">//添加的时候加上-f参数</div><div class="line">git add -f *.class</div><div class="line">//提交</div><div class="line">git commit -m &quot;xxx&quot;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/ImageView的使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/21/ImageView的使用/" itemprop="url">
+                  ImageView的使用小手段
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T01:45:17Z">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/21/ImageView的使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/ImageView的使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="将ImageView的图片置空"><a href="#将ImageView的图片置空" class="headerlink" title="将ImageView的图片置空"></a>将ImageView的图片置空</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line"> * If this view doesn&apos;t do any drawing on its own, set this flag to</div><div class="line"> * allow further optimizations. By default, this flag is not set on</div><div class="line"> * View, but could be set on some View subclasses such as ViewGroup.</div><div class="line"> *</div><div class="line"> * Typically, if you override &#123;@link #onDraw(android.graphics.Canvas)&#125;</div><div class="line"> * you should clear this flag.</div><div class="line"> *</div><div class="line"> * @param willNotDraw whether or not this View draw on its own</div><div class="line"> */</div><div class="line">public void setWillNotDraw(boolean willNotDraw) &#123;</div><div class="line">    setFlags(willNotDraw ? WILL_NOT_DRAW : 0, DRAW_MASK);</div><div class="line">&#125;</div><div class="line">   </div><div class="line">　　　　//清空图片</div><div class="line">iv_show.setWillNotDraw(true)</div><div class="line">//清空图片</div><div class="line">iv_show.setWillNotDraw(false)</div><div class="line">iv_show.setImageResoure(R.di.img)</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Redex踩坑记/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -347,142 +650,6 @@
 <p>解决方案:<br>    添加zipalign到环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//添加zipaligin到环境变量 sdk/build-tool/xxx</div><div class="line">sudo vim /etv/profile</div><div class="line">export ZIP_HOME=xxxx</div><div class="line">PATH=...:$ZIP_HOME</div><div class="line"></div><div class="line">//刷新一下，让配置在窗口实时生效</div><div class="line">source /etc/profile</div></pre></td></tr></table></figure></p>
 <p>2.安装提示没有签名(因为修改了dex，所以必须要手动重新签名) &lt;以及4.4以下手机按照官网提示，重新签名之后仍不好使,<br>下面的命令可以搞定&gt;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Failure [INSTALL_PARSE_FAILED_NO_CERTIFICATES]</div></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//强大的</div><div class="line"> jarsigner  -digestalg SHA1 -sigalg MD5withRSA  -tsa https://timestamp.geotrust.com/tsa  -verbose -keystore ts_hz -signedjar output.apk(输入) input.apk(输入) alias(签名的alias)</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/Bitmap踩坑/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/17/Bitmap踩坑/" itemprop="url">
-                  Bitmap解图质量偏低
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
-                2017-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/17/Bitmap踩坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/Bitmap踩坑/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="第一篇-Bitmap加载图片便绿-画质偏低"><a href="#第一篇-Bitmap加载图片便绿-画质偏低" class="headerlink" title="第一篇 Bitmap加载图片便绿,画质偏低"></a>第一篇 Bitmap加载图片便绿,画质偏低</h3><p>现象描述:<br>    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低</p>
-<p>解决方法:<br>    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一系列参数，其中有一些配置会对我们有帮助,</p>
-<p><em>inPreferQualityOverSpeed</em></p>
-<blockquote>
-<p>API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为true，也可以解出高质量的图片，不过这回牺牲解图速度,目前这只对JPEG的编码有效</p>
-</blockquote>
-<p>以下为示例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
 
           
         
@@ -682,6 +849,142 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/Bitmap踩坑/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/17/Bitmap踩坑/" itemprop="url">
+                  Bitmap解图质量偏低
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
+                2017-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/17/Bitmap踩坑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/Bitmap踩坑/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="第一篇-Bitmap加载图片便绿-画质偏低"><a href="#第一篇-Bitmap加载图片便绿-画质偏低" class="headerlink" title="第一篇 Bitmap加载图片便绿,画质偏低"></a>第一篇 Bitmap加载图片便绿,画质偏低</h3><p>现象描述:<br>    Bitmap.decodeXXX(),解出的图片偏绿色，质量偏低</p>
+<p>解决方法:<br>    一般都是图片解码的时候压缩导致的，Bitmap在解码的时候可以配置一系列参数，其中有一些配置会对我们有帮助,</p>
+<p><em>inPreferQualityOverSpeed</em></p>
+<blockquote>
+<p>API24之后被废弃,即24之后,默认解图为高质量,24之前如果设置为true，也可以解出高质量的图片，不过这回牺牲解图速度,目前这只对JPEG的编码有效</p>
+</blockquote>
+<p>以下为示例代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">BitmapFactory.Options opt = <span class="keyword">new</span> BitmapFactory.Options();</div><div class="line">opt.inPreferQualityOverSpeed = <span class="keyword">true</span>;</div><div class="line">Bitmap res = BitmapFactory.decodeByteArray(imgData, <span class="number">0</span>, imgData.length, opt);</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/播放短促提示音的最佳办法/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -777,135 +1080,6 @@
 <blockquote>
 <p>SoudPool设计的初衷就是用于无延时地播放游戏中的短促音效,因此实际开发中,使用该类声音资源不要超过7s，否则可能加载失败或者内存占用过大</p>
 </blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/17/android4.1webp加载问题/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/17/android4.1webp加载问题/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-17T08:23:26Z">
-                2017-04-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/04/17/android4.1webp加载问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/17/android4.1webp加载问题/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在华为android 4.1的手机上.webp格式的图片无法加载出来(setImageResourece不生效)</p>
 
           
         
@@ -1562,206 +1736,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/OpenGL ES笔记-2/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/06/OpenGL ES笔记-2/" itemprop="url">
-                  OpenGL ES笔记-2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T06:13:41Z">
-                2017-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/06/OpenGL ES笔记-2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/06/OpenGL ES笔记-2/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<blockquote>
-<p>OpenGL　ES绘图基本概念，一个3D图形通常是由一些小的基本元素（顶点，边，面，多边形）构成，每个基本元素都可以单独来操作。</p>
-</blockquote>
-</blockquote>
-<p>###Vertex(顶点)</p>
-<blockquote>
-<p>&gt;</p>
-<ol>
-<li>顶点是3D建模时用到的最小构成元素，顶点定义为两条或是多条边交会的地方。在3D模型中一个顶点可以为多条边，<br>面或是多边形所共享。一个顶点也可以代表一个点光源或是Camera的位置</li>
-<li>在Android系统中可以使用一个浮点数数组来定义一个顶点，浮点数数组通常放在一个Buffer（java.nio)中来提高性能。</li>
-</ol>
-</blockquote>
-<ol>
-<li><p>顶点的定义:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//一个四边行的顶点</div><div class="line"></div><div class="line">private float vertices[] = &#123;</div><div class="line"> -1.0f,  1.0f, 0.0f,  // 0, Top Left</div><div class="line"> -1.0f, -1.0f, 0.0f,  // 1, Bottom Left</div><div class="line"> 1.0f, -1.0f, 0.0f,  // 2, Bottom Right</div><div class="line"> 1.0f,  1.0f, 0.0f,  // 3, Top Right</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-</li>
-<li><p>为了提高性能，通常将这些数组存放到java.io 中定义的Buffer类中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//一个Float类型的数据占４个字节,所以一共分配的字节数为数组长度*4</div><div class="line">ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);</div><div class="line">vbb.order(ByteOrder.nativeOrder());//转换成native字节序[大小端字节问题](http://www.bysocket.com/?p=615)</div><div class="line">FloatBuffer vertexBuffer = vbb.asFloatBuffer();</div><div class="line">vertexBuffer.put(vertices);</div><div class="line">vertexBuffer.position(0);</div></pre></td></tr></table></figure>
-</li>
-<li><p>OpenGL ES提供一个成为”管道Pipeline”的机制，这个管道定义了一些“开关”来控制OpenGL ES支持的某些功能，缺省情况这些功能是关闭的，如果需要使用OpenGL ES的这些功能，需要<strong>明确告知OpenGL “管道”打开所需功能</strong>。因此对于我们的这个示例，需要告诉OpenGL库打开 Vertex buffer以便传入顶点坐标Buffer。要注意的<strong>使用完某个功能之后，要关闭这个功能</strong>以免影响后续操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// Enabled the vertex buffer for writing and to be used during rendering.</div><div class="line">gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);</div><div class="line">// Specifies the location and data format of an array of vertex</div><div class="line">// coordinates to use when rendering.</div><div class="line">gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer); </div><div class="line">When you are done with the buffer don&apos;t forget to disable it.</div><div class="line">// Disable the vertices buffer.</div><div class="line">gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>###Edge(边)</p>
-<blockquote>
-<blockquote>
-<p>边定义为两个顶点之间的线段。边是面和多边形的边界线。在3D模型中，边可以被相邻的两个面或是多边形形共享。对一个边做变换将影响边相接的所有顶点，面或多边形。在OpenGL中，通常无需直接来定义一个边，而是通过顶点定义一个面，从而由面定义了其所对应的三条边。可以通过修改边的两个顶点来更改一条边</p>
-</blockquote>
-</blockquote>
-<p>###Face(面)</p>
-<blockquote>
-<p>&gt;</p>
-<ol>
-<li>在OpenGL ES中，面特指一个三角形，由三个顶点和三条边构成，对一个面所做的变化影响到连接面的所有顶点和边，面多边形。</li>
-<li>定义面的顶点的顺序很重要 在拼接曲面的时候，用来<strong>定义面的顶点的顺序非常重要</strong>，因为顶点的顺序定义了面的朝向（前向或是后向），为了获取绘制的高性能，一般情况不会绘制面的前面和后面，只绘制面的“前面”。虽然“前面”“后面”的定义可以应人而易，但一般为所有的“前面”定义统一的顶点顺序(顺时针或是逆时针方向）。</li>
-</ol>
-</blockquote>
-<p>相关示例代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//1. 下面代码设置逆时针方法为面的“前面”：</div><div class="line">gl.glFrontFace(GL10.GL_CCW);</div><div class="line"></div><div class="line">//2. 打开 忽略“后面”设置：</div><div class="line">gl.glEnable(GL10.GL_CULL_FACE);</div><div class="line"></div><div class="line">//3.明确指明“忽略“哪个面的代码如下：</div><div class="line">gl.glCullFace(GL10.GL_BACK);</div></pre></td></tr></table></figure></p>
-<p>###Polygon(多边形)</p>
-<blockquote>
-<p>&gt;<br>多边形由多个面（三角形）拼接而成，在三维空间上，多边形并一定表示这个Polygon在同一平面上。这里我们使用缺省的逆时针方向代表面的“前面Front)，</p>
-</blockquote>
-<p><img src="http://www.guidebee.info/wordpress/wp-content/uploads/2011/05/20110530006.png" alt="多边形便是"></p>
-<p>顶点下标顺序定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">private short[] indices = &#123; 0, 1, 2, 0, 2, 3 &#125;;</div><div class="line">To gain some performance we also put this ones in a byte buffer.</div><div class="line">// short is 2 bytes, therefore we multiply the number if vertices with 2.</div><div class="line">ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length * 2);</div><div class="line">ibb.order(ByteOrder.nativeOrder());</div><div class="line">ShortBuffer indexBuffer = ibb.asShortBuffer();</div><div class="line">indexBuffer.put(indices);</div><div class="line">indexBuffer.position(0);</div></pre></td></tr></table></figure></p>
-<p>###Render(渲染)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">OpenGL ES提供了两类方法来绘制一个空间几何图形：</div><div class="line"></div><div class="line">1. ```public abstract void glDrawArrays(int mode, int first, int count)   使用VetexBuffer 来绘制，顶点的顺序由vertexBuffer中的顺序指定。</div></pre></td></tr></table></figure></p>
-<ol>
-<li><figure class="highlight plain"><figcaption><span>abstract void glDrawElements(int mode, int count, int type, Buffer indices)  ，可以重新定义顶点的顺序，顶点的顺序由indices Buffer 指定。```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p>同样的顶点，可以定义的几何图形可以有所不同，比如三个顶点，可以代表三个独立的点，也可以表示一个三角形，<br>这就需要使用mode 来指明所需绘制的几何图形的基本类型。</p>
-</blockquote>
-</blockquote>
-<p>GL_POINTS (绘制成门内个独立的点)<br>GL_LINE_STRIP(按照顺序一次连接所有绘制点)<br>GL_LINE_LOOP(按照顺序一次连接所有绘制点，并且连接首尾)<br>GL_LINES (顶点两两相连,构成多条线段,多出来的点忽略)<br>GL_TRIANGLES(顶点每隔三个成三角形，构成多个<strong>分离</strong>三角形,多余忽略)<br>GL_TRIANGLE_STRIP (顶点每三个成三角形,0,1,2 1,2,3 2,3,4 构成相邻的三角形)<br>GL_TRIANGLE_FAN(以一个顶点为公共点，构成一系列相邻三角形)</p>
-<p>正方形代码示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public class Square &#123;</div><div class="line"> // Our vertices.</div><div class="line"> private float vertices[] = &#123;</div><div class="line"> -1.0f,  1.0f, 0.0f,  // 0, Top Left</div><div class="line"> -1.0f, -1.0f, 0.0f,  // 1, Bottom Left</div><div class="line"> 1.0f, -1.0f, 0.0f,  // 2, Bottom Right</div><div class="line"> 1.0f,  1.0f, 0.0f,  // 3, Top Right</div><div class="line"> &#125;;</div><div class="line"></div><div class="line"> // The order we like to connect them.</div><div class="line"> private short[] indices = &#123; 0, 1, 2, 0, 2, 3 &#125;;</div><div class="line"></div><div class="line"> // Our vertex buffer.</div><div class="line"> private FloatBuffer vertexBuffer;</div><div class="line"></div><div class="line"> // Our index buffer.</div><div class="line"> private ShortBuffer indexBuffer;</div><div class="line"></div><div class="line"> public Square() &#123;</div><div class="line"> // a float is 4 bytes, therefore we</div><div class="line"> // multiply the number if</div><div class="line"> // vertices with 4.</div><div class="line"> ByteBuffer vbb</div><div class="line"> = ByteBuffer.allocateDirect(vertices.length * 4);</div><div class="line"> vbb.order(ByteOrder.nativeOrder());</div><div class="line"> vertexBuffer = vbb.asFloatBuffer();</div><div class="line"> vertexBuffer.put(vertices);</div><div class="line"> vertexBuffer.position(0);</div><div class="line"></div><div class="line"> // short is 2 bytes, therefore we multiply</div><div class="line"> //the number if</div><div class="line"> // vertices with 2.</div><div class="line"> ByteBuffer ibb</div><div class="line"> = ByteBuffer.allocateDirect(indices.length * 2);</div><div class="line"> ibb.order(ByteOrder.nativeOrder());</div><div class="line"> indexBuffer = ibb.asShortBuffer();</div><div class="line"> indexBuffer.put(indices);</div><div class="line"> indexBuffer.position(0);</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> /**</div><div class="line"> * This function draws our square on screen.</div><div class="line"> * @param gl</div><div class="line"> */</div><div class="line"> public void draw(GL10 gl) &#123;</div><div class="line"> // Counter-clockwise winding.</div><div class="line"> gl.glFrontFace(GL10.GL_CCW);</div><div class="line"> // Enable face culling.</div><div class="line"> gl.glEnable(GL10.GL_CULL_FACE);</div><div class="line"> // What faces to remove with the face culling.</div><div class="line"> gl.glCullFace(GL10.GL_BACK);</div><div class="line"></div><div class="line"> // Enabled the vertices buffer for writing</div><div class="line"> //and to be used during</div><div class="line"> // rendering.</div><div class="line"> gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);</div><div class="line"> // Specifies the location and data format of</div><div class="line"> //an array of vertex</div><div class="line"> // coordinates to use when rendering.</div><div class="line"> gl.glVertexPointer(3, GL10.GL_FLOAT, 0,</div><div class="line"> vertexBuffer);</div><div class="line"></div><div class="line"> gl.glDrawElements(GL10.GL_TRIANGLES, indices.length,</div><div class="line"> GL10.GL_UNSIGNED_SHORT, indexBuffer);</div><div class="line"></div><div class="line"> // Disable the vertices buffer.</div><div class="line"> gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);</div><div class="line"> // Disable face culling.</div><div class="line"> gl.glDisable(GL10.GL_CULL_FACE);</div><div class="line"> &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">//合适的地方直接实例化该对象,调用draw方法即可</div></pre></td></tr></table></figure></p>
-<p><strong>tips</strong></p>
-<blockquote>
-<blockquote>
-<p>　</p>
-<ol>
-<li>编译运行，什么也没显示，这是为什么呢？这是因为OpenGL ES从当前位置开始渲染，缺省坐标为(0,0,0)，和View port 的坐标一样，相当于把画面放在眼前，对应这种情况OpenGL不会渲染离view Port很近的画面，因此我们需要将画面向后退一点距离：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// Translates 4 units into the screen.</div><div class="line">gl.glTranslatef(0, 0, -4);</div></pre></td></tr></table></figure>
-</li>
-</ol>
-</blockquote>
-</blockquote>
-<ol>
-<li>为每次调用onDrawFrame 时，每次都再向后移动4个单位，需要加上重置Matrix的代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// Replace the current matrix with the identity matrix</div><div class="line">gl.glLoadIdentity();</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>完整示例代码:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public void onDrawFrame(GL10 gl) &#123;</div><div class="line"> // Clears the screen and depth buffer.</div><div class="line"> gl.glClear(GL10.GL_COLOR_BUFFER_BIT |</div><div class="line"> GL10.GL_DEPTH_BUFFER_BIT);</div><div class="line"> gl.glLoadIdentity();</div><div class="line"> gl.glTranslatef(0, 0, -4);</div><div class="line"> // Draw our square.</div><div class="line"> square.draw(gl); // ( NEW )</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1809,7 +1783,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

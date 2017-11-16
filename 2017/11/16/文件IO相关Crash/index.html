@@ -84,28 +84,16 @@
 
 
 
-<meta name="description" content="java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@47a540 
-
-
-遍历了一遍代码，所有设置bitmap的地方都有判断
-123if (mOriBmp != null &amp;amp;&amp;amp; !mOriBmp.isRecycled()) &amp;#123;    mI">
+<meta name="description" content="java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)先对要删除的文件进行重命名，然后再删除。这样删除过程中的文件锁就加在另一个文件上了，不会影响再次创建的过程。1234File file = new File(&amp;quot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Bitmap回收导致的一个Crash">
-<meta property="og:url" content="http://yoursite.com/2017/04/21/Bitmap回收导致的一个Crash/index.html">
+<meta property="og:title" content="IO相关Crash">
+<meta property="og:url" content="http://yoursite.com/2017/11/16/文件IO相关Crash/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@47a540 
-
-
-遍历了一遍代码，所有设置bitmap的地方都有判断
-123if (mOriBmp != null &amp;amp;&amp;amp; !mOriBmp.isRecycled()) &amp;#123;    mI">
-<meta property="og:updated_time" content="2017-04-21T07:08:57.363Z">
+<meta property="og:description" content="java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)先对要删除的文件进行重命名，然后再删除。这样删除过程中的文件锁就加在另一个文件上了，不会影响再次创建的过程。1234File file = new File(&amp;quot">
+<meta property="og:updated_time" content="2017-11-16T03:48:14.789Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bitmap回收导致的一个Crash">
-<meta name="twitter:description" content="java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@47a540 
-
-
-遍历了一遍代码，所有设置bitmap的地方都有判断
-123if (mOriBmp != null &amp;amp;&amp;amp; !mOriBmp.isRecycled()) &amp;#123;    mI">
+<meta name="twitter:title" content="IO相关Crash">
+<meta name="twitter:description" content="java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)先对要删除的文件进行重命名，然后再删除。这样删除过程中的文件锁就加在另一个文件上了，不会影响再次创建的过程。1234File file = new File(&amp;quot">
 
 
 
@@ -133,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/04/21/Bitmap回收导致的一个Crash/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/16/文件IO相关Crash/"/>
 
 
 
 
 
-  <title> Bitmap回收导致的一个Crash | 蒲公英,随风海角天涯 </title>
+  <title> IO相关Crash | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -252,7 +240,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/Bitmap回收导致的一个Crash/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/16/文件IO相关Crash/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -276,7 +264,7 @@
             
             
               
-                Bitmap回收导致的一个Crash
+                IO相关Crash
               
             
           </h1>
@@ -291,8 +279,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T15:08:57+08:00">
-                2017-04-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-16T03:48:14Z">
+                2017-11-16
               </time>
             
 
@@ -310,8 +298,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/04/21/Bitmap回收导致的一个Crash/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/04/21/Bitmap回收导致的一个Crash/" itemprop="commentCount"></span>
+                <a href="/2017/11/16/文件IO相关Crash/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/16/文件IO相关Crash/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -337,16 +325,7 @@
       
 
       
-        <blockquote>
-<blockquote>
-<p> java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@47a540 </p>
-</blockquote>
-</blockquote>
-<p>遍历了一遍代码，所有设置bitmap的地方都有判断</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (mOriBmp != null &amp;&amp; !mOriBmp.isRecycled()) &#123;</div><div class="line">    mIvShow.setImageBitmap(mOriBmp);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>错误是报在 CustomImageView的onDraw()方法中,即界面被重新绘制的时候<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    protected void onDraw(Canvas canvas) &#123;</div><div class="line">        super.onDraw(canvas);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后搜索了整个页面,只有在OnDestroy方法中调用了 Bitmap.recycl()方法 然后并不是这里问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> @Override</div><div class="line"> protected void onDestroy() &#123;</div><div class="line">        if (mOriBmp != null &amp;&amp; !mOriBmp.isRecycled()) &#123;</div><div class="line">            mOriBmp.recycle();</div><div class="line">            mOriBmp = null;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>问题解决:<br>    场景 有一个bitmap对象 是全局的，会多次使用改bitmap，每次使用之前对它进行回收处理,导致切到后台之后再回来，点击处理，把上一个正在显示图片给回收了，重新绘制页面的时候<br>由于绘制了被回收的bitmap</p>
+        <h3 id="java-io-FileNotFoundException-storage-emulated-0-DCIM-Camera-xxx-jpg-open-failed-EBUSY-Device-or-resource-busy"><a href="#java-io-FileNotFoundException-storage-emulated-0-DCIM-Camera-xxx-jpg-open-failed-EBUSY-Device-or-resource-busy" class="headerlink" title="java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)"></a>java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)</h3><p><strong><em>先对要删除的文件进行重命名，然后再删除。这样删除过程中的文件锁就加在另一个文件上了，不会影响再次创建的过程。</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">File file = new File(&quot;&quot;);</div><div class="line">File to = new File(file.getAbsolutePath() + System.currentTimeMillis());  </div><div class="line">file.renameTo(to);  </div><div class="line">to.delete();</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -373,8 +352,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/21/App优化之启动速度优化/" rel="next" title="App优化之启动速度">
-                <i class="fa fa-chevron-left"></i> App优化之启动速度
+              <a href="/2017/10/09/viewpager踩坑记录/" rel="next" title="viewpager踩坑记录">
+                <i class="fa fa-chevron-left"></i> viewpager踩坑记录
               </a>
             
           </div>
@@ -382,10 +361,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/22/插件化/" rel="prev" title="">
-                 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -411,8 +386,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/04/21/Bitmap回收导致的一个Crash/"
-           data-title="Bitmap回收导致的一个Crash" data-url="http://yoursite.com/2017/04/21/Bitmap回收导致的一个Crash/">
+      <div class="ds-thread" data-thread-key="2017/11/16/文件IO相关Crash/"
+           data-title="IO相关Crash" data-url="http://yoursite.com/2017/11/16/文件IO相关Crash/">
       </div>
     
   </div>
@@ -436,8 +411,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -450,7 +434,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -479,6 +463,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#java-io-FileNotFoundException-storage-emulated-0-DCIM-Camera-xxx-jpg-open-failed-EBUSY-Device-or-resource-busy"><span class="nav-number">1.</span> <span class="nav-text">java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

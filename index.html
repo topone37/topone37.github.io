@@ -241,6 +241,597 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/16/文件IO相关Crash/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/11/16/文件IO相关Crash/" itemprop="url">
+                  IO相关Crash
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-16T03:48:14Z">
+                2017-11-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/11/16/文件IO相关Crash/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/16/文件IO相关Crash/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="java-io-FileNotFoundException-storage-emulated-0-DCIM-Camera-xxx-jpg-open-failed-EBUSY-Device-or-resource-busy"><a href="#java-io-FileNotFoundException-storage-emulated-0-DCIM-Camera-xxx-jpg-open-failed-EBUSY-Device-or-resource-busy" class="headerlink" title="java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)"></a>java.io.FileNotFoundException: /storage/emulated/0/DCIM/Camera/xxx.jpg: open failed: EBUSY (Device or resource busy)</h3><p><strong><em>先对要删除的文件进行重命名，然后再删除。这样删除过程中的文件锁就加在另一个文件上了，不会影响再次创建的过程。</em></strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">File file = new File(&quot;&quot;);</div><div class="line">File to = new File(file.getAbsolutePath() + System.currentTimeMillis());  </div><div class="line">file.renameTo(to);  </div><div class="line">to.delete();</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/09/viewpager踩坑记录/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/10/09/viewpager踩坑记录/" itemprop="url">
+                  viewpager踩坑记录
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-09T02:51:22Z">
+                2017-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/10/09/viewpager踩坑记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/10/09/viewpager踩坑记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<blockquote>
+<p> java.lang.IndexOutOfBoundsException: Invalid index 0, size is 0<br>    at java.util.ArrayList.throwIndexOutOfBoundsException(ArrayList.java:255)<br>    at java.util.ArrayList.get(ArrayList.java:308)<br>    at android.support.v4.view.ViewPager.performDrag(ViewPager.java:2343)<br>    at android.support.v4.view.ViewPager.onTouchEvent(ViewPager.java:2262)<br>    at android.view.View.dispatchTouchEvent(View.java:8400)</p>
+</blockquote>
+</blockquote>
+<p>解决方法,通过自定义ViewPager来解决<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">public class CustomViewPager extends ViewPager &#123;</div><div class="line">    public boolean enabled = true;</div><div class="line"></div><div class="line">    public CustomViewPager(Context context) &#123;</div><div class="line">        super(context);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public CustomViewPager(Context context, AttributeSet attrs) &#123;</div><div class="line">        super(context, attrs);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean onTouchEvent(MotionEvent ev) &#123;</div><div class="line">        if(this.enabled) &#123;</div><div class="line">            if (getCurrentItem() == 0 &amp;&amp; getChildCount() == 0) &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line">            return super.onTouchEvent(ev);</div><div class="line">        &#125; else &#123;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public boolean onInterceptTouchEvent(MotionEvent ev) &#123;</div><div class="line">        if(this.enabled) &#123;</div><div class="line">            if (getCurrentItem() == 0 &amp;&amp; getChildCount() == 0) &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line">            return super.onInterceptTouchEvent(ev);</div><div class="line">        &#125; else &#123;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/03/shell脚本记录/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/08/03/shell脚本记录/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-03T07:38:31Z">
+                2017-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/03/shell脚本记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/03/shell脚本记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>记录几条命令：（打包当前目录下的所有文件）</p>
+<p>ls | awk ‘{ print “tar zcvf “$0”.tar.gz “ $0|”/bin/bash” }’</p>
+<p>（取范围）</p>
+<p>[root@VM-202 zhuo]# echo “abc#1233+232@jjjj?===” |awk -F ‘[#@]’ ‘{print $2}’<br>1233+232</p>
+<p>[root@VM-202 zhuo]# echo “abc#1233+232@jjjj?===” |awk -F ‘[@?]’ ‘{print $2}’<br>jjjj</p>
+<p>awk ‘/^[^$]/ {print $0}’ test.txt        匹配非空行</p>
+<p>awk ‘/^[^zhuo]/ {print $0}’ test.txt        匹配非包含zhuo的</p>
+<p>替换（将：替换成#）</p>
+<p>[root@VM-202 zhuo]# echo “zhuo:x:503:504::/home/zhuo:/bin/bash” |awk ‘gsub(/:/,”#”) {print $0}’<br>zhuo#x#503#504##/home/zhuo#/bin/bash</p>
+<p>you.txt文档内容</p>
+<p>1<br>2<br>3<br>4</p>
+<blockquote>
+<blockquote>
+<p>列求和： cat you.txt |awk ‘{a+=$1}END{print a}’</p>
+<p>列求平均值：cat you.txt |awk ‘{a+=$1}END{print a/NR}’</p>
+<p>列求最大值：cat you.txt |awk ‘BEGIN{a=0}{if ($1&gt;a) a=$1 fi}END{print a}’  </p>
+</blockquote>
+</blockquote>
+<p>设定一个变量开始为0，遇到比该数大的值，就赋值给该变量，直到结束。</p>
+<p>求最小值：cat you.txt |awk ‘BEGIN{a=11111}{if ($1&lt;a) a=$1 fi}END{print a}’    反之</p>
+<p><strong><strong><strong><em>__</em></strong></strong></strong>求全文的最值</p>
+<p>例：求test.txt的最值</p>
+<p>12 34 56 78<br>24 65 87 90<br>76 11 67 87<br>100 89 78 99</p>
+<p>for i in <code>cat test.txt</code> ;do echo $i; done |sort |sed -n ‘1p;2p’</p>
+<p>例2：同样是test.txt</p>
+<p>求总和：for i in <code>cat you.txt</code>;do echo $i ;done |awk ‘{a+=$1}END{print a}’</p>
+<hr>
+<p>例3：</p>
+<p>A     88<br>B     78<br>B     89<br>C     44<br>A     98<br>C     433<br>要求输出：A：88；98</p>
+<pre><code>B：78；89
+
+C：44；433
+</code></pre><p>awk ‘{a[$1]=a[$1]” “$2}END{for(i in a)print i,a[i]}’ test.txt |awk ‘{print $1”:”,$2”;”,$3}’</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/26/JNI错误记录/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/26/JNI错误记录/" itemprop="url">
+                  未命名
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-26T09:57:33Z">
+                2017-07-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/26/JNI错误记录/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/26/JNI错误记录/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">E/dalvikvm(30944): JNI ERROR (app bug): accessed stale local reference 0xbc00021 (index 8 in a table of size 8)</div><div class="line">E/dalvikvm(30944): VM aborting</div><div class="line">A/libc(30944): Fatal signal 11 (SIGSEGV) at 0xdeadd00d (code=1), thread 30944 (oid.temperature)</div><div class="line">`</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<blockquote>
+<p>字面意思是引用了一个已经过时的本地引用,比如你引用一个被干掉的jobject对象</p>
+<p>现在它在垃圾回收过程中移动对象，这可能会导致很多问题。想象一下，你有一个静态变量指向一个对象，然后这个对象被gc移动。由于android使用java对象的直接指针，这意味着您的静态变量现在指向内存中的随机地址，由任何对象占用或被不同排序对象占用。这几乎可以保证您下次使用此变量时将获得EXC_BAD_ACCESS。所以android给你的JNI错误（应用程序错误）错误，以防止你得到不可缓解的EXC_BAD_ACCESS。现在有两种方法来避免这个错误。您可以将清单中的targetSdkVersion设置为11或更低版本。这将启用JNI错误兼容性模式并防止任何问题。这就是为什么你的老例子正在工作的原因。您可以通过调用env-&gt; NewGlobalRef（ref）来避免使用指向java对象的静态变量或使jobject引用全局，然后再存储它们。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">jclass activityThread ;</div><div class="line">jclass tmp = env-&gt;FindClass(&quot;android/app/ActivityThread&quot; );</div><div class="line">activityThread = (jclass)env-&gt;NewGlobalRef(tmp);// &lt;记得调用相应的方法进行释放&gt;</div></pre></td></tr></table></figure>
+<p>2.给一个结构体的char * 类型的属性赋值,乱码现象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">StickerData * stickerData = (StickerData *) malloc( sizeof(StickerData) );</div><div class="line">const char * path = env-&gt;GetStringUTFChars(jpath,0);</div><div class="line">size_t length = strlen(path);</div><div class="line">stickerData-&gt;path =(char *) malloc(length * sizeof(char));</div><div class="line">strcpy(  stickerData-&gt;path, path);</div><div class="line">env-&gt;ReleaseStringUTFChars(jpath,path);</div></pre></td></tr></table></figure>
+<p>3.数组对象没有释放,导致crash<br>/<em>*从Java 传递来素材大小相关数据</em>/<br>    jfieldID    fidstdSize    = env-&gt;GetFieldID( clazz_stickerInfo, “stdSize”, “[I” );<br>    jintArray    stdSize        = (jintArray) env-&gt;GetObjectField( stickerInfo, fidstdSize );</p>
+<p>jint    *intArr_stdSize = env-&gt;GetIntArrayElements( stdSize, NULL );</p>
+<pre><code>TSSize        * stdPhotoFrame = (TSSize *) malloc( sizeof(TSSize) );
+stdPhotoFrame-&gt;width    = intArr_stdSize[0];
+stdPhotoFrame-&gt;height    = intArr_stdSize[1];
+</code></pre><p>env-&gt;ReleaseIntArrayElements( stdSize, intArr_stdSize, 0 );</p>
+<ol>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div><div class="line">449</div><div class="line">450</div><div class="line">451</div><div class="line">452</div><div class="line">453</div><div class="line">454</div><div class="line">455</div><div class="line">456</div><div class="line">457</div><div class="line">458</div><div class="line">459</div><div class="line">460</div><div class="line">461</div><div class="line">462</div><div class="line">463</div><div class="line">464</div><div class="line">465</div><div class="line">466</div><div class="line">467</div><div class="line">468</div><div class="line">469</div><div class="line">470</div><div class="line">471</div><div class="line">472</div><div class="line">473</div><div class="line">474</div><div class="line">475</div><div class="line">476</div><div class="line">477</div><div class="line">478</div><div class="line">479</div><div class="line">480</div><div class="line">481</div><div class="line">482</div><div class="line">483</div><div class="line">484</div><div class="line">485</div><div class="line">486</div><div class="line">487</div><div class="line">488</div><div class="line">489</div><div class="line">490</div><div class="line">491</div><div class="line">492</div><div class="line">493</div><div class="line">494</div><div class="line">495</div><div class="line">496</div><div class="line">497</div><div class="line">498</div><div class="line">499</div><div class="line">500</div><div class="line">501</div><div class="line">502</div><div class="line">503</div><div class="line">504</div><div class="line">505</div><div class="line">506</div><div class="line">507</div><div class="line">508</div><div class="line">509</div><div class="line">510</div><div class="line">511</div></pre></td><td class="code"><pre><div class="line">#include &lt;jni.h&gt;</div><div class="line">#include &quot;ts-halloween.h&quot;</div><div class="line">#include &quot;offscreen.h&quot;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &quot;jnilogger.h&quot;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">#include &quot;sticker_util.h&quot;</div><div class="line">#ifdef __cplusplus</div><div class="line">extern &quot;C&quot; &#123;</div><div class="line">#endif</div><div class="line"></div><div class="line"></div><div class="line">void destoryScence( TSScene *sence, int count )</div><div class="line">&#123;</div><div class="line">	if ( sence != NULL )</div><div class="line">	&#123;</div><div class="line">		for ( int i = 0; i &lt; count; i++ )</div><div class="line">		&#123;</div><div class="line">			destoryTSSticker( sence[i].stickers, sence[i].count );</div><div class="line">		&#125;</div><div class="line">		free( sence );</div><div class="line">		sence = NULL;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void destoryTSSticker( TSSticker *sticker, size_t frameCount )</div><div class="line">&#123;</div><div class="line">	if ( sticker != NULL )</div><div class="line">	&#123;</div><div class="line">		for ( int i = 0; i &lt; frameCount; i++ )</div><div class="line">		&#123;</div><div class="line">			/* destory_offscreen( sticker[i].image ); */</div><div class="line">			TSStickerInfo * info = sticker[i].info;</div><div class="line"></div><div class="line">			if ( info != NULL )</div><div class="line">			&#123;</div><div class="line">				if ( info-&gt;name != NULL )</div><div class="line">				&#123;</div><div class="line">					free( (char *) (info-&gt;name) );</div><div class="line">					info-&gt;name = NULL;</div><div class="line">				&#125;</div><div class="line">				if ( info-&gt;stdPhotoFrame != NULL )</div><div class="line">				&#123;</div><div class="line">					free( info-&gt;stdPhotoFrame );</div><div class="line">					info-&gt;stdPhotoFrame = NULL;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				if ( info-&gt;type == TS_STICKER_TYPE_JEWELRY )</div><div class="line">				&#123;</div><div class="line">					TSJewelryInfo * newinfo = (TSJewelryInfo *) info;</div><div class="line">					if ( newinfo-&gt;anchors != NULL )</div><div class="line">					&#123;</div><div class="line">						free( (int *) (newinfo-&gt;anchors) );</div><div class="line">						newinfo-&gt;anchors = NULL;</div><div class="line">					&#125;</div><div class="line">					if ( newinfo-&gt;stickerAnchors != NULL )</div><div class="line">					&#123;</div><div class="line">						free( (TPOINT *) (newinfo-&gt;stickerAnchors) );</div><div class="line">						newinfo-&gt;stickerAnchors = NULL;</div><div class="line">					&#125;</div><div class="line">					if ( newinfo-&gt;triangles != NULL )</div><div class="line">					&#123;</div><div class="line">						free( (uint16_t *) (newinfo-&gt;triangles) );</div><div class="line">						newinfo-&gt;triangles = NULL;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				free( sticker[i].info );</div><div class="line">				sticker[i].info = NULL;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		free( sticker );</div><div class="line">		sticker = NULL;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * *获取Context</div><div class="line"> */</div><div class="line"></div><div class="line">jobject getGlobalContext( JNIEnv *env )</div><div class="line">&#123;</div><div class="line">	jobject context = NULL;</div><div class="line">	jclass	tmp	= env-&gt;FindClass( &quot;android/app/ActivityThread&quot; );</div><div class="line">	if ( tmp != NULL )</div><div class="line">	&#123;</div><div class="line">		jclass		activityThread		= (jclass) env-&gt;NewGlobalRef( tmp );</div><div class="line">		jmethodID	currentActivityThread	= env-&gt;GetStaticMethodID( activityThread,</div><div class="line">										  &quot;currentActivityThread&quot;,</div><div class="line">										  &quot;()Landroid/app/ActivityThread;&quot; );</div><div class="line">		jobject		at		= env-&gt;CallStaticObjectMethod( activityThread, currentActivityThread );</div><div class="line">		jmethodID	getApplication	= env-&gt;GetMethodID( activityThread, &quot;getApplication&quot;,</div><div class="line">								    &quot;()Landroid/app/Application;&quot; );</div><div class="line">		context = env-&gt;CallObjectMethod( at, getApplication );</div><div class="line"></div><div class="line"></div><div class="line">		env-&gt;DeleteLocalRef( tmp );</div><div class="line">		env-&gt;DeleteGlobalRef( activityThread );</div><div class="line">		env-&gt;DeleteLocalRef( at );</div><div class="line">	&#125;</div><div class="line">	if ( context == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;context is NULL!!!&quot; );</div><div class="line">	&#125;</div><div class="line">	return(context);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">jobject getBitmapFromJavaByPath( StickerData * data )</div><div class="line">&#123;</div><div class="line">	/* 提供图片路径,调用Java方法获取Bitmap对象 */</div><div class="line">	JNIEnv		*env		= data-&gt;jenv;</div><div class="line">	jmethodID	mid_construct	= NULL, mid_instance = NULL;</div><div class="line">	jobject		jobj		= NULL; /* resProvider instance */</div><div class="line">	jstring		str_arg		= NULL;</div><div class="line">	jclass		class_res	= NULL;</div><div class="line">	jobject		bmp		= NULL;</div><div class="line"></div><div class="line">	jclass tmp = env-&gt;FindClass( &quot;com/ufotosoft/sticker/ResProvider&quot; );</div><div class="line">	class_res = (jclass) env-&gt;NewGlobalRef( tmp );</div><div class="line">	if ( class_res == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t found ResProvider &quot; );</div><div class="line">		return(bmp);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 2、获取类的构造方法ID(需要传入Context) */</div><div class="line"></div><div class="line">	mid_construct = env-&gt;GetMethodID( class_res, &quot;&lt;init&gt;&quot;, &quot;(Landroid/content/Context;)V&quot; );</div><div class="line">	if ( mid_construct == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find constrict&quot; );</div><div class="line">		return(bmp);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 3、查找实例方法的ID */</div><div class="line"></div><div class="line">	mid_instance = env-&gt;GetMethodID( class_res, &quot;getBitmapByPath&quot;, &quot;(Ljava/lang/String;)Landroid/graphics/Bitmap;&quot; );</div><div class="line">	if ( mid_instance == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find getBitmapByPath method&quot; );</div><div class="line">		return(bmp);</div><div class="line">	&#125;</div><div class="line">	jobject context = getGlobalContext( env );</div><div class="line">	if ( context != NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;context ! = NULL!!!&quot; );</div><div class="line">		/* 4、创建该类的实例 */</div><div class="line">		jobj = env-&gt;NewObject( class_res, mid_construct, context );</div><div class="line">		if ( jobj == NULL )</div><div class="line">		&#123;</div><div class="line">			LOGE( &quot;init ResProvider instance failed&quot; );</div><div class="line">			return(bmp);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		/* 5、调用对象的实例方法 */</div><div class="line">		jstring jpath = env-&gt;NewStringUTF( data-&gt;path );</div><div class="line">		bmp = env-&gt;CallObjectMethod( jobj, mid_instance, jpath );</div><div class="line">	&#125;else&#123;</div><div class="line">		LOGE( &quot;context is NULL!!!&quot; );</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/*</div><div class="line">	 * 删除局部引用</div><div class="line">	 **/</div><div class="line">	if ( tmp != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( tmp );</div><div class="line">		tmp = NULL;</div><div class="line">	&#125;</div><div class="line">	if ( class_res != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteGlobalRef( class_res );</div><div class="line">		class_res = NULL;</div><div class="line">	&#125;</div><div class="line">	if ( context != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( context );</div><div class="line">		context = NULL;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if ( jobj != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( jobj );</div><div class="line">		jobj = NULL;</div><div class="line">	&#125;</div><div class="line">	if ( str_arg != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( str_arg );</div><div class="line">		str_arg = NULL;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return(bmp);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void  releaseBitmapFromJavaByPath( StickerData * data )</div><div class="line">&#123;</div><div class="line">	/* 提供图片路径,调用Java方法释放bitmap资源 */</div><div class="line">	JNIEnv		*env		= data-&gt;jenv;</div><div class="line">	jmethodID	mid_construct	= NULL, mid_instance = NULL;</div><div class="line">	jobject		jobj		= NULL;</div><div class="line">	jstring		str_arg		= NULL;</div><div class="line">	jclass		class_res	= NULL;</div><div class="line"></div><div class="line"></div><div class="line">	jclass tmp = env-&gt;FindClass( &quot;com/ufotosoft/sticker/ResProvider&quot; );</div><div class="line">	class_res = (jclass) env-&gt;NewGlobalRef( tmp );</div><div class="line">	if ( class_res == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t found ResProvider &quot; );</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 2、获取类的构造方法ID(需要传入Context) */</div><div class="line"></div><div class="line">	mid_construct = env-&gt;GetMethodID( class_res, &quot;&lt;init&gt;&quot;, &quot;(Landroid/content/Context;)V&quot; );</div><div class="line">	if ( mid_construct == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find constrict&quot; );</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 3、查找实例方法的ID */</div><div class="line">	mid_instance = env-&gt;GetMethodID( class_res, &quot;releaseBitmapByPath&quot;, &quot;(Ljava/lang/String;)V&quot; );</div><div class="line">	if ( mid_instance == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find getBitmapByPath method&quot; );</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	jobject context = getGlobalContext( env );</div><div class="line"></div><div class="line">	if ( context != NULL )</div><div class="line">	&#123;</div><div class="line">		/* 4、创建该类的实例 */</div><div class="line">		jobj = env-&gt;NewObject( class_res, mid_construct, context );</div><div class="line">		if ( jobj == NULL )</div><div class="line">		&#123;</div><div class="line">			LOGE( &quot;init ResProvider instance failed&quot; );</div><div class="line">			return;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		/* 5、调用对象的实例方法 */</div><div class="line">		jstring jpath = env-&gt;NewStringUTF( data-&gt;path );</div><div class="line">		env-&gt;CallVoidMethod( jobj, mid_instance, jpath );</div><div class="line"></div><div class="line"></div><div class="line">		/*</div><div class="line">		 * 删除局部引用</div><div class="line">		 **/</div><div class="line">		if ( tmp != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( tmp );</div><div class="line">			tmp = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( class_res != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteGlobalRef( class_res );</div><div class="line">			class_res = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( context != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( context );</div><div class="line">			context = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( jobj != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( jobj );</div><div class="line">			jobj = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( str_arg != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( str_arg );</div><div class="line">			str_arg = NULL;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	if ( data-&gt;path != NULL )</div><div class="line">	&#123;</div><div class="line">		free( data-&gt;path );</div><div class="line">		data-&gt;path = NULL;</div><div class="line">	&#125;</div><div class="line">	if( data != NULL )</div><div class="line">	&#123;</div><div class="line">	    free( data );</div><div class="line">	    data = NULL;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">TSOFFSCREEN getStickerData( StickerData *data )</div><div class="line">&#123;</div><div class="line">	TSOFFSCREEN *os = (TSOFFSCREEN *) malloc( sizeof(TSOFFSCREEN) );</div><div class="line">	if ( data == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;data is null&quot; );</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	JNIEnv * env = data-&gt;jenv;</div><div class="line">	if ( env == NULL )</div><div class="line">	&#123;</div><div class="line">		return(*os);</div><div class="line">	&#125;</div><div class="line">	if ( data-&gt;path != NULL )</div><div class="line">	&#123;</div><div class="line">		jobject bmp = getBitmapFromJavaByPath( data );</div><div class="line">		if ( bmp != NULL )</div><div class="line">		&#123;</div><div class="line">			AndroidBitmap_lockPixels_to_offscreen( data-&gt;jenv, bmp, os );</div><div class="line">			AndroidBitmap_unlockPixels( data-&gt;jenv, bmp );</div><div class="line">		&#125;else&#123;</div><div class="line">			LOGE( &quot;bitmap from java is null&quot; );</div><div class="line">		&#125;</div><div class="line">	&#125;else&#123;</div><div class="line">		LOGE( &quot;path is NULL&quot; );</div><div class="line">	&#125;</div><div class="line">	return(*os);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void releaseStickerData( StickerData * data )</div><div class="line">&#123;</div><div class="line">	if ( data-&gt;img != NULL )</div><div class="line">	&#123;</div><div class="line">		destory_offscreen( data-&gt;img );</div><div class="line">		data-&gt;img = NULL;</div><div class="line">	&#125;</div><div class="line">	releaseBitmapFromJavaByPath( data );</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">TSSize getStickerSize( StickerData * data )</div><div class="line">&#123;</div><div class="line">	if ( data != NULL )</div><div class="line">	&#123;</div><div class="line">		return(data-&gt;size);</div><div class="line">	&#125;else&#123;</div><div class="line">		LOGE( &quot;data is null&quot; );</div><div class="line">		TSSize size = &#123; 0, 0 &#125;;</div><div class="line">		return(size);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">TSStickerInfo * createInfo( JNIEnv * env, jobject bmp, jobject stickerInfo )</div><div class="line">&#123;</div><div class="line">	jclass clazz_stickerInfo = env-&gt;GetObjectClass( stickerInfo );</div><div class="line">	if ( clazz_stickerInfo == NULL )</div><div class="line">	&#123;</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	jfieldID	fidSid	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;sid&quot;, &quot;I&quot; );</div><div class="line">	jint		sid	= (jint) env-&gt;GetIntField( stickerInfo, fidSid );</div><div class="line"></div><div class="line">	/**从Java 传递来素材大小相关数据*/</div><div class="line">	jfieldID	fidstdSize	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;stdSize&quot;, &quot;[I&quot; );</div><div class="line">	jintArray	stdSize		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidstdSize );</div><div class="line">	jint		*intArr_stdSize = env-&gt;GetIntArrayElements( stdSize, NULL );</div><div class="line">	TSSize		* stdPhotoFrame = (TSSize *) malloc( sizeof(TSSize) );</div><div class="line">	stdPhotoFrame-&gt;width	= intArr_stdSize[0];</div><div class="line">	stdPhotoFrame-&gt;height	= intArr_stdSize[1];</div><div class="line">	env-&gt;ReleaseIntArrayElements( stdSize, intArr_stdSize, 0 );</div><div class="line">	jfieldID	fidscSize	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;scSize&quot;, &quot;[I&quot; );</div><div class="line">	jintArray	scSize		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidscSize );</div><div class="line">	jint		*intArr_scSize	= env-&gt;GetIntArrayElements( scSize, NULL );</div><div class="line">	TSSize		size		= &#123; intArr_scSize[0], intArr_scSize[1] &#125;;</div><div class="line">	env-&gt;ReleaseIntArrayElements( scSize, intArr_scSize, 0 );</div><div class="line"></div><div class="line">	jfieldID	fidName		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;name&quot;, &quot;Ljava/lang/String;&quot; );</div><div class="line">	jstring		jStrname	= (jstring) env-&gt;GetObjectField( stickerInfo, fidName );</div><div class="line"></div><div class="line">	const char	*sname		= env-&gt;GetStringUTFChars( jStrname, 0 );</div><div class="line">	size_t		len_name	= strlen( sname );</div><div class="line">	char		*name		= (char *) malloc( len_name * sizeof(char) + 1 );       /* &apos;\0&apos; */</div><div class="line">	strcpy( name, sname );</div><div class="line"></div><div class="line">	env-&gt;ReleaseStringUTFChars( jStrname, sname );</div><div class="line">	jfieldID	fidType = env-&gt;GetFieldID( clazz_stickerInfo, &quot;type&quot;, &quot;I&quot; );</div><div class="line">	jint		type	= (jint) env-&gt;GetIntField( stickerInfo, fidType );              /*素材的类型.Decorate Jewelry FaceDecorate */</div><div class="line"></div><div class="line">	TSStickerInfo	* tempStickerInfo;</div><div class="line">	TSStickerType	sticker_type = TS_STICKER_TYPE_INVALID;</div><div class="line">	if ( type == 1 )                                                                        /* 装点, 例如浮动文字, 表情符号, 背景装饰等等 * / */</div><div class="line">	&#123;</div><div class="line">		sticker_type = TS_STICKER_TYPE_DECORATER;</div><div class="line"></div><div class="line">		TSDecoraterInfo * s_faceDecorater = (TSDecoraterInfo *) malloc( sizeof(TSDecoraterInfo) );</div><div class="line">		s_faceDecorater-&gt;id		= sid;</div><div class="line">		s_faceDecorater-&gt;name		= name;</div><div class="line">		s_faceDecorater-&gt;stdPhotoFrame	= stdPhotoFrame;</div><div class="line">		s_faceDecorater-&gt;size		= size;</div><div class="line">		s_faceDecorater-&gt;type		= TS_STICKER_TYPE_DECORATER;</div><div class="line"></div><div class="line">		jfieldID	fidAnchorType	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchorType&quot;, &quot;I&quot; );</div><div class="line">		jint		anchorType	= (jint) env-&gt;GetIntField( stickerInfo, fidAnchorType );</div><div class="line">		s_faceDecorater-&gt;anchorType = anchorType; /* todo */</div><div class="line"></div><div class="line">		jfieldID	fidStickerAnchor	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;stickerAnchor&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	stickerAnchor		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidStickerAnchor );</div><div class="line">		jint		*intArr_stickerAnchor	= env-&gt;GetIntArrayElements( stickerAnchor, NULL );</div><div class="line">		s_faceDecorater-&gt;stickerAnchor = &#123; intArr_stickerAnchor[0], intArr_stickerAnchor[1] &#125;;</div><div class="line">		env-&gt;ReleaseIntArrayElements( stickerAnchor, intArr_stickerAnchor, 0 );</div><div class="line"></div><div class="line">		jfieldID	fidOffset	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;offset&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	offset		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidOffset );</div><div class="line">		jint		*intArr_offset	= env-&gt;GetIntArrayElements( offset, NULL );</div><div class="line">		s_faceDecorater-&gt;offset = &#123; intArr_offset[0], intArr_offset[1] &#125;;</div><div class="line">		env-&gt;ReleaseIntArrayElements( offset, intArr_offset, 0 );</div><div class="line"></div><div class="line">		tempStickerInfo = (TSStickerInfo *) s_faceDecorater;</div><div class="line">	&#125;else if ( type == 2 ) /* 首饰, 例如眼睛, 胡子, 帽子, 面具等等 */</div><div class="line">	&#123;</div><div class="line">		sticker_type = TS_STICKER_TYPE_JEWELRY;</div><div class="line">		jfieldID	fidAnchorsCount		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchorsCount&quot;, &quot;I&quot; );</div><div class="line">		jint		anchorsCount		= (jint) env-&gt;GetIntField( stickerInfo, fidAnchorsCount );</div><div class="line">		jfieldID	fidTrianglesCount	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;trianglesCount&quot;, &quot;I&quot; );</div><div class="line">		jint		trianglesCount		= (jint) env-&gt;GetIntField( stickerInfo, fidTrianglesCount );</div><div class="line">		jfieldID	fidFaceAnchors		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;faceAnchors&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	faceAnchors		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidFaceAnchors );</div><div class="line">		jint		*intArr_faceAnchors	= env-&gt;GetIntArrayElements( faceAnchors, NULL );</div><div class="line">		jsize		len			= env-&gt;GetArrayLength( faceAnchors );</div><div class="line">		int		* s_jewelry_faceAnchors = (int *) malloc( len * sizeof(int) );</div><div class="line">		for ( int i = 0; i &lt; len; i++ )</div><div class="line">		&#123;</div><div class="line">			s_jewelry_faceAnchors[i] = intArr_faceAnchors[i];</div><div class="line">		&#125;</div><div class="line">		env-&gt;ReleaseIntArrayElements( faceAnchors, intArr_faceAnchors, 0 );</div><div class="line">		jfieldID	fidTriangles		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;triangles&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	triangles		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidTriangles );</div><div class="line">		jint		*intArr_triangles	= env-&gt;GetIntArrayElements( triangles, NULL );</div><div class="line">		jsize		len_t			= env-&gt;GetArrayLength( triangles );</div><div class="line">		uint16_t	* s_jewelry_triangles	= (uint16_t *) malloc( len_t * sizeof(uint16_t) );</div><div class="line">		for ( int i = 0; i &lt; len_t; i++ )</div><div class="line">		&#123;</div><div class="line">			s_jewelry_triangles[i] = intArr_triangles[i];</div><div class="line">		&#125;</div><div class="line">		env-&gt;ReleaseIntArrayElements( triangles, intArr_triangles, 0 );</div><div class="line">		jfieldID	fidStickerAnchors	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;stickerAnchors&quot;, &quot;[Landroid/graphics/Point;&quot; );</div><div class="line">		jobjectArray	stickerAnchors		= (jobjectArray) env-&gt;GetObjectField( stickerInfo, fidStickerAnchors );</div><div class="line">		jsize		len_sas			= env-&gt;GetArrayLength( stickerAnchors );</div><div class="line">		jclass		pointclass		= env-&gt;FindClass( &quot;android/graphics/Point&quot; );</div><div class="line">		jfieldID	field_x			= env-&gt;GetFieldID( pointclass, &quot;x&quot;, &quot;I&quot; );</div><div class="line">		jfieldID	field_y			= env-&gt;GetFieldID( pointclass, &quot;y&quot;, &quot;I&quot; );</div><div class="line">		TPOINT		* s_jewelry_sticker	= (TPOINT *) malloc( len_sas * sizeof(TPOINT) );</div><div class="line">		for ( int i = 0; i &lt; len_sas; i++ )</div><div class="line">		&#123;</div><div class="line">			jobject obj	= ( jobject) env-&gt;GetObjectArrayElement( stickerAnchors, i );</div><div class="line">			jint	x	= env-&gt;GetIntField( obj, field_x );</div><div class="line">			jint	y	= env-&gt;GetIntField( obj, field_y );</div><div class="line">			s_jewelry_sticker[i] = &#123; x, y &#125;;</div><div class="line">		&#125;</div><div class="line">		TSJewelryInfo * s_jewelry = (TSJewelryInfo *) malloc( sizeof(TSJewelryInfo) );</div><div class="line">		s_jewelry-&gt;id			= sid;</div><div class="line">		s_jewelry-&gt;name			= name;</div><div class="line">		s_jewelry-&gt;stdPhotoFrame	= stdPhotoFrame;</div><div class="line">		s_jewelry-&gt;size			= size;</div><div class="line">		s_jewelry-&gt;type			= sticker_type;</div><div class="line">		s_jewelry-&gt;anchors		= s_jewelry_faceAnchors;</div><div class="line">		s_jewelry-&gt;stickerAnchors	= s_jewelry_sticker;</div><div class="line">		s_jewelry-&gt;anchorsCount		= anchorsCount;</div><div class="line">		s_jewelry-&gt;triangles		= s_jewelry_triangles;</div><div class="line">		s_jewelry-&gt;trianglesCount	= trianglesCount;</div><div class="line">		tempStickerInfo			= (TSStickerInfo *) s_jewelry;</div><div class="line">	&#125;else if ( type == 3 ) /* 人脸装点， 使用2个点或4个点的局部坐标 * / */</div><div class="line">	&#123;</div><div class="line">		sticker_type = TS_STICKER_TYPE_FACE_DECORATER;</div><div class="line">		TSFaceDecoraterInfo * s_faceDecorater = (TSFaceDecoraterInfo *) malloc( sizeof(TSFaceDecoraterInfo) );</div><div class="line">		s_faceDecorater-&gt;id		= sid;</div><div class="line">		s_faceDecorater-&gt;name		= name;</div><div class="line">		s_faceDecorater-&gt;stdPhotoFrame	= stdPhotoFrame;</div><div class="line">		s_faceDecorater-&gt;size		= size;</div><div class="line">		s_faceDecorater-&gt;type		= sticker_type;</div><div class="line"></div><div class="line">		jfieldID	fidStickerAnchors	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;coordinations&quot;, &quot;[Landroid/graphics/PointF;&quot; );</div><div class="line">		jobjectArray	coordinations		= (jobjectArray) env-&gt;GetObjectField( stickerInfo, fidStickerAnchors );</div><div class="line">		jsize		len_sas			= env-&gt;GetArrayLength( coordinations );</div><div class="line">		jclass		pointfclass		= env-&gt;FindClass( &quot;android/graphics/PointF&quot; );</div><div class="line">		jfieldID	field_x			= env-&gt;GetFieldID( pointfclass, &quot;x&quot;, &quot;F&quot; );</div><div class="line">		jfieldID	field_y			= env-&gt;GetFieldID( pointfclass, &quot;y&quot;, &quot;F&quot; );</div><div class="line">		for ( int i = 0; i &lt; len_sas; i++ )</div><div class="line">		&#123;</div><div class="line">			jobject obj	= ( jobject) env-&gt;GetObjectArrayElement( coordinations, i );</div><div class="line">			jfloat	x	= env-&gt;GetFloatField( obj, field_x );</div><div class="line">			jfloat	y	= env-&gt;GetFloatField( obj, field_y );</div><div class="line">			s_faceDecorater-&gt;coordinations[i] = &#123; x, y &#125;;</div><div class="line">		&#125;</div><div class="line"></div><div class="line"></div><div class="line">		jfieldID	fidAnchorsNum	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchorsNum&quot;, &quot;I&quot; );</div><div class="line">		jint		anchorsNum	= (jint) env-&gt;GetIntField( stickerInfo, fidAnchorsNum );</div><div class="line">		jfieldID	fidAnchors	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchors&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	anchors		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidAnchors );</div><div class="line">		jint		*intArr_anchors = env-&gt;GetIntArrayElements( anchors, NULL );</div><div class="line">		jsize		len_an		= env-&gt;GetArrayLength( anchors );</div><div class="line">		for ( int i = 0; i &lt; len_an; i++ )</div><div class="line">		&#123;</div><div class="line">			s_faceDecorater-&gt;anchors[i] = intArr_anchors[i];</div><div class="line">		&#125;</div><div class="line">		env-&gt;ReleaseIntArrayElements( anchors, intArr_anchors, 0 );</div><div class="line">		s_faceDecorater-&gt;anchorsNum = anchorsNum;</div><div class="line"></div><div class="line">		tempStickerInfo = (TSStickerInfo *) s_faceDecorater;</div><div class="line">	&#125;</div><div class="line">	return(tempStickerInfo);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#ifdef __cplusplus</div><div class="line">&#125;</div><div class="line">#endif</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="javah-命令的各种bug"><a href="#javah-命令的各种bug" class="headerlink" title="javah 命令的各种bug"></a>javah 命令的各种bug</h2><ol>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xxxxx/justshot/stickerview/build/intermediates/classes/release# javah com/ufotosoft/beauty/BeautyUtil.class </div><div class="line"> </div><div class="line"> Exception in thread &quot;main&quot; java.lang.IllegalArgumentException: Not a valid class name: com/ufotosoft/beauty/BeautyUtil.class</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<blockquote>
+<p>1.类名称要用点分割的全称<br>2.不能指明扩展名.class</p>
+</blockquote>
+</blockquote>
+<p>正确姿势:javah com.ufotosoft.beauty.BeautyUtil</p>
+<p>##Android NDK: WARNING:/home/topone37/AndroidStudioProjects/justshot/stickerview/src/main/jni/Android.mk:stickerutil: non-system libraries in linker flags: -lHalloween -lglbeauty<br>Android NDK:     This is likely to result in incorrect builds. Try using LOCAL_STATIC_LIBRARIES<br>Android NDK:     or LOCAL_SHARED_LIBRARIES instead to list the library dependencies of the<br>Android NDK:     current module<br>/home/topone37/AndroidStudioProjects/justshot/stickerview/src/main/obj/local/armeabi-v7a/objs/stickerutil/beautyengine.o.d:1: <em>*</em> target pattern contains no `%’.  Stop</p>
+<blockquote>
+<blockquote>
+<p>delete obj dir </p>
+</blockquote>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/19/实用的adb命令/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -340,167 +931,6 @@
 <li>强制停止app<br>‘’’adb shell am force-stop <packagename>‘’’</packagename></li>
 <li>查看屏幕分辨率<br>‘’’adb shell wm size’’’<br>5.查看设备屏幕密度<br>‘’’adb shell wm density’’’</li>
 </ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/09/JNI错误记录/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/09/JNI错误记录/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-09T03:35:19Z">
-                2017-06-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/09/JNI错误记录/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/09/JNI错误记录/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">E/dalvikvm(30944): JNI ERROR (app bug): accessed stale local reference 0xbc00021 (index 8 in a table of size 8)</div><div class="line">E/dalvikvm(30944): VM aborting</div><div class="line">A/libc(30944): Fatal signal 11 (SIGSEGV) at 0xdeadd00d (code=1), thread 30944 (oid.temperature)</div><div class="line">`</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p>字面意思是引用了一个已经过时的本地引用,比如你引用一个被干掉的jobject对象</p>
-<p>现在它在垃圾回收过程中移动对象，这可能会导致很多问题。想象一下，你有一个静态变量指向一个对象，然后这个对象被gc移动。由于android使用java对象的直接指针，这意味着您的静态变量现在指向内存中的随机地址，由任何对象占用或被不同排序对象占用。这几乎可以保证您下次使用此变量时将获得EXC_BAD_ACCESS。所以android给你的JNI错误（应用程序错误）错误，以防止你得到不可缓解的EXC_BAD_ACCESS。现在有两种方法来避免这个错误。您可以将清单中的targetSdkVersion设置为11或更低版本。这将启用JNI错误兼容性模式并防止任何问题。这就是为什么你的老例子正在工作的原因。您可以通过调用env-&gt; NewGlobalRef（ref）来避免使用指向java对象的静态变量或使jobject引用全局，然后再存储它们。</p>
-</blockquote>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">jclass activityThread ;</div><div class="line">jclass tmp = env-&gt;FindClass(&quot;android/app/ActivityThread&quot; );</div><div class="line">activityThread = (jclass)env-&gt;NewGlobalRef(tmp);// &lt;记得调用相应的方法进行释放&gt;</div></pre></td></tr></table></figure>
-<p>2.给一个结构体的char * 类型的属性赋值,乱码现象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">StickerData * stickerData = (StickerData *) malloc( sizeof(StickerData) );</div><div class="line">const char * path = env-&gt;GetStringUTFChars(jpath,0);</div><div class="line">size_t length = strlen(path);</div><div class="line">stickerData-&gt;path =(char *) malloc(length * sizeof(char));</div><div class="line">strcpy(  stickerData-&gt;path, path);</div><div class="line">env-&gt;ReleaseStringUTFChars(jpath,path);</div></pre></td></tr></table></figure>
-<p>3.数组对象没有释放,导致crash<br>/<em>*从Java 传递来素材大小相关数据</em>/<br>    jfieldID    fidstdSize    = env-&gt;GetFieldID( clazz_stickerInfo, “stdSize”, “[I” );<br>    jintArray    stdSize        = (jintArray) env-&gt;GetObjectField( stickerInfo, fidstdSize );</p>
-<p>jint    *intArr_stdSize = env-&gt;GetIntArrayElements( stdSize, NULL );</p>
-<pre><code>TSSize        * stdPhotoFrame = (TSSize *) malloc( sizeof(TSSize) );
-stdPhotoFrame-&gt;width    = intArr_stdSize[0];
-stdPhotoFrame-&gt;height    = intArr_stdSize[1];
-</code></pre><p>env-&gt;ReleaseIntArrayElements( stdSize, intArr_stdSize, 0 );</p>
-<ol>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div><div class="line">392</div><div class="line">393</div><div class="line">394</div><div class="line">395</div><div class="line">396</div><div class="line">397</div><div class="line">398</div><div class="line">399</div><div class="line">400</div><div class="line">401</div><div class="line">402</div><div class="line">403</div><div class="line">404</div><div class="line">405</div><div class="line">406</div><div class="line">407</div><div class="line">408</div><div class="line">409</div><div class="line">410</div><div class="line">411</div><div class="line">412</div><div class="line">413</div><div class="line">414</div><div class="line">415</div><div class="line">416</div><div class="line">417</div><div class="line">418</div><div class="line">419</div><div class="line">420</div><div class="line">421</div><div class="line">422</div><div class="line">423</div><div class="line">424</div><div class="line">425</div><div class="line">426</div><div class="line">427</div><div class="line">428</div><div class="line">429</div><div class="line">430</div><div class="line">431</div><div class="line">432</div><div class="line">433</div><div class="line">434</div><div class="line">435</div><div class="line">436</div><div class="line">437</div><div class="line">438</div><div class="line">439</div><div class="line">440</div><div class="line">441</div><div class="line">442</div><div class="line">443</div><div class="line">444</div><div class="line">445</div><div class="line">446</div><div class="line">447</div><div class="line">448</div><div class="line">449</div><div class="line">450</div><div class="line">451</div><div class="line">452</div><div class="line">453</div><div class="line">454</div><div class="line">455</div><div class="line">456</div><div class="line">457</div><div class="line">458</div><div class="line">459</div><div class="line">460</div><div class="line">461</div><div class="line">462</div><div class="line">463</div><div class="line">464</div><div class="line">465</div><div class="line">466</div><div class="line">467</div><div class="line">468</div><div class="line">469</div><div class="line">470</div><div class="line">471</div><div class="line">472</div><div class="line">473</div><div class="line">474</div><div class="line">475</div><div class="line">476</div><div class="line">477</div><div class="line">478</div><div class="line">479</div><div class="line">480</div><div class="line">481</div><div class="line">482</div><div class="line">483</div><div class="line">484</div><div class="line">485</div><div class="line">486</div><div class="line">487</div><div class="line">488</div><div class="line">489</div><div class="line">490</div><div class="line">491</div><div class="line">492</div><div class="line">493</div><div class="line">494</div><div class="line">495</div><div class="line">496</div><div class="line">497</div><div class="line">498</div><div class="line">499</div><div class="line">500</div><div class="line">501</div><div class="line">502</div><div class="line">503</div><div class="line">504</div><div class="line">505</div><div class="line">506</div><div class="line">507</div><div class="line">508</div><div class="line">509</div><div class="line">510</div><div class="line">511</div></pre></td><td class="code"><pre><div class="line">#include &lt;jni.h&gt;</div><div class="line">#include &quot;ts-halloween.h&quot;</div><div class="line">#include &quot;offscreen.h&quot;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">#include &quot;jnilogger.h&quot;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">#include &quot;sticker_util.h&quot;</div><div class="line">#ifdef __cplusplus</div><div class="line">extern &quot;C&quot; &#123;</div><div class="line">#endif</div><div class="line"></div><div class="line"></div><div class="line">void destoryScence( TSScene *sence, int count )</div><div class="line">&#123;</div><div class="line">	if ( sence != NULL )</div><div class="line">	&#123;</div><div class="line">		for ( int i = 0; i &lt; count; i++ )</div><div class="line">		&#123;</div><div class="line">			destoryTSSticker( sence[i].stickers, sence[i].count );</div><div class="line">		&#125;</div><div class="line">		free( sence );</div><div class="line">		sence = NULL;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void destoryTSSticker( TSSticker *sticker, size_t frameCount )</div><div class="line">&#123;</div><div class="line">	if ( sticker != NULL )</div><div class="line">	&#123;</div><div class="line">		for ( int i = 0; i &lt; frameCount; i++ )</div><div class="line">		&#123;</div><div class="line">			/* destory_offscreen( sticker[i].image ); */</div><div class="line">			TSStickerInfo * info = sticker[i].info;</div><div class="line"></div><div class="line">			if ( info != NULL )</div><div class="line">			&#123;</div><div class="line">				if ( info-&gt;name != NULL )</div><div class="line">				&#123;</div><div class="line">					free( (char *) (info-&gt;name) );</div><div class="line">					info-&gt;name = NULL;</div><div class="line">				&#125;</div><div class="line">				if ( info-&gt;stdPhotoFrame != NULL )</div><div class="line">				&#123;</div><div class="line">					free( info-&gt;stdPhotoFrame );</div><div class="line">					info-&gt;stdPhotoFrame = NULL;</div><div class="line">				&#125;</div><div class="line"></div><div class="line">				if ( info-&gt;type == TS_STICKER_TYPE_JEWELRY )</div><div class="line">				&#123;</div><div class="line">					TSJewelryInfo * newinfo = (TSJewelryInfo *) info;</div><div class="line">					if ( newinfo-&gt;anchors != NULL )</div><div class="line">					&#123;</div><div class="line">						free( (int *) (newinfo-&gt;anchors) );</div><div class="line">						newinfo-&gt;anchors = NULL;</div><div class="line">					&#125;</div><div class="line">					if ( newinfo-&gt;stickerAnchors != NULL )</div><div class="line">					&#123;</div><div class="line">						free( (TPOINT *) (newinfo-&gt;stickerAnchors) );</div><div class="line">						newinfo-&gt;stickerAnchors = NULL;</div><div class="line">					&#125;</div><div class="line">					if ( newinfo-&gt;triangles != NULL )</div><div class="line">					&#123;</div><div class="line">						free( (uint16_t *) (newinfo-&gt;triangles) );</div><div class="line">						newinfo-&gt;triangles = NULL;</div><div class="line">					&#125;</div><div class="line">				&#125;</div><div class="line">				free( sticker[i].info );</div><div class="line">				sticker[i].info = NULL;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		free( sticker );</div><div class="line">		sticker = NULL;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">/**</div><div class="line"> * *获取Context</div><div class="line"> */</div><div class="line"></div><div class="line">jobject getGlobalContext( JNIEnv *env )</div><div class="line">&#123;</div><div class="line">	jobject context = NULL;</div><div class="line">	jclass	tmp	= env-&gt;FindClass( &quot;android/app/ActivityThread&quot; );</div><div class="line">	if ( tmp != NULL )</div><div class="line">	&#123;</div><div class="line">		jclass		activityThread		= (jclass) env-&gt;NewGlobalRef( tmp );</div><div class="line">		jmethodID	currentActivityThread	= env-&gt;GetStaticMethodID( activityThread,</div><div class="line">										  &quot;currentActivityThread&quot;,</div><div class="line">										  &quot;()Landroid/app/ActivityThread;&quot; );</div><div class="line">		jobject		at		= env-&gt;CallStaticObjectMethod( activityThread, currentActivityThread );</div><div class="line">		jmethodID	getApplication	= env-&gt;GetMethodID( activityThread, &quot;getApplication&quot;,</div><div class="line">								    &quot;()Landroid/app/Application;&quot; );</div><div class="line">		context = env-&gt;CallObjectMethod( at, getApplication );</div><div class="line"></div><div class="line"></div><div class="line">		env-&gt;DeleteLocalRef( tmp );</div><div class="line">		env-&gt;DeleteGlobalRef( activityThread );</div><div class="line">		env-&gt;DeleteLocalRef( at );</div><div class="line">	&#125;</div><div class="line">	if ( context == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;context is NULL!!!&quot; );</div><div class="line">	&#125;</div><div class="line">	return(context);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">jobject getBitmapFromJavaByPath( StickerData * data )</div><div class="line">&#123;</div><div class="line">	/* 提供图片路径,调用Java方法获取Bitmap对象 */</div><div class="line">	JNIEnv		*env		= data-&gt;jenv;</div><div class="line">	jmethodID	mid_construct	= NULL, mid_instance = NULL;</div><div class="line">	jobject		jobj		= NULL; /* resProvider instance */</div><div class="line">	jstring		str_arg		= NULL;</div><div class="line">	jclass		class_res	= NULL;</div><div class="line">	jobject		bmp		= NULL;</div><div class="line"></div><div class="line">	jclass tmp = env-&gt;FindClass( &quot;com/ufotosoft/sticker/ResProvider&quot; );</div><div class="line">	class_res = (jclass) env-&gt;NewGlobalRef( tmp );</div><div class="line">	if ( class_res == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t found ResProvider &quot; );</div><div class="line">		return(bmp);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 2、获取类的构造方法ID(需要传入Context) */</div><div class="line"></div><div class="line">	mid_construct = env-&gt;GetMethodID( class_res, &quot;&lt;init&gt;&quot;, &quot;(Landroid/content/Context;)V&quot; );</div><div class="line">	if ( mid_construct == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find constrict&quot; );</div><div class="line">		return(bmp);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 3、查找实例方法的ID */</div><div class="line"></div><div class="line">	mid_instance = env-&gt;GetMethodID( class_res, &quot;getBitmapByPath&quot;, &quot;(Ljava/lang/String;)Landroid/graphics/Bitmap;&quot; );</div><div class="line">	if ( mid_instance == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find getBitmapByPath method&quot; );</div><div class="line">		return(bmp);</div><div class="line">	&#125;</div><div class="line">	jobject context = getGlobalContext( env );</div><div class="line">	if ( context != NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;context ! = NULL!!!&quot; );</div><div class="line">		/* 4、创建该类的实例 */</div><div class="line">		jobj = env-&gt;NewObject( class_res, mid_construct, context );</div><div class="line">		if ( jobj == NULL )</div><div class="line">		&#123;</div><div class="line">			LOGE( &quot;init ResProvider instance failed&quot; );</div><div class="line">			return(bmp);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		/* 5、调用对象的实例方法 */</div><div class="line">		jstring jpath = env-&gt;NewStringUTF( data-&gt;path );</div><div class="line">		bmp = env-&gt;CallObjectMethod( jobj, mid_instance, jpath );</div><div class="line">	&#125;else&#123;</div><div class="line">		LOGE( &quot;context is NULL!!!&quot; );</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/*</div><div class="line">	 * 删除局部引用</div><div class="line">	 **/</div><div class="line">	if ( tmp != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( tmp );</div><div class="line">		tmp = NULL;</div><div class="line">	&#125;</div><div class="line">	if ( class_res != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteGlobalRef( class_res );</div><div class="line">		class_res = NULL;</div><div class="line">	&#125;</div><div class="line">	if ( context != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( context );</div><div class="line">		context = NULL;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	if ( jobj != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( jobj );</div><div class="line">		jobj = NULL;</div><div class="line">	&#125;</div><div class="line">	if ( str_arg != NULL )</div><div class="line">	&#123;</div><div class="line">		env-&gt;DeleteLocalRef( str_arg );</div><div class="line">		str_arg = NULL;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return(bmp);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void  releaseBitmapFromJavaByPath( StickerData * data )</div><div class="line">&#123;</div><div class="line">	/* 提供图片路径,调用Java方法释放bitmap资源 */</div><div class="line">	JNIEnv		*env		= data-&gt;jenv;</div><div class="line">	jmethodID	mid_construct	= NULL, mid_instance = NULL;</div><div class="line">	jobject		jobj		= NULL;</div><div class="line">	jstring		str_arg		= NULL;</div><div class="line">	jclass		class_res	= NULL;</div><div class="line"></div><div class="line"></div><div class="line">	jclass tmp = env-&gt;FindClass( &quot;com/ufotosoft/sticker/ResProvider&quot; );</div><div class="line">	class_res = (jclass) env-&gt;NewGlobalRef( tmp );</div><div class="line">	if ( class_res == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t found ResProvider &quot; );</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 2、获取类的构造方法ID(需要传入Context) */</div><div class="line"></div><div class="line">	mid_construct = env-&gt;GetMethodID( class_res, &quot;&lt;init&gt;&quot;, &quot;(Landroid/content/Context;)V&quot; );</div><div class="line">	if ( mid_construct == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find constrict&quot; );</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/* 3、查找实例方法的ID */</div><div class="line">	mid_instance = env-&gt;GetMethodID( class_res, &quot;releaseBitmapByPath&quot;, &quot;(Ljava/lang/String;)V&quot; );</div><div class="line">	if ( mid_instance == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;can&apos;t find getBitmapByPath method&quot; );</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	jobject context = getGlobalContext( env );</div><div class="line"></div><div class="line">	if ( context != NULL )</div><div class="line">	&#123;</div><div class="line">		/* 4、创建该类的实例 */</div><div class="line">		jobj = env-&gt;NewObject( class_res, mid_construct, context );</div><div class="line">		if ( jobj == NULL )</div><div class="line">		&#123;</div><div class="line">			LOGE( &quot;init ResProvider instance failed&quot; );</div><div class="line">			return;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		/* 5、调用对象的实例方法 */</div><div class="line">		jstring jpath = env-&gt;NewStringUTF( data-&gt;path );</div><div class="line">		env-&gt;CallVoidMethod( jobj, mid_instance, jpath );</div><div class="line"></div><div class="line"></div><div class="line">		/*</div><div class="line">		 * 删除局部引用</div><div class="line">		 **/</div><div class="line">		if ( tmp != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( tmp );</div><div class="line">			tmp = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( class_res != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteGlobalRef( class_res );</div><div class="line">			class_res = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( context != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( context );</div><div class="line">			context = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( jobj != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( jobj );</div><div class="line">			jobj = NULL;</div><div class="line">		&#125;</div><div class="line">		if ( str_arg != NULL )</div><div class="line">		&#123;</div><div class="line">			env-&gt;DeleteLocalRef( str_arg );</div><div class="line">			str_arg = NULL;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	if ( data-&gt;path != NULL )</div><div class="line">	&#123;</div><div class="line">		free( data-&gt;path );</div><div class="line">		data-&gt;path = NULL;</div><div class="line">	&#125;</div><div class="line">	if( data != NULL )</div><div class="line">	&#123;</div><div class="line">	    free( data );</div><div class="line">	    data = NULL;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">TSOFFSCREEN getStickerData( StickerData *data )</div><div class="line">&#123;</div><div class="line">	TSOFFSCREEN *os = (TSOFFSCREEN *) malloc( sizeof(TSOFFSCREEN) );</div><div class="line">	if ( data == NULL )</div><div class="line">	&#123;</div><div class="line">		LOGE( &quot;data is null&quot; );</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	JNIEnv * env = data-&gt;jenv;</div><div class="line">	if ( env == NULL )</div><div class="line">	&#123;</div><div class="line">		return(*os);</div><div class="line">	&#125;</div><div class="line">	if ( data-&gt;path != NULL )</div><div class="line">	&#123;</div><div class="line">		jobject bmp = getBitmapFromJavaByPath( data );</div><div class="line">		if ( bmp != NULL )</div><div class="line">		&#123;</div><div class="line">			AndroidBitmap_lockPixels_to_offscreen( data-&gt;jenv, bmp, os );</div><div class="line">			AndroidBitmap_unlockPixels( data-&gt;jenv, bmp );</div><div class="line">		&#125;else&#123;</div><div class="line">			LOGE( &quot;bitmap from java is null&quot; );</div><div class="line">		&#125;</div><div class="line">	&#125;else&#123;</div><div class="line">		LOGE( &quot;path is NULL&quot; );</div><div class="line">	&#125;</div><div class="line">	return(*os);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void releaseStickerData( StickerData * data )</div><div class="line">&#123;</div><div class="line">	if ( data-&gt;img != NULL )</div><div class="line">	&#123;</div><div class="line">		destory_offscreen( data-&gt;img );</div><div class="line">		data-&gt;img = NULL;</div><div class="line">	&#125;</div><div class="line">	releaseBitmapFromJavaByPath( data );</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">TSSize getStickerSize( StickerData * data )</div><div class="line">&#123;</div><div class="line">	if ( data != NULL )</div><div class="line">	&#123;</div><div class="line">		return(data-&gt;size);</div><div class="line">	&#125;else&#123;</div><div class="line">		LOGE( &quot;data is null&quot; );</div><div class="line">		TSSize size = &#123; 0, 0 &#125;;</div><div class="line">		return(size);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">TSStickerInfo * createInfo( JNIEnv * env, jobject bmp, jobject stickerInfo )</div><div class="line">&#123;</div><div class="line">	jclass clazz_stickerInfo = env-&gt;GetObjectClass( stickerInfo );</div><div class="line">	if ( clazz_stickerInfo == NULL )</div><div class="line">	&#123;</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	jfieldID	fidSid	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;sid&quot;, &quot;I&quot; );</div><div class="line">	jint		sid	= (jint) env-&gt;GetIntField( stickerInfo, fidSid );</div><div class="line"></div><div class="line">	/**从Java 传递来素材大小相关数据*/</div><div class="line">	jfieldID	fidstdSize	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;stdSize&quot;, &quot;[I&quot; );</div><div class="line">	jintArray	stdSize		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidstdSize );</div><div class="line">	jint		*intArr_stdSize = env-&gt;GetIntArrayElements( stdSize, NULL );</div><div class="line">	TSSize		* stdPhotoFrame = (TSSize *) malloc( sizeof(TSSize) );</div><div class="line">	stdPhotoFrame-&gt;width	= intArr_stdSize[0];</div><div class="line">	stdPhotoFrame-&gt;height	= intArr_stdSize[1];</div><div class="line">	env-&gt;ReleaseIntArrayElements( stdSize, intArr_stdSize, 0 );</div><div class="line">	jfieldID	fidscSize	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;scSize&quot;, &quot;[I&quot; );</div><div class="line">	jintArray	scSize		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidscSize );</div><div class="line">	jint		*intArr_scSize	= env-&gt;GetIntArrayElements( scSize, NULL );</div><div class="line">	TSSize		size		= &#123; intArr_scSize[0], intArr_scSize[1] &#125;;</div><div class="line">	env-&gt;ReleaseIntArrayElements( scSize, intArr_scSize, 0 );</div><div class="line"></div><div class="line">	jfieldID	fidName		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;name&quot;, &quot;Ljava/lang/String;&quot; );</div><div class="line">	jstring		jStrname	= (jstring) env-&gt;GetObjectField( stickerInfo, fidName );</div><div class="line"></div><div class="line">	const char	*sname		= env-&gt;GetStringUTFChars( jStrname, 0 );</div><div class="line">	size_t		len_name	= strlen( sname );</div><div class="line">	char		*name		= (char *) malloc( len_name * sizeof(char) + 1 );       /* &apos;\0&apos; */</div><div class="line">	strcpy( name, sname );</div><div class="line"></div><div class="line">	env-&gt;ReleaseStringUTFChars( jStrname, sname );</div><div class="line">	jfieldID	fidType = env-&gt;GetFieldID( clazz_stickerInfo, &quot;type&quot;, &quot;I&quot; );</div><div class="line">	jint		type	= (jint) env-&gt;GetIntField( stickerInfo, fidType );              /*素材的类型.Decorate Jewelry FaceDecorate */</div><div class="line"></div><div class="line">	TSStickerInfo	* tempStickerInfo;</div><div class="line">	TSStickerType	sticker_type = TS_STICKER_TYPE_INVALID;</div><div class="line">	if ( type == 1 )                                                                        /* 装点, 例如浮动文字, 表情符号, 背景装饰等等 * / */</div><div class="line">	&#123;</div><div class="line">		sticker_type = TS_STICKER_TYPE_DECORATER;</div><div class="line"></div><div class="line">		TSDecoraterInfo * s_faceDecorater = (TSDecoraterInfo *) malloc( sizeof(TSDecoraterInfo) );</div><div class="line">		s_faceDecorater-&gt;id		= sid;</div><div class="line">		s_faceDecorater-&gt;name		= name;</div><div class="line">		s_faceDecorater-&gt;stdPhotoFrame	= stdPhotoFrame;</div><div class="line">		s_faceDecorater-&gt;size		= size;</div><div class="line">		s_faceDecorater-&gt;type		= TS_STICKER_TYPE_DECORATER;</div><div class="line"></div><div class="line">		jfieldID	fidAnchorType	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchorType&quot;, &quot;I&quot; );</div><div class="line">		jint		anchorType	= (jint) env-&gt;GetIntField( stickerInfo, fidAnchorType );</div><div class="line">		s_faceDecorater-&gt;anchorType = anchorType; /* todo */</div><div class="line"></div><div class="line">		jfieldID	fidStickerAnchor	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;stickerAnchor&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	stickerAnchor		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidStickerAnchor );</div><div class="line">		jint		*intArr_stickerAnchor	= env-&gt;GetIntArrayElements( stickerAnchor, NULL );</div><div class="line">		s_faceDecorater-&gt;stickerAnchor = &#123; intArr_stickerAnchor[0], intArr_stickerAnchor[1] &#125;;</div><div class="line">		env-&gt;ReleaseIntArrayElements( stickerAnchor, intArr_stickerAnchor, 0 );</div><div class="line"></div><div class="line">		jfieldID	fidOffset	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;offset&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	offset		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidOffset );</div><div class="line">		jint		*intArr_offset	= env-&gt;GetIntArrayElements( offset, NULL );</div><div class="line">		s_faceDecorater-&gt;offset = &#123; intArr_offset[0], intArr_offset[1] &#125;;</div><div class="line">		env-&gt;ReleaseIntArrayElements( offset, intArr_offset, 0 );</div><div class="line"></div><div class="line">		tempStickerInfo = (TSStickerInfo *) s_faceDecorater;</div><div class="line">	&#125;else if ( type == 2 ) /* 首饰, 例如眼睛, 胡子, 帽子, 面具等等 */</div><div class="line">	&#123;</div><div class="line">		sticker_type = TS_STICKER_TYPE_JEWELRY;</div><div class="line">		jfieldID	fidAnchorsCount		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchorsCount&quot;, &quot;I&quot; );</div><div class="line">		jint		anchorsCount		= (jint) env-&gt;GetIntField( stickerInfo, fidAnchorsCount );</div><div class="line">		jfieldID	fidTrianglesCount	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;trianglesCount&quot;, &quot;I&quot; );</div><div class="line">		jint		trianglesCount		= (jint) env-&gt;GetIntField( stickerInfo, fidTrianglesCount );</div><div class="line">		jfieldID	fidFaceAnchors		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;faceAnchors&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	faceAnchors		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidFaceAnchors );</div><div class="line">		jint		*intArr_faceAnchors	= env-&gt;GetIntArrayElements( faceAnchors, NULL );</div><div class="line">		jsize		len			= env-&gt;GetArrayLength( faceAnchors );</div><div class="line">		int		* s_jewelry_faceAnchors = (int *) malloc( len * sizeof(int) );</div><div class="line">		for ( int i = 0; i &lt; len; i++ )</div><div class="line">		&#123;</div><div class="line">			s_jewelry_faceAnchors[i] = intArr_faceAnchors[i];</div><div class="line">		&#125;</div><div class="line">		env-&gt;ReleaseIntArrayElements( faceAnchors, intArr_faceAnchors, 0 );</div><div class="line">		jfieldID	fidTriangles		= env-&gt;GetFieldID( clazz_stickerInfo, &quot;triangles&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	triangles		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidTriangles );</div><div class="line">		jint		*intArr_triangles	= env-&gt;GetIntArrayElements( triangles, NULL );</div><div class="line">		jsize		len_t			= env-&gt;GetArrayLength( triangles );</div><div class="line">		uint16_t	* s_jewelry_triangles	= (uint16_t *) malloc( len_t * sizeof(uint16_t) );</div><div class="line">		for ( int i = 0; i &lt; len_t; i++ )</div><div class="line">		&#123;</div><div class="line">			s_jewelry_triangles[i] = intArr_triangles[i];</div><div class="line">		&#125;</div><div class="line">		env-&gt;ReleaseIntArrayElements( triangles, intArr_triangles, 0 );</div><div class="line">		jfieldID	fidStickerAnchors	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;stickerAnchors&quot;, &quot;[Landroid/graphics/Point;&quot; );</div><div class="line">		jobjectArray	stickerAnchors		= (jobjectArray) env-&gt;GetObjectField( stickerInfo, fidStickerAnchors );</div><div class="line">		jsize		len_sas			= env-&gt;GetArrayLength( stickerAnchors );</div><div class="line">		jclass		pointclass		= env-&gt;FindClass( &quot;android/graphics/Point&quot; );</div><div class="line">		jfieldID	field_x			= env-&gt;GetFieldID( pointclass, &quot;x&quot;, &quot;I&quot; );</div><div class="line">		jfieldID	field_y			= env-&gt;GetFieldID( pointclass, &quot;y&quot;, &quot;I&quot; );</div><div class="line">		TPOINT		* s_jewelry_sticker	= (TPOINT *) malloc( len_sas * sizeof(TPOINT) );</div><div class="line">		for ( int i = 0; i &lt; len_sas; i++ )</div><div class="line">		&#123;</div><div class="line">			jobject obj	= ( jobject) env-&gt;GetObjectArrayElement( stickerAnchors, i );</div><div class="line">			jint	x	= env-&gt;GetIntField( obj, field_x );</div><div class="line">			jint	y	= env-&gt;GetIntField( obj, field_y );</div><div class="line">			s_jewelry_sticker[i] = &#123; x, y &#125;;</div><div class="line">		&#125;</div><div class="line">		TSJewelryInfo * s_jewelry = (TSJewelryInfo *) malloc( sizeof(TSJewelryInfo) );</div><div class="line">		s_jewelry-&gt;id			= sid;</div><div class="line">		s_jewelry-&gt;name			= name;</div><div class="line">		s_jewelry-&gt;stdPhotoFrame	= stdPhotoFrame;</div><div class="line">		s_jewelry-&gt;size			= size;</div><div class="line">		s_jewelry-&gt;type			= sticker_type;</div><div class="line">		s_jewelry-&gt;anchors		= s_jewelry_faceAnchors;</div><div class="line">		s_jewelry-&gt;stickerAnchors	= s_jewelry_sticker;</div><div class="line">		s_jewelry-&gt;anchorsCount		= anchorsCount;</div><div class="line">		s_jewelry-&gt;triangles		= s_jewelry_triangles;</div><div class="line">		s_jewelry-&gt;trianglesCount	= trianglesCount;</div><div class="line">		tempStickerInfo			= (TSStickerInfo *) s_jewelry;</div><div class="line">	&#125;else if ( type == 3 ) /* 人脸装点， 使用2个点或4个点的局部坐标 * / */</div><div class="line">	&#123;</div><div class="line">		sticker_type = TS_STICKER_TYPE_FACE_DECORATER;</div><div class="line">		TSFaceDecoraterInfo * s_faceDecorater = (TSFaceDecoraterInfo *) malloc( sizeof(TSFaceDecoraterInfo) );</div><div class="line">		s_faceDecorater-&gt;id		= sid;</div><div class="line">		s_faceDecorater-&gt;name		= name;</div><div class="line">		s_faceDecorater-&gt;stdPhotoFrame	= stdPhotoFrame;</div><div class="line">		s_faceDecorater-&gt;size		= size;</div><div class="line">		s_faceDecorater-&gt;type		= sticker_type;</div><div class="line"></div><div class="line">		jfieldID	fidStickerAnchors	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;coordinations&quot;, &quot;[Landroid/graphics/PointF;&quot; );</div><div class="line">		jobjectArray	coordinations		= (jobjectArray) env-&gt;GetObjectField( stickerInfo, fidStickerAnchors );</div><div class="line">		jsize		len_sas			= env-&gt;GetArrayLength( coordinations );</div><div class="line">		jclass		pointfclass		= env-&gt;FindClass( &quot;android/graphics/PointF&quot; );</div><div class="line">		jfieldID	field_x			= env-&gt;GetFieldID( pointfclass, &quot;x&quot;, &quot;F&quot; );</div><div class="line">		jfieldID	field_y			= env-&gt;GetFieldID( pointfclass, &quot;y&quot;, &quot;F&quot; );</div><div class="line">		for ( int i = 0; i &lt; len_sas; i++ )</div><div class="line">		&#123;</div><div class="line">			jobject obj	= ( jobject) env-&gt;GetObjectArrayElement( coordinations, i );</div><div class="line">			jfloat	x	= env-&gt;GetFloatField( obj, field_x );</div><div class="line">			jfloat	y	= env-&gt;GetFloatField( obj, field_y );</div><div class="line">			s_faceDecorater-&gt;coordinations[i] = &#123; x, y &#125;;</div><div class="line">		&#125;</div><div class="line"></div><div class="line"></div><div class="line">		jfieldID	fidAnchorsNum	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchorsNum&quot;, &quot;I&quot; );</div><div class="line">		jint		anchorsNum	= (jint) env-&gt;GetIntField( stickerInfo, fidAnchorsNum );</div><div class="line">		jfieldID	fidAnchors	= env-&gt;GetFieldID( clazz_stickerInfo, &quot;anchors&quot;, &quot;[I&quot; );</div><div class="line">		jintArray	anchors		= (jintArray) env-&gt;GetObjectField( stickerInfo, fidAnchors );</div><div class="line">		jint		*intArr_anchors = env-&gt;GetIntArrayElements( anchors, NULL );</div><div class="line">		jsize		len_an		= env-&gt;GetArrayLength( anchors );</div><div class="line">		for ( int i = 0; i &lt; len_an; i++ )</div><div class="line">		&#123;</div><div class="line">			s_faceDecorater-&gt;anchors[i] = intArr_anchors[i];</div><div class="line">		&#125;</div><div class="line">		env-&gt;ReleaseIntArrayElements( anchors, intArr_anchors, 0 );</div><div class="line">		s_faceDecorater-&gt;anchorsNum = anchorsNum;</div><div class="line"></div><div class="line">		tempStickerInfo = (TSStickerInfo *) s_faceDecorater;</div><div class="line">	&#125;</div><div class="line">	return(tempStickerInfo);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#ifdef __cplusplus</div><div class="line">&#125;</div><div class="line">#endif</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="javah-命令的各种bug"><a href="#javah-命令的各种bug" class="headerlink" title="javah 命令的各种bug"></a>javah 命令的各种bug</h2><ol>
-<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xxxxx/justshot/stickerview/build/intermediates/classes/release# javah com/ufotosoft/beauty/BeautyUtil.class </div><div class="line"> </div><div class="line"> Exception in thread &quot;main&quot; java.lang.IllegalArgumentException: Not a valid class name: com/ufotosoft/beauty/BeautyUtil.class</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<blockquote>
-<p>1.类名称要用点分割的全称<br>2.不能指明扩展名.class</p>
-</blockquote>
-</blockquote>
-<p>正确姿势:javah com.ufotosoft.beauty.BeautyUtil</p>
 
           
         
@@ -1122,7 +1552,7 @@ stdPhotoFrame-&gt;height    = intArr_stdSize[1];
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/cordova笔记/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/opengles/1.简介/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -1147,7 +1577,7 @@ stdPhotoFrame-&gt;height    = intArr_stdSize[1];
             
               
                 
-                <a class="post-title-link" href="/2017/05/26/cordova笔记/" itemprop="url">
+                <a class="post-title-link" href="/2017/05/26/opengles/1.简介/" itemprop="url">
                   未命名
                 </a>
               
@@ -1183,8 +1613,8 @@ stdPhotoFrame-&gt;height    = intArr_stdSize[1];
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/05/26/cordova笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/cordova笔记/" itemprop="commentCount"></span>
+                <a href="/2017/05/26/opengles/1.简介/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/opengles/1.简介/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1212,479 +1642,33 @@ stdPhotoFrame-&gt;height    = intArr_stdSize[1];
       
         
           
-            <ol>
-<li>需要node.js环境</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/RecyclerView使用的笔记/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/26/RecyclerView使用的笔记/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
-                2017-05-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/26/RecyclerView使用的笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/RecyclerView使用的笔记/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>场景:</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">简介</div></pre></td></tr></table></figure>
 <blockquote>
 <blockquote>
-<p>Recyclerview(LinearLayoutManager)嵌套 Recyclerview(GridLayoutManager)</p>
+<p>OpenGL (Open Graphics Library)一个跨编程语言，跨平台的编程接口规则的专业的图形程序接口，主要用于三维图像，一个功能强大的底层图形库</p>
+<p>OpenGL ES (OpenGL for Embedded Systems) 是 OpenGL 三维图形 API 的子集，针对手机、PDA和游戏主机等嵌入式设备而设计。</p>
 </blockquote>
 </blockquote>
-<p>####内部的Recyclerview不显示,测试发现将高度写死可以看见部分,解决方案,动态计算内部Recyclerview的高度</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div></pre></td><td class="code"><pre><div class="line">package com.ufotosoft.gallery;</div><div class="line"></div><div class="line">import android.content.Context;</div><div class="line">import android.support.v7.widget.GridLayoutManager;</div><div class="line">import android.support.v7.widget.RecyclerView;</div><div class="line">import android.view.View;</div><div class="line">import android.view.ViewGroup;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 动态计算高度,将Recyclerview高度设成固定值</div><div class="line"> */</div><div class="line"></div><div class="line">public class GridLayoutManagerPlus extends GridLayoutManager &#123;</div><div class="line">    public GridLayoutManagerPlus(Context context, int spanCount) &#123;</div><div class="line">        super(context, spanCount);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public GridLayoutManagerPlus(Context context, int spanCount, int orientation, boolean reverseLayout) &#123;</div><div class="line">        super(context, spanCount, orientation, reverseLayout);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private int[] mMeasuredDimension = new int[2];</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) &#123;</div><div class="line">        final int widthMode = View.MeasureSpec.getMode(widthSpec);</div><div class="line">        final int heightMode = View.MeasureSpec.getMode(heightSpec);</div><div class="line">        final int widthSize = View.MeasureSpec.getSize(widthSpec);</div><div class="line">        final int heightSize = View.MeasureSpec.getSize(heightSpec);</div><div class="line">        int width = 0;</div><div class="line">        int height = 0;</div><div class="line">        int count = getItemCount();</div><div class="line"></div><div class="line">        for (int i = 0; i &lt; count; i++) &#123;</div><div class="line">            int span = getSpanCount() / getSpanSizeLookup().getSpanSize(i);</div><div class="line">            measureScrapChild(recycler, i,</div><div class="line">                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),</div><div class="line">                    View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),</div><div class="line">                    mMeasuredDimension);</div><div class="line">            if (getOrientation() == HORIZONTAL) &#123;</div><div class="line">                if (i % span == 0) &#123;</div><div class="line">                    width = width + mMeasuredDimension[0];</div><div class="line">                &#125;</div><div class="line">                if (i == 0) &#123;</div><div class="line">                    height = mMeasuredDimension[1];</div><div class="line">                &#125;</div><div class="line">            &#125; else &#123;</div><div class="line">                if (i % span == 0) &#123;</div><div class="line">                    height = height + mMeasuredDimension[1];</div><div class="line">                &#125;</div><div class="line">                if (i == 0) &#123;</div><div class="line">                    width = mMeasuredDimension[0];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        switch (widthMode) &#123;</div><div class="line">            case View.MeasureSpec.EXACTLY:</div><div class="line">                width = widthSize;</div><div class="line">            case View.MeasureSpec.AT_MOST:</div><div class="line">            case View.MeasureSpec.UNSPECIFIED:</div><div class="line">        &#125;</div><div class="line">        switch (heightMode) &#123;</div><div class="line">            case View.MeasureSpec.EXACTLY:</div><div class="line">                height = heightSize;</div><div class="line">            case View.MeasureSpec.AT_MOST:</div><div class="line">            case View.MeasureSpec.UNSPECIFIED:</div><div class="line">        &#125;</div><div class="line">        setMeasuredDimension(width, height);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,</div><div class="line">                                   int heightSpec, int[] measuredDimension) &#123;</div><div class="line">        if (position &lt; getItemCount()) &#123;</div><div class="line">            try &#123;</div><div class="line">                View view = recycler.getViewForPosition(position);//fix 动态添加时报IndexOutOfBoundsException</div><div class="line">                if (view != null) &#123;</div><div class="line">                    RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();</div><div class="line">                    int childWidthSpec = ViewGroup.getChildMeasureSpec(widthSpec,</div><div class="line">                            getPaddingLeft() + getPaddingRight(), p.width);</div><div class="line">                    int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,</div><div class="line">                            getPaddingTop() + getPaddingBottom(), p.height);</div><div class="line">                    view.measure(childWidthSpec, childHeightSpec);</div><div class="line">                    measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;</div><div class="line">                    measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;</div><div class="line">                    recycler.recycleView(view);</div><div class="line">                &#125;</div><div class="line">            &#125; catch (Exception e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>###GridLayoutManager实现,Recyclerview两边贴边,中间有间距,重写ItemDecoration<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div></pre></td><td class="code"><pre><div class="line">package com.ufotosoft.gallery;</div><div class="line"></div><div class="line">import android.graphics.Canvas;</div><div class="line">import android.graphics.Paint;</div><div class="line">import android.graphics.Rect;</div><div class="line">import android.support.v7.widget.RecyclerView;</div><div class="line">import android.util.Log;</div><div class="line">import android.view.View;</div><div class="line"></div><div class="line">/**</div><div class="line"> * 适用于垂直滚动网格布局的 RecyclerView 分割线</div><div class="line"> * 注意：不适用于水平滚动网格布局</div><div class="line"> * 缺陷：不适合设置虚线，画虚线需要设置 layerType 为 software，滑动列表时性能低下</div><div class="line"> *</div><div class="line"> * Created by afon on 2017/2/9.</div><div class="line"> */</div><div class="line"></div><div class="line">public class RecyclerViewGridDivider extends RecyclerView.ItemDecoration &#123;</div><div class="line">    public static final String TAG = &quot;RecyclerViewGridDivider&quot;;</div><div class="line"></div><div class="line">    private Paint backgroundPaint; // 背景画笔</div><div class="line">    private Paint dividerPaint; // 分割线画笔</div><div class="line"></div><div class="line">    private final int colCount; // 列数量</div><div class="line">    private final int colSeparateSize; // item 水平间距</div><div class="line">    private final int rowSeparateSize; // item 垂直间距</div><div class="line"></div><div class="line">    private int backgroundColor = 0x00000000; // 背景颜色</div><div class="line">    private int dividerColor = 0xffdddddd; // 分割线颜色</div><div class="line">    private int dividerSize = 0; // 分割线大小</div><div class="line">    private int colDividerMarginTop = 0; // 水平分割线 marignTop</div><div class="line">    private int colDividerMarginBottom = 0; // 水平分割线 marginBottom</div><div class="line">    private int rowDividerMarginLeft = 0; // 垂直分割线 marginLeft</div><div class="line">    private int rowDividerMarginRight = 0; // 垂直分割线 marginRight</div><div class="line"></div><div class="line">    private boolean dividerClipToPadding = true; // 如果 RecyclerView 设置了 padding，是否把分割线画在 padding 之内</div><div class="line">    private boolean fillItemDivider = false; // 是否填充每个分割线与分割线之间的 margin</div><div class="line">    private boolean showTopDivider = true; // show top divider of this RecyclerView</div><div class="line">    private boolean showBottomDivider = true; // show bottom divider of this RecyclerView</div><div class="line">    private boolean showLeftDivider = true; // show left divider of this RecyclerView</div><div class="line">    private boolean showRightDivider = true; // show right divider of this RecyclerView</div><div class="line"></div><div class="line">    private float[] lineBuffers = new float[4]; // 缓存的分割线坐标点，每四个一组，分别代表 (x0, y0), (x1, y1)</div><div class="line">    private int[] insetBuffers = new int[2]; // 缓存的左右间距，每两个一组，分别代表 left, right 间距。用于 getItemOffsets 方法内设置左右间距</div><div class="line">    private final int dividerOffsetX; // 每个 item 之间的分割线偏移量</div><div class="line">    private final int dividerOffsetY; // 每个 item 之间的分割线偏移量</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 自定义分割线</div><div class="line">     * 注意：如果没有设置分割线大小(setDividerSize)，默认不画分割线，只有 item 之间的间距</div><div class="line">     *</div><div class="line">     * @param colCount 列数量</div><div class="line">     * @param colSeparateSize item 水平间距</div><div class="line">     * @param rowSeparateSize item 垂直间距</div><div class="line">     */</div><div class="line">    public RecyclerViewGridDivider(int colCount, int colSeparateSize, int rowSeparateSize) &#123;</div><div class="line">        if (colCount &lt;= 1) &#123;</div><div class="line">            throw new IllegalArgumentException(&quot;wrong args! colCount must larger than 1&quot;);</div><div class="line">        &#125;</div><div class="line">        this.colCount = colCount;</div><div class="line">        this.colSeparateSize = colSeparateSize;</div><div class="line">        this.rowSeparateSize = rowSeparateSize;</div><div class="line"></div><div class="line">        backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);</div><div class="line">        backgroundPaint.setColor(backgroundColor);</div><div class="line">        backgroundPaint.setStyle(Paint.Style.FILL);</div><div class="line"></div><div class="line">        dividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);</div><div class="line">        dividerPaint.setColor(dividerColor);</div><div class="line">        dividerPaint.setStrokeWidth(dividerSize);</div><div class="line">        dividerPaint.setStyle(Paint.Style.FILL);</div><div class="line"></div><div class="line">        dividerOffsetX = colSeparateSize / 2;</div><div class="line">        dividerOffsetY = rowSeparateSize / 2;</div><div class="line"></div><div class="line">        // 预分配 getItemOffsets 方法内设置的 left, right 间距。如果不这样计算，水平方向上的各个 item 的宽度将不相等</div><div class="line">        float inset = colSeparateSize / colCount;</div><div class="line">        insetBuffers = new int[colCount * 2];</div><div class="line">        for (int i = 0 ; i &lt; colCount ; i++) &#123;</div><div class="line">            // 计算规则：每个 item 的 left + right 要相等，前一个 item 的 right 加上后一个 item 的 left 等于 colSeparateSize</div><div class="line">            insetBuffers[i * 2 + 0] = (int) (inset * i); // left</div><div class="line">            insetBuffers[i * 2 + 1] = (int) (inset * (colCount - 1 - i)); // right</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置背景画笔</div><div class="line">     */</div><div class="line">    public void setBackgroundPaint(Paint backgroundPaint) &#123;</div><div class="line">        this.backgroundPaint = backgroundPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 获取背景画笔</div><div class="line">     */</div><div class="line">    public Paint getBackgroundPaint() &#123;</div><div class="line">        return backgroundPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置背景颜色</div><div class="line">     */</div><div class="line">    public void setBackgroundColor(int backgroundColor) &#123;</div><div class="line">        this.backgroundColor = backgroundColor;</div><div class="line">        backgroundPaint.setColor(backgroundColor);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线画笔</div><div class="line">     */</div><div class="line">    public void setDividerPaint(Paint dividerPaint) &#123;</div><div class="line">        this.dividerPaint = dividerPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 获取分割线画笔</div><div class="line">     */</div><div class="line">    public Paint getDividerPaint() &#123;</div><div class="line">        return dividerPaint;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线大小</div><div class="line">     */</div><div class="line">    public void setDividerSize(int dividerSize) &#123;</div><div class="line">        this.dividerSize = dividerSize;</div><div class="line">        dividerPaint.setStrokeWidth(dividerSize);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线颜色</div><div class="line">     */</div><div class="line">    public void setDividerColor(int dividerColor) &#123;</div><div class="line">        this.dividerColor = dividerColor;</div><div class="line">        dividerPaint.setColor(dividerColor);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置是否把分割线画在 RecyclerView 的 padding 之内</div><div class="line">     */</div><div class="line">    public void setDividerClipToPadding(boolean dividerClipToPadding) &#123;</div><div class="line">        this.dividerClipToPadding = dividerClipToPadding;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线 margin</div><div class="line">     *</div><div class="line">     * @param colDividerMarginTop 水平分割线 marignTop</div><div class="line">     * @param colDividerMarginBottom 水平分割线 marginBottom</div><div class="line">     */</div><div class="line">    public void setColDividerMargin(int colDividerMarginTop, int colDividerMarginBottom) &#123;</div><div class="line">        this.colDividerMarginTop = colDividerMarginTop;</div><div class="line">        this.colDividerMarginBottom = colDividerMarginBottom;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 设置分割线 margin</div><div class="line">     *</div><div class="line">     * @param rowDividerMarginLeft 垂直分割线 marginLeft</div><div class="line">     * @param rowDividerMarginRight 垂直分割线 marginRight</div><div class="line">     */</div><div class="line">    public void setRowDividerMargin(int rowDividerMarginLeft, int rowDividerMarginRight) &#123;</div><div class="line">        this.rowDividerMarginLeft = rowDividerMarginLeft;</div><div class="line">        this.rowDividerMarginRight = rowDividerMarginRight;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 是否填充每个分割线与分割线之间的 margin</div><div class="line">     */</div><div class="line">    public void setFillItemDivider(boolean fillItemDivider) &#123;</div><div class="line">        this.fillItemDivider = fillItemDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowTopDivider(boolean showTopDivider) &#123;</div><div class="line">        this.showTopDivider = showTopDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowBottomDivider(boolean showBottomDivider) &#123;</div><div class="line">        this.showBottomDivider = showBottomDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowLeftDivider(boolean showLeftDivider) &#123;</div><div class="line">        this.showLeftDivider = showLeftDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void setShowRightDivider(boolean showRightDivider) &#123;</div><div class="line">        this.showRightDivider = showRightDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) &#123;</div><div class="line">        super.getItemOffsets(outRect, view, parent, state);</div><div class="line"></div><div class="line">        final int itemPosition = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewAdapterPosition();</div><div class="line"></div><div class="line">        if (itemPosition &lt; colCount) &#123;</div><div class="line">            outRect.top = 0;</div><div class="line">        &#125; else &#123;</div><div class="line">            outRect.top = rowSeparateSize;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        outRect.bottom = 0;</div><div class="line"></div><div class="line">        int i = itemPosition % colCount;</div><div class="line">        outRect.left = insetBuffers[i * 2 + 0];</div><div class="line">        outRect.right = insetBuffers[i * 2 + 1];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) &#123;</div><div class="line">        super.onDraw(c, parent, state);</div><div class="line"></div><div class="line">        final int paddingLeft = parent.getPaddingLeft();</div><div class="line">        final int paddingTop = parent.getPaddingTop();</div><div class="line">        final int paddingRight = parent.getPaddingRight();</div><div class="line">        final int paddingBottom = parent.getPaddingBottom();</div><div class="line"></div><div class="line">        c.drawRect(parent.getLeft() - paddingLeft,</div><div class="line">                parent.getTop() - paddingTop,</div><div class="line">                parent.getRight() + paddingRight,</div><div class="line">                parent.getBottom() + paddingBottom, backgroundPaint);</div><div class="line"></div><div class="line">        // 如果分割线的大小没有设置，默认不画分割线，只有 item 之间的间距</div><div class="line">        if (dividerSize &lt;= 0) &#123;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        final int itemCount = parent.getChildCount(); // 当前 RecyclerView 的子 view 的数量</div><div class="line">        final int rowCount = (int) Math.ceil( (double) itemCount / colCount); // 行数量</div><div class="line">        final int fullLineItemCount = colCount * rowCount; // 填满一整行的 RecyclerView 子 view 数量</div><div class="line">        final int lastRowStart = fullLineItemCount - colCount; // 最后一行开始的位置</div><div class="line">        final int lineCount = (colCount + 1) * rowCount + colCount * (rowCount + 1); // 需要绘制的分割线数量</div><div class="line"></div><div class="line">        // 用这种方式避免频繁申请内存</div><div class="line">        if (lineBuffers.length &lt; lineCount * 4) &#123;</div><div class="line">            lineBuffers = new float[lineCount * 4];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        int lineOffset = 0;</div><div class="line"></div><div class="line">        for (int i = 0 ; i &lt; itemCount ; i++) &#123;</div><div class="line">            final boolean isFirstCol = i % colCount == 0; // 是否第一列</div><div class="line">            final boolean isLastCol = (i + 1) % colCount == 0; // 是否最后一列</div><div class="line">            final boolean isFirstRow = i &lt; colCount; // 是否第一行</div><div class="line">            final boolean isLastRow = i &gt;= lastRowStart; // 是否最后一行</div><div class="line"></div><div class="line">            final boolean isLeftTopCorner = isFirstCol &amp;&amp; isFirstRow; // 是否左上角</div><div class="line">            final boolean isRightTopCorner = isLastCol &amp;&amp; isFirstRow; // 是否右上角</div><div class="line">            final boolean isLeftBottomCorner = isFirstCol &amp;&amp; isLastRow; // 是否左下角</div><div class="line">            final boolean isRightBottomCorner = isLastCol &amp;&amp; isLastRow; // 是否左下角</div><div class="line"></div><div class="line">            final View itemView = parent.getChildAt(i);</div><div class="line">            final int top = itemView.getTop() - dividerOffsetY;</div><div class="line">            final int bottom = itemView.getBottom() + dividerOffsetY;</div><div class="line">            final int left = itemView.getLeft() - dividerOffsetX;</div><div class="line">            final int right = itemView.getRight() + dividerOffsetX;</div><div class="line"></div><div class="line">            final int clipTop = !dividerClipToPadding &amp;&amp; !showTopDivider &amp;&amp; isFirstRow ? top - paddingTop : top;</div><div class="line">            final int clipBottom = !dividerClipToPadding &amp;&amp; !showBottomDivider &amp;&amp; isLastRow ? bottom + paddingBottom : bottom;</div><div class="line">            final int clipLeft = !dividerClipToPadding &amp;&amp; !showLeftDivider &amp;&amp; isFirstCol ? left - paddingLeft : left;</div><div class="line">            final int clipRight = !dividerClipToPadding &amp;&amp; !showRightDivider &amp;&amp; isLastCol ? right + paddingRight : right;</div><div class="line"></div><div class="line">            if (showLeftDivider &amp;&amp; isFirstCol) &#123;</div><div class="line">                final int offsetTop = fillItemDivider &amp;&amp; (!isFirstRow || isLeftTopCorner) ? 0 : colDividerMarginTop;</div><div class="line">                final int offsetBottom = fillItemDivider &amp;&amp; (!isLastRow || isLeftBottomCorner) ? 0 : colDividerMarginBottom;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, left, clipTop + offsetTop, left, clipBottom - offsetBottom); // the left side of this item</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (showTopDivider &amp;&amp; isFirstRow) &#123;</div><div class="line">                final int offsetLeft = fillItemDivider &amp;&amp; (!isFirstCol || isLeftTopCorner) ? 0 : rowDividerMarginLeft;</div><div class="line">                final int offsetRight = fillItemDivider &amp;&amp; (!isLastCol || isRightTopCorner) ? 0 : rowDividerMarginRight;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, clipLeft + offsetLeft, top, clipRight - offsetRight, top); // the top side of this item</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (showRightDivider &amp;&amp; isLastCol || !isLastCol) &#123;</div><div class="line">                final int offsetTop = fillItemDivider &amp;&amp; (!isFirstRow || isRightTopCorner) ? 0 : colDividerMarginTop;</div><div class="line">                final int offsetBottom = fillItemDivider &amp;&amp; (!isLastRow || isRightBottomCorner) ? 0 : colDividerMarginBottom;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, right, clipTop + offsetTop, right, clipBottom - offsetBottom); // the right side of this item</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            if (showBottomDivider &amp;&amp; isLastRow || !isLastRow) &#123;</div><div class="line">                final int offsetLeft = fillItemDivider &amp;&amp; (!isFirstCol || isLeftBottomCorner) ? 0 : rowDividerMarginLeft;</div><div class="line">                final int offsetRight = fillItemDivider &amp;&amp; (!isLastCol || isRightBottomCorner) ? 0 : rowDividerMarginRight;</div><div class="line"></div><div class="line">                lineOffset = addLineBuffer(lineOffset, clipLeft + offsetLeft, bottom, clipRight - offsetRight, bottom); // the bottom side of this item</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // 使用 drawLines 方法比依次调用 drawLine 要快</div><div class="line">        c.drawLines(lineBuffers, 0, lineOffset * 4, dividerPaint);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private int addLineBuffer(int lineOffset, int x0, int y0, int x1, int y1) &#123;</div><div class="line">        lineBuffers[lineOffset * 4 + 0] = x0; // x0</div><div class="line">        lineBuffers[lineOffset * 4 + 1] = y0; // y0</div><div class="line">        lineBuffers[lineOffset * 4 + 2] = x1; // x1</div><div class="line">        lineBuffers[lineOffset * 4 + 3] = y1; // y1</div><div class="line">        return ++lineOffset;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void debug(int index, int i, String strArgs) &#123;</div><div class="line">        if (i == index) &#123;</div><div class="line">            Log.e(TAG, &quot;##d debug: i = &quot; + i + &quot;, &quot; + strArgs);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColCount() &#123;</div><div class="line">        return colCount;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColSeparateSize() &#123;</div><div class="line">        return colSeparateSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getRowSeparateSize() &#123;</div><div class="line">        return rowSeparateSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getDividerSize() &#123;</div><div class="line">        return dividerSize;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColDividerMarginTop() &#123;</div><div class="line">        return colDividerMarginTop;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getColDividerMarginBottom() &#123;</div><div class="line">        return colDividerMarginBottom;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getRowDividerMarginLeft() &#123;</div><div class="line">        return rowDividerMarginLeft;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public int getRowDividerMarginRight() &#123;</div><div class="line">        return rowDividerMarginRight;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isDividerClipToPadding() &#123;</div><div class="line">        return dividerClipToPadding;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isFillItemDivider() &#123;</div><div class="line">        return fillItemDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowTopDivider() &#123;</div><div class="line">        return showTopDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowBottomDivider() &#123;</div><div class="line">        return showBottomDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowLeftDivider() &#123;</div><div class="line">        return showLeftDivider;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public boolean isShowRightDivider() &#123;</div><div class="line">        return showRightDivider;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>&gt;</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/Glide使用手册/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/26/Glide使用手册/" itemprop="url">
-                  Glide踩坑记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
-                2017-05-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/26/Glide使用手册/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/Glide使用手册/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Glide踩坑全集"><a href="#Glide踩坑全集" class="headerlink" title="Glide踩坑全集"></a>Glide踩坑全集</h2><h3 id="第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下"><a href="#第一篇-Glide图片和默认图替换过程中-默认图被拉伸了一下" class="headerlink" title="第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下"></a>第一篇 Glide图片和默认图替换过程中,默认图被拉伸了一下</h3><p>现象描述:<br>    今天遇到一个比较坑的问题,用Glide加载图片被拉伸了,找了半天才发现跟Glide设置占位图有关,如果占位图要比原图大,<br>图片就直接被拉伸了.以下为出问题的代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    这是替换过程中一个动画阶段，Glide提供一个方法,果断 <figure class="highlight plain"><figcaption><span>'0.0'不要动画了 ,修改后代码:</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">``` java</div><div class="line"></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .placeholder(R.drawable.img_defualt)</div><div class="line">     .dontAnimate()</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure></p>
-<h3 id="第二篇-Glide加载图片偏绿或者质量偏低"><a href="#第二篇-Glide加载图片偏绿或者质量偏低" class="headerlink" title="第二篇 Glide加载图片偏绿或者质量偏低"></a>第二篇 Glide加载图片偏绿或者质量偏低</h3><p>现象描述:<br>    用Glide加载图片感觉便绿色,普通出现这种问题一般都是压缩造成的.</p>
-<p>解决方法:<br>    1.缓存原图 2.修改bitmap的编码(Glide默认编码为RGB_565 替换成ARGB_8888),这样一般能解决大部分问题,<br>(不过这样一来，Glide的加载速度自然就下降了,毕竟增加一倍的解码内存，不是有特殊需求，不要随便使用),以下为示例代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//1.缓存原图</span></div><div class="line">Glide.with(mContext)</div><div class="line">     .load(imgUrl)</div><div class="line">     .diskCacheStrategy(DiskCacheStrategy.SOURCE)</div><div class="line">     .into(iv_show);</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//修改Bitmap的编码为ARGB_8888</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GlideConfig</span> <span class="keyword">implements</span> <span class="title">GlideModule</span> </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</div><div class="line">        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerComponents</span><span class="params">(Context context, Glide glide)</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//在manifest.xml配置上以上信息</span></div><div class="line">        &lt;meta-data</div><div class="line">            android:name=<span class="string">"com.xxx.xxx.GlideConfig"</span></div><div class="line">            android:value=<span class="string">"GlideModule"</span>/&gt;</div></pre></td></tr></table></figure>
-<h3 id="第三篇-Glide混淆脚本没加导致的Crash"><a href="#第三篇-Glide混淆脚本没加导致的Crash" class="headerlink" title="第三篇 Glide混淆脚本没加导致的Crash"></a>第三篇 Glide混淆脚本没加导致的Crash</h3><p>现象描述:<br>    在加了第二篇提到的一些配置，其中GlideModule是需要在manifest中指定的，debug版本一直没事，realease版本各种Crash,报错信息:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java.lang.IllegalArgumentException: Unable to find GlideModule to find GlideModule implementation...</div></pre></td></tr></table></figure>
-<p>一开始我就想到了混淆脚本,结果遇到了两个坑：</p>
+<p>###OpenGL　ES的使用场景:</p>
 <ol>
-<li>网上提供的混淆脚本包名是Glide之前的包名 　</li>
-<li>Glide内部混淆没关系,但是实现了GlideModule接口的类不能混淆,因为manifest中明确的指明了包名+类名的，混淆了自然就找不到了</li>
+<li>图片处理。比如图片色调转换、美颜，滤镜等。</li>
+<li>摄像头预览效果处理。比如美颜相机、恶搞相机等。</li>
+<li>视频处理。摄像头预览效果处理可以，这个自然也不在话下了。</li>
+<li>3D游戏。比如神庙逃亡、都市赛车等。</li>
 </ol>
-<p>解决方法:<br>    1.加上必要的混淆脚本:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">-keep <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> * <span class="keyword">implements</span>  <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">module</span>.<span class="title">GlideModule</span></span></div><div class="line">-<span class="title">keep</span> <span class="title">public</span> <span class="title">enum</span> <span class="title">com</span>.<span class="title">bumptech</span>.<span class="title">glide</span>.<span class="title">load</span>.<span class="title">resource</span>.<span class="title">bitmap</span>.<span class="title">ImageHeaderParser</span>$** &#123;</div><div class="line">    **[] $VALUES;</div><div class="line">    <span class="keyword">public</span> *;</div><div class="line">&#125;</div><div class="line">-keep <span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">bumptech</span>.** </span>&#123;</div><div class="line">    *;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="第四篇-Glide无法给Gone的ImageView设置图片"><a href="#第四篇-Glide无法给Gone的ImageView设置图片" class="headerlink" title="第四篇 Glide无法给Gone的ImageView设置图片"></a>第四篇 Glide无法给Gone的ImageView设置图片</h3><p>现象描述:<br>    因为有一个需求,其实就是广告，位置是个ImageView,没有拉到广告之前，我设置的是Gone，拉到图片之后,设置上图片，然后设置为可见，结果广告拉到了，但是对应位置没有任何反应，图片地址是可以正确打开的,以下为示例代码:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">RequestListener callback = new RequestListener() &#123;</div><div class="line">                @Override</div><div class="line">                public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) &#123;                  </div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">                @Override</div><div class="line">                public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">		            iv.setVisibility(View.VISIBLE);</div><div class="line">                    return false;</div><div class="line">                &#125;</div><div class="line">            &#125;;</div><div class="line"></div><div class="line">iv.setVisibility(View.GONE);//如果你的ImageViewVisibility为Gone,以上回调没有作用,改成INVISIBLE即可</div><div class="line">Glide.with(mContext).load(url)</div><div class="line">                    .listener(callback)</div><div class="line">                    .into(iv);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    经过我测试，首先两个回调根本没有执行,网上搜到了一个国外程序员的回答</p>
-<blockquote>
-<p>What is the size of the ImageView declared in XML? Glide needs to know how big an image the target wants. And does so using a layout listener if the size is not ready yet. Having a hidden ImageView doesn’t go through a layout to save processor cycles for obvious reasons, so it may not have a size yet.<br>You can try .override(w, h) to specify the size yourself or use explicit sizing (100dp).</p>
-</blockquote>
-<p>他指出Glide需要知道我们控件的大小，加上override(w,h)去指定控件的大小,在我这里我直接将Visiable设置为可见就OK了</p>
-<h3 id="第五篇-Glide为通知栏-Notification设置图片不生效"><a href="#第五篇-Glide为通知栏-Notification设置图片不生效" class="headerlink" title="第五篇 Glide为通知栏(Notification设置图片不生效)"></a>第五篇 Glide为通知栏(Notification设置图片不生效)</h3><p>现象描述:就是很正常Glide加载bitmap,设置给Remoteview结果不生效(bug代码)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//********错误代码************</div><div class="line">  SimpleTarget&lt;Bitmap&gt; target = new SimpleTarget&lt;Bitmap&gt;() &#123;</div><div class="line">                            @Override</div><div class="line">                            public void onResourceReady(Bitmap resource, GlideAnimation&lt;? super Bitmap&gt; glideAnimation) &#123;</div><div class="line">                                rv.setImageViewBitmap(R.id.iv_icon, resource);</div><div class="line">                            &#125;</div><div class="line">                        &#125;;</div><div class="line">                        Glide.with(mContext).load(icon).asBitmap().into(target);</div></pre></td></tr></table></figure>
-<p>解决方法:<br>    以下为正确的使用方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// 1.上下文 2.RemoteView 3.图标控件的ResID ,4 Notification 5 Notification_ID</div><div class="line">NotificationTarget notificationTarget = new NotificationTarget(mContext, rv, R.id.iv_icon, notify, NOTIFY_ID);</div><div class="line">                     Glide.with(mContext).load(icon).asBitmap().placeholder(R.mipmap.ic_launcher).error(R.mipmap.ic_launcher).listener(new RequestListener&lt;String, Bitmap&gt;() &#123;</div><div class="line">                         @Override</div><div class="line">                         public boolean onException(Exception e, String model, Target&lt;Bitmap&gt; target, boolean isFirstResource) &#123;</div><div class="line">                             return true;</div><div class="line">                         &#125;</div><div class="line"></div><div class="line">                         @Override</div><div class="line">                         public boolean onResourceReady(Bitmap resource, String model, Target&lt;Bitmap&gt; target, boolean isFromMemoryCache, boolean isFirstResource) &#123;</div><div class="line">                             return false;</div><div class="line">                         &#125;</div><div class="line">                     &#125;).into(notificationTarget);</div></pre></td></tr></table></figure></p>
-<h3 id="第六篇-Glide清除缓存"><a href="#第六篇-Glide清除缓存" class="headerlink" title="第六篇 Glide清除缓存"></a>第六篇 Glide清除缓存</h3><p>双清方法:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Glide.get(this).clearDiskCache();//请在非UI线程中调用</div><div class="line">Glide.get(this).clearMemory();//请在主线程中调用</div></pre></td></tr></table></figure>
-<h3 id="第七篇-Glide加载加密的数据"><a href="#第七篇-Glide加载加密的数据" class="headerlink" title="第七篇 Glide加载加密的数据"></a>第七篇 Glide加载加密的数据</h3><p>Glide的Load方法是可以接受byte[] 我们当然可以每次解图之前将输入流转换成byte[]进行加载但是,就没有办法很好的使用到Glide内置的缓存策略了</p>
-<p>1.自定义GlideModule (注意混淆)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public class CipherGlideModule implements GlideModule &#123;</div><div class="line">    @Override</div><div class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public void registerComponents(Context context, Glide glide) &#123;</div><div class="line">        /**</div><div class="line">         * String.class 输入源</div><div class="line">         * InputStream 输出</div><div class="line">         */</div><div class="line">        glide.register(String.class, InputStream.class, new ImageLoader.Factory());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">//mainfest.xml中声明 : </div><div class="line">&lt;meta-data</div><div class="line">    android:name=&quot;xxx.xxx.CipherGlideModule&quot;</div><div class="line">        android:value=&quot;GlideModule&quot; /&gt;</div></pre></td></tr></table></figure></p>
-<p>2.自定义ImageLoader<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">public class ImageLoader implements ModelLoader&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">    public ImageLoader() &#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public DataFetcher&lt;InputStream&gt; getResourceFetcher(String model, int width, int height) &#123;</div><div class="line">        return new ImageDataFetcher(model);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public static class Factory implements ModelLoaderFactory&lt;String, InputStream&gt; &#123;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public ModelLoader&lt;String, InputStream&gt; build(Context context, GenericLoaderFactory factories) &#123;</div><div class="line">            return new ImageLoader();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void teardown() &#123;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>3.自定义ImageDataFetcher<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">public class ImageDataFetcher implements DataFetcher&lt;InputStream&gt; &#123;</div><div class="line"></div><div class="line">    private volatile boolean mIsCanceled;</div><div class="line">    private final String mFilePath;</div><div class="line">    private InputStream mInputStream;</div><div class="line"></div><div class="line">    public ImageDataFetcher(String filePath) &#123;</div><div class="line">        mFilePath = filePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 这个方法是在非UI线程中执行,我们利用此方法来加载我们的加密数据</div><div class="line">     *</div><div class="line">     * @param priority</div><div class="line">     * @throws Exception</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public InputStream loadData(Priority priority) throws Exception &#123;</div><div class="line">        if (mIsCanceled) &#123;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        mInputStream = fetchStream(mFilePath);</div><div class="line">        return mInputStream;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 处理完成之后清理工作</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cleanup() &#123;</div><div class="line">        if (mInputStream != null) &#123;</div><div class="line">            try &#123;</div><div class="line">                mInputStream.close();</div><div class="line">            &#125; catch (IOException e) &#123;</div><div class="line">            &#125; finally &#123;</div><div class="line">                mInputStream = null;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 该文件的唯一ID</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public String getId() &#123;</div><div class="line">        return mFilePath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 在UI线程中调用，取消加载任务</div><div class="line">     */</div><div class="line">    @Override</div><div class="line">    public void cancel() &#123;</div><div class="line">        mIsCanceled = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 返回解密后的数据流</div><div class="line">     *</div><div class="line">     * @param filePath 文件名</div><div class="line">     * @return inputStream</div><div class="line">     */</div><div class="line">    private InputStream fetchStream(String filePath) &#123;</div><div class="line">        InputStream inputStream = null;</div><div class="line">        // 返回解密数据流</div><div class="line">        return inputStream;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>###OpenGL ES版本及Android支持情况</p>
+<p>OpenGL ES当前主要版本有1.0/1.1/2.0/3.0/3.1。这些版本的主要情况如下：</p>
 <ol>
-<li>Glide滑动的时候不去加载图片<blockquote>
-<blockquote>
-<p>监听滑动事件,不滑动的时候才去加载图片,遇见一个Crash,就是Acticity onDestory的时候,依然触发了我们的方法,java.lang.IllegalArgumentException: You cannot start a load for a destroyed activity,解决方法,onDestroy的时候,注销监听器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() &#123;</div><div class="line">           @Override</div><div class="line">           public void onScrollStateChanged(RecyclerView recyclerView, int newState) &#123;</div><div class="line">               switch (newState) &#123;</div><div class="line">                   case SCROLL_STATE_IDLE:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">                   case SCROLL_STATE_SETTLING:</div><div class="line">                   case SCROLL_STATE_DRAGGING:</div><div class="line">                       Glide.with(mActivity).pauseRequests();</div><div class="line">                       break;</div><div class="line">                   default:</div><div class="line">                       Glide.with(mActivity).resumeRequests();</div><div class="line">                       break;</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;);</div></pre></td></tr></table></figure>
-</blockquote>
-</blockquote>
-</li>
+<li>OpenGL ES1.0是基于OpenGL 1.3的，OpenGL ES1.1是基于OpenGL 1.5的。Ａndroid 1.0和更高的版本支持这个API规范。</li>
+<li>OpenGL ES 1.x是针对固定硬件管线的。</li>
+<li>OpenGL ES2.0是基于OpenGL 2.0的，不兼容OpenGL ES 1.x。Android 2.2(API 8)和更高的版本支持这个API规范。</li>
+<li>OpenGL ES 2.x是针对可编程硬件管线的。</li>
+<li>OpenGL ES3.0的技术特性几乎完全来自OpenGL 3.x的，向下兼容OpenGL ES 2.x。Android 4.3(API 18)及更高的版本支持这个API规范。</li>
 </ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/26/opengles/2.基础概念/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="topone37">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="蒲公英,随风海角天涯">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/26/opengles/2.基础概念/" itemprop="url">
-                  未命名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T01:50:07Z">
-                2017-05-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/26/opengles/2.基础概念/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/26/opengles/2.基础概念/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>####1.顶点着色器</p>
-<blockquote>
-<blockquote>
-<p>着色器（Shader）是在GPU上运行的小程序。从名称可以看出，可通过处理它们来处理顶点。此程序使用OpenGL ES SL语言来编写。它是一个描述顶点或像素特性的简单程序</p>
-</blockquote>
-</blockquote>
-<p>对于发送给GPU的每一个顶点，都要执行一次顶点着色器。其功能是<strong>把每个顶点在虚拟空间中的三维坐标变换为可以在屏幕上显示的二维坐标，并带有用于z-buffer的深度信息</strong>。顶点着色器可以操作的属性有：<strong>位置、颜色、纹理坐标</strong>，但是不能创建新的顶点。 </p>
-<p>####2.片元着色器</p>
-<p>片元着色器<strong>计算每个像素的颜色和其它属性。它通过应用光照值、凹凸贴图，阴影，镜面高光，半透明等处理来计算像素的颜色并输出。它也可改变像素的深度(z-buffering)或在多个渲染目标被激活的状态下输出多种颜色</strong>。一个片元着色器不能产生复杂的效果，因为它只在一个像素上进行操作，而不知道场景的几何形状。 </p>
-<p>####3.着色器语言</p>
-<p>着色器语言（Shading Language）是一种高级的图形编程语言，仅适合于GPU编程，其源自应用广泛的C语言。对于顶点着色器和片元着色器的开发都需要用到着色器语言进行开发。它是面向过程的而非面向对象。 </p>
-<p>####4.坐标系</p>
-<p><strong>OpenGL ES采用的是右手坐标</strong>，选取屏幕中心为原点，从原点到屏幕边缘默认长度为1，也就是说<strong>默认情况下，从原点到（1,0,0）的距离和到（0,1,0）的距离在屏幕上展示的并不相同(因为屏幕一般都不是正方形)</strong>。即向右为X正轴方向，向左为X负轴方向，向上为Y轴正轴方向，向下为Y轴负轴方向，屏幕面垂直向上为Z轴正轴方向，垂直向下为Z轴负轴方向。</p>
-<p>####5.图形的绘制</p>
-<p>前面提到OpenGL ES2.0的世界里面只有点、线、三角形，其它更为复杂的几何形状都是由三角形构成的。包括正方形、圆形、正方体、球体等。但是其他更为复杂的物体，我们不可能都自己去用三角形构建，这个时候就需要通过加载利用其他软件（比如3DMax）构建的3D模型。</p>
-<p>####6.投影</p>
-<p>OpenGL ES 的世界是3D的，但是手机屏幕能够给我展示的终究是一个平面，只不过是在绘制的过程中利用色彩和线条让画面呈现出3D的效果。OpenGL ES将这种<strong>从3D到2D的转换过程利用投影的方式使计算相对使用者来说变得简单可设置</strong>。<br>OpenGL ES中有两种投影方式：正交投影和透视投影。<strong>正交投影，物体不会随距离观测点的位置而大小发生变化</strong>。而<strong>透视投影，距离观测点越远，物体越小，距离观测点越近，物体越大</strong>。</p>
-<p>####7.光照</p>
-<p>如果利用直接给出颜色的方式来对3D场景中的物体进行着色渲染，很难使3D场景拥有较强的真实感。一般来说，曲面物体比平面物体更能体现出光照效果。想用数学模型完全模拟真实世界的光照情况是很难的，而OpenGL ES 2.0采用的光照模型相对真实世界的光照是进行了很大的简化。在OpenGL ES 2.0中，光照由三种元素组成（也可以说是三种通道组成），分别为环境光、镜面光及散射光。</p>
-<p>环境光是指从四面八方照射到物体上，其具体公式为：<br>    环境光照射结果=材质反射系数∗环境光强度</p>
-<p>散射光是指现实世界中组草的物体表面被光照射时，反射光在各个方向基本均匀的情况，其具体公式为：<br>    散射光照射结果=材质的反射系数∗散射光强度∗max(cos(入射角)，0)</p>
-<p>实际开发中往往分两步计算：<br>    散射光最终强度=散射光强度∗max(cos(入射角)，0)<br>    散射光照射结果=材质的反射系数∗散射光最终强度</p>
-<p>镜面光是指现实世界中光滑的表面被照射时会有方向很集中的反射光，与散射光最终强度依赖于入射光与被照射点的法向量夹角不同，镜面光的强度还依赖于观察者的位置，具体公式如下： </p>
-<p>镜面光照射结果=材质的反射系数∗镜面光强度∗max(0,cos(半向量与法向量的夹角)粗糙度)</p>
-<p>实际开发中也是往往分两步计算： </p>
-<p> 镜面光最终强度=镜面光强度∗max(0,cos(半向量与法向量的夹角)粗糙度)<br> 镜面光照射结果=材质的反射系数∗镜面光最终强度</p>
-<p>####8.纹理映射</p>
-<p>现实世界中的物体往往是绚丽多彩的，要模拟现实世界的绚丽多彩，绘制出更加真实、酷炫的3D物体，就需要用到纹理映射了。<strong>纹理映射是将2D的纹理映射到3D场景中的立体物体上</strong>。</p>
-<p><strong>OpenGL ES 2.0过程及理解</strong><br>从OpenGL ES 2.0的渲染管线图中，可以看到OpenGL ES 2.0渲染过程为：<br>读取顶点数据——执行顶点着色器——组装图元——光栅化图元——执行片元着色器——写入帧缓冲区——显示到屏幕上。</p>
+<p>###选择OpenGL ES2.0的优势</p>
 <ol>
-<li>OpenGL作为本地库直接运行在硬件上，没有虚拟机，也没有垃圾回收或者内存压缩。在Java层定义图像的数据需要能被OpenGL存取，因此，需要把内存从Java堆复制到本地堆。</li>
-<li>顶点着色器是针对每个顶点都会执行的程序，是确定每个顶点的位置。同理，片元着色器是针对每个片元都会执行的程序，确定每个片元的颜色。</li>
-<li>着色器需要进行编译，然后链接到OpenGL程序中。一个OpenGL的程序就是把一个顶点着色器和一个片段着色器链接在一起变成单个对象。</li>
+<li>兼容性,3.x版本向下兼容2.0,机型4.3以下手机可以使用</li>
+<li>OpenGL ES 2.0中的“顶点着色器”取代了OpenGL ES 1.x中的“变换和光照阶段”，“片元着色器”取代了“纹理颜色和环境求和”、“雾”、“Alpha测试”等阶段。虽然在一定的程度上增加了代码复杂度，但是灵活性却大大增加，同时也能够处理OpenGL ES 1.x中难以完成的处理任务。 </li>
 </ol>
 
           
@@ -1762,7 +1746,7 @@ stdPhotoFrame-&gt;height    = intArr_stdSize[1];
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
