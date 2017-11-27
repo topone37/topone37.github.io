@@ -84,31 +84,28 @@
 
 
 
-<meta name="description" content="Android中WakeLock机制:
+<meta name="description" content="HandlerThread的应用实战1.当你频繁需要new　Thread去操作一个耗时操作的时候,可以考虑使用HandlerThread来优化线程创建以及销毁的消耗
+12private HandlerThread trackerThread;private Handler trackerHandler;
 
-WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行
-
-
-如果只是需要保持屏幕开启">
+准备工作
+1234567891011121314151617181920private vo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用WakeLocak保持后台唤醒">
-<meta property="og:url" content="http://yoursite.com/2017/06/07/WakeLock使用须知/index.html">
+<meta property="og:title" content="HandlerThread的应用实战">
+<meta property="og:url" content="http://yoursite.com/2017/11/27/HandlerThread的应用实战/index.html">
 <meta property="og:site_name" content="蒲公英,随风海角天涯">
-<meta property="og:description" content="Android中WakeLock机制:
+<meta property="og:description" content="HandlerThread的应用实战1.当你频繁需要new　Thread去操作一个耗时操作的时候,可以考虑使用HandlerThread来优化线程创建以及销毁的消耗
+12private HandlerThread trackerThread;private Handler trackerHandler;
 
-WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行
-
-
-如果只是需要保持屏幕开启">
-<meta property="og:updated_time" content="2017-06-07T05:54:24.960Z">
+准备工作
+1234567891011121314151617181920private vo">
+<meta property="og:updated_time" content="2017-11-27T06:48:09.617Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用WakeLocak保持后台唤醒">
-<meta name="twitter:description" content="Android中WakeLock机制:
+<meta name="twitter:title" content="HandlerThread的应用实战">
+<meta name="twitter:description" content="HandlerThread的应用实战1.当你频繁需要new　Thread去操作一个耗时操作的时候,可以考虑使用HandlerThread来优化线程创建以及销毁的消耗
+12private HandlerThread trackerThread;private Handler trackerHandler;
 
-WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行
-
-
-如果只是需要保持屏幕开启">
+准备工作
+1234567891011121314151617181920private vo">
 
 
 
@@ -136,13 +133,13 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/07/WakeLock使用须知/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/27/HandlerThread的应用实战/"/>
 
 
 
 
 
-  <title> 使用WakeLocak保持后台唤醒 | 蒲公英,随风海角天涯 </title>
+  <title> HandlerThread的应用实战 | 蒲公英,随风海角天涯 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -255,7 +252,7 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/WakeLock使用须知/">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/27/HandlerThread的应用实战/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="topone37">
@@ -279,7 +276,7 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
             
             
               
-                使用WakeLocak保持后台唤醒
+                HandlerThread的应用实战
               
             
           </h1>
@@ -294,8 +291,8 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-07T13:54:24+08:00">
-                2017-06-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-27T14:48:09+08:00">
+                2017-11-27
               </time>
             
 
@@ -313,8 +310,8 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/06/07/WakeLock使用须知/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/07/WakeLock使用须知/" itemprop="commentCount"></span>
+                <a href="/2017/11/27/HandlerThread的应用实战/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/27/HandlerThread的应用实战/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -340,24 +337,16 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
       
 
       
-        <h3 id="Android中WakeLock机制"><a href="#Android中WakeLock机制" class="headerlink" title="Android中WakeLock机制:"></a>Android中WakeLock机制:</h3><blockquote>
-<blockquote>
-<p>WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方式.PowerManager负责对Android设备电源相关进行管理，而系统通过各种锁对电源进行控制，<br>WakeLock是一种锁机制，只要有人拿着这把所，系统就无法进入休眠阶段。既然要保持应用程序一直在后台运行，那自然要获得这把锁才可以保证程序始终在后台运行</p>
-</blockquote>
-</blockquote>
-<p>如果只是需要保持屏幕开启, 比如阅读器应用或者游戏, 可以在 activity 中使用 FLAG_KEEP_SCREEN_ON. 唤醒锁更加倾向于后台服务, 运转 CPU 在休眠之前完成某些特定任务. 比如下载或者mp3播放.</p>
-<p>使用:</p>
-<ol>
-<li><p>权限声明</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot;/&gt;</div><div class="line">&lt;uses-permission android:name=&quot;android.permission.DEVICE_POWER&quot;/&gt;</div></pre></td></tr></table></figure>
+        <h2 id="HandlerThread的应用实战"><a href="#HandlerThread的应用实战" class="headerlink" title="HandlerThread的应用实战"></a>HandlerThread的应用实战</h2><h3 id="1-当你频繁需要new-Thread去操作一个耗时操作的时候-可以考虑使用HandlerThread来优化线程创建以及销毁的消耗"><a href="#1-当你频繁需要new-Thread去操作一个耗时操作的时候-可以考虑使用HandlerThread来优化线程创建以及销毁的消耗" class="headerlink" title="1.当你频繁需要new　Thread去操作一个耗时操作的时候,可以考虑使用HandlerThread来优化线程创建以及销毁的消耗"></a>1.当你频繁需要new　Thread去操作一个耗时操作的时候,可以考虑使用HandlerThread来优化线程创建以及销毁的消耗</h3><ol>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">private HandlerThread trackerThread;</div><div class="line">private Handler trackerHandler;</div></pre></td></tr></table></figure>
 </li>
-<li><p>获取锁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">WakeLock wakeLock = null;  </div><div class="line">    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行  </div><div class="line">    private void acquireWakeLock()  </div><div class="line">    &#123;  </div><div class="line">        if (null == wakeLock)  </div><div class="line">        &#123;  </div><div class="line">            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);  </div><div class="line">            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, &quot;PostLocationService&quot;);  </div><div class="line">            if (null != wakeLock)  </div><div class="line">            &#123;  </div><div class="line">                wakeLock.acquire();  </div><div class="line">            &#125;  </div><div class="line">        &#125;  </div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<li><p>准备工作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">private void openTrackerThread() &#123;</div><div class="line">       if (this.trackerThread != null) &#123;</div><div class="line">           this.trackerThread.quit();</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       this.trackerThread = new HandlerThread(&quot;Tracker Thread&quot;);</div><div class="line">       this.trackerThread.start();</div><div class="line">       this.trackerHandler = new Handler(this.trackerThread.getLooper());</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   private void closeTrackerThread() &#123;</div><div class="line">       if (this.trackerHandler != null) &#123;</div><div class="line">           this.trackerHandler.post(new Runnable() &#123;</div><div class="line">               public void run() &#123;</div><div class="line">                   trackerThread.quit();</div><div class="line">               &#125;</div><div class="line">           &#125;);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
 </li>
-<li><p>释放锁</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//释放设备电源锁  </div><div class="line">   private void releaseWakeLock()  </div><div class="line">   &#123;  </div><div class="line">       if (null != wakeLock)  </div><div class="line">       &#123;  </div><div class="line">           wakeLock.release();  </div><div class="line">           wakeLock = null;  </div><div class="line">       &#125;  </div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<li><p>当耗时任务来了,直接postRunnable(),将耗时任务扔到之前创建好的线程中去</p>
 </li>
 </ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">this.trackerHandler.post(new Runnable() &#123;</div><div class="line">               public void run() &#123;</div><div class="line">               //耗时操作</div><div class="line">               &#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -384,8 +373,8 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/06/Recyclerview记录/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2017/11/27/Hand/" rel="next" title="Git使用小结">
+                <i class="fa fa-chevron-left"></i> Git使用小结
               </a>
             
           </div>
@@ -393,10 +382,6 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/07/笔记/" rel="prev" title="Android笔记">
-                Android笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -422,8 +407,8 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/06/07/WakeLock使用须知/"
-           data-title="使用WakeLocak保持后台唤醒" data-url="http://yoursite.com/2017/06/07/WakeLock使用须知/">
+      <div class="ds-thread" data-thread-key="2017/11/27/HandlerThread的应用实战/"
+           data-title="HandlerThread的应用实战" data-url="http://yoursite.com/2017/11/27/HandlerThread的应用实战/">
       </div>
     
   </div>
@@ -509,7 +494,7 @@ WakeLock也称作唤醒锁, 是一种保持 CPU 运转防止设备休眠的方�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android中WakeLock机制"><span class="nav-number">1.</span> <span class="nav-text">Android中WakeLock机制:</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HandlerThread的应用实战"><span class="nav-number">1.</span> <span class="nav-text">HandlerThread的应用实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-当你频繁需要new-Thread去操作一个耗时操作的时候-可以考虑使用HandlerThread来优化线程创建以及销毁的消耗"><span class="nav-number">1.1.</span> <span class="nav-text">1.当你频繁需要new　Thread去操作一个耗时操作的时候,可以考虑使用HandlerThread来优化线程创建以及销毁的消耗</span></a></li></ol></li></ol></div>
             
 
           </div>

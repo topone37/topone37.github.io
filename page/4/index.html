@@ -241,6 +241,341 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/内存泄漏/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/09/内存泄漏/" itemprop="url">
+                  内存泄漏缘由以及解决方案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T09:41:58Z">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/09/内存泄漏/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/内存泄漏/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="内存泄漏缘由以及解决方案"><a href="#内存泄漏缘由以及解决方案" class="headerlink" title="内存泄漏缘由以及解决方案"></a>内存泄漏缘由以及解决方案</h2><blockquote>
+<p>&gt;</p>
+<ol>
+<li>传统的内存泄漏是由忘记释放分配的内存导致的，而逻辑上的内存泄漏则是由于忘记对象不再被使用的时候释放对其的引用导致的<br>如果一个对象仍存在强引用,GC就无法对其进行回收.</li>
+<li>安卓平台,泄漏Context对象问题尤其严重,这是因为像Activity这样的Context对象会引用大量很占内存的对象,如View的层级以及其他资源,<br>如果Context对象发生的内存泄漏,它所引用的所有对象都被泄漏</li>
+</ol>
+</blockquote>
+<p>对于一个普通的对象,或许我们很难去判定什么时候是内存泄漏，但是Activity这种存在明显的生命周期定义的对象，如果Activity的OnDestroy方法<br>被调用之后,context还被强引用,那我们可以认为改Activity发生了内存泄漏</p>
+<blockquote>
+<p>&gt;<br>Activity的泄漏清空一般分配两种</p>
+<ol>
+<li>被进程全局的静态变量所持有 (单例,Context赋值给静态变量等)</li>
+<li>被比Acitivty生命周期更长的线程所持有 (异步耗时线程等)</li>
+</ol>
+</blockquote>
+<h2 id="场景分析"><a href="#场景分析" class="headerlink" title="场景分析"></a>场景分析</h2><h3 id="1-静态实例持有Activity实例"><a href="#1-静态实例持有Activity实例" class="headerlink" title="1. 静态实例持有Activity实例"></a>1. 静态实例持有Activity实例</h3><blockquote>
+<blockquote>
+<p>别说下述代码不可能,其实有很多情况下，我们就这么干，比如你一个静态的方法需要Context,<br>你可能就把Context置为static了</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static TestActivity activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = this;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<blockquote>
+<p>静态变量持有Activity对象很容易造成内存泄漏，因为静态变量是全局存在的，所以当Activity生命周期结束时，引用仍被持有。<br>我们需要正确的释放引用让垃圾回收机制在它被销毁的同时将其回收。</p>
+</blockquote>
+</blockquote>
+<p>解决方法：<br>    使用弱引用来代替强引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">private static WeakReference&lt;TestActivity&gt; activityReference;</div><div class="line"></div><div class="line">   void setStaticActivity() &#123;</div><div class="line">       activityReference = new WeakReference&lt;TestActivity&gt;(this);</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="2-静态实例持有View实例"><a href="#2-静态实例持有View实例" class="headerlink" title="2. 静态实例持有View实例"></a>2. 静态实例持有View实例</h3><blockquote>
+<blockquote>
+<p>看似Activity销毁之后就没什么事,要知道View创建是需要Context,也就是说View持有Context的强引用,<br>View泄漏,从而导致Context泄漏</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public static View mView ;</div><div class="line">void setStaticView() &#123;</div><div class="line">  mView = findViewById(R.id.xxx);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方法：<br>　　在OnDestroy()将mView手动置为null</p>
+<p>###　3. 内部类(匿名内部类)</p>
+<blockquote>
+<blockquote>
+<p>内部类是很常见的使用方法,因为内部类会隐式持有外部类对象的引用,如果内部类被静态对象持有了,<br>或者说内部类生命周期较长(例如耗时线程  Thread Timer)</p>
+</blockquote>
+</blockquote>
+<p>解决方法:<br>　　　　1.  避免静态变量</p>
+<pre><code>2.  使用静态内部类,打破持有链
+3. 　onDestroy方法中断内部类
+4.　弱引用
+</code></pre><h3 id="4-Handler"><a href="#4-Handler" class="headerlink" title="4. Handler"></a>4. Handler</h3><blockquote>
+<blockquote>
+<p>Handler发送的Runnable持有Context引用,如果Activity销毁的时候，消息还没有处理,<br>就会导致Context被继续持有得不到释放</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">private final Handler mLeakyHandler = new Handler() &#123;</div><div class="line">   @Override</div><div class="line">   public void handleMessage(Message msg) &#123;</div><div class="line">   &#125;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> @Override</div><div class="line"> protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">   super.onCreate(savedInstanceState);</div><div class="line"></div><div class="line">   mLeakyHandler.postDelayed(new Runnable() &#123;</div><div class="line">     @Override</div><div class="line">     public void run() &#123;&#125;</div><div class="line">   &#125;, 1000 * 60 * 10);</div><div class="line"></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>当activity结束(finish)时，里面的延时消息在得到处理前，会一直保存在主线程的消息队列里持续10分钟。而且，由上文可知，这条消息持有对handler的引用，而handler又持有对其外部类（在这里，即Activity）的潜在引用。这条引用关系会一直保持直到消息得到处理，从而，这阻止了Activity被垃圾回收器回收，同时造成应用程序的泄漏。</p>
+<p>注意，上面代码中的Runnable类–非静态匿名类–同样持有对其外部类的引用。从而也导致泄漏。</p>
+<ol>
+<li>只要有未处理的消息，那么消息会引用handler，非静态的handler又会引用外部类，即Activity，导致Activity无法被回收，造成泄漏；<br>Runnable类属于非静态匿名类，同样会引用外部类。</li>
+</ol>
+<p>为了解决遇到的问题，我们要明确一点：静态内部类不会持有对外部类的引用。所以，我们可以把handler类放在单独的类文件中，或者使用静态内部类便可以避免泄漏。</p>
+<ol>
+<li>另外，如果想要在handler内部去调用所在的外部类Activity，那么可以在handler内部使用弱引用的方式指向所在Activity，这样统一不会导致内存泄漏。</li>
+</ol>
+<p>对于匿名类Runnable，同样可以将其设置为静态类。因为静态的匿名类不会持有对外部类的引用。</p>
+<p>###　5. Sensor Manager注册监听器导致的内存泄漏</p>
+<blockquote>
+<blockquote>
+<p>如果 context 对象想要在服务内部的事件发生时被通知，那就需要把自己注册到服务的监听器中。然而，这会让服务持有 activity 的引用，<br>如果程序员忘记在 activity 销毁时取消注册，那就会导致 activity 泄漏了。</p>
+</blockquote>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">void registerListener() &#123;</div><div class="line">       SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);</div><div class="line">       Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ALL);</div><div class="line">       sensorManager.registerListener(mContext, sensor, SensorManager.SENSOR_DELAY_FASTEST);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解决方法:<br>　    在onDestroy()方法中注销监听器</p>
+<hr>
+<hr>
+<ol>
+<li><p>静态内部类</p>
+</li>
+<li><p>弱引用</p>
+</li>
+<li><p>及时注销之间注册的监听(被监听的动作的全局的，setOnclick()就不必了,页面销毁,View销毁,监听器的对Context持有自然消失了)</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/09/PopupWindow的详细使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="topone37">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="蒲公英,随风海角天涯">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="蒲公英,随风海角天涯" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/09/PopupWindow的详细使用/" itemprop="url">
+                  PopupWindow的详细使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-09T09:37:42Z">
+                2017-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/09/PopupWindow的详细使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/PopupWindow的详细使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="PopupWindow指定显示位置以及背景透明的全套解决方案"><a href="#PopupWindow指定显示位置以及背景透明的全套解决方案" class="headerlink" title="PopupWindow指定显示位置以及背景透明的全套解决方案"></a>PopupWindow指定显示位置以及背景透明的全套解决方案</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">   private void showPopUp(View v) &#123;</div><div class="line">       LinearLayout layout = new LinearLayout(this);</div><div class="line">       layout.setBackgroundColor(Color.WHITE);</div><div class="line">       TextView tv = new TextView(this);</div><div class="line">       tv.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 200));</div><div class="line">       tv.setText(&quot;xxxxx&quot;);</div><div class="line">       tv.setTextColor(Color.RED);</div><div class="line">       layout.addView(tv);</div><div class="line">//通过改变当前activity的window属性来控制</div><div class="line">       WindowManager.LayoutParams lp = getWindow()</div><div class="line">               .getAttributes();</div><div class="line">       lp.alpha = 0.4f;</div><div class="line"></div><div class="line">       getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);</div><div class="line">       getWindow().setAttributes(lp);</div><div class="line">       PopupWindow popupWindow = new PopupWindow(layout, 120, 120);</div><div class="line"></div><div class="line">       popupWindow.setFocusable(true);</div><div class="line">       popupWindow.setOutsideTouchable(true);</div><div class="line">       popupWindow.setBackgroundDrawable(new BitmapDrawable());</div><div class="line"></div><div class="line">       int[] location = new int[2];</div><div class="line">       v.getLocationOnScreen(location);</div><div class="line">       popupWindow.setBackgroundDrawable(null);</div><div class="line">       popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, location[0], location[1] + popupWindow.getHeight() + 20);</div><div class="line">       popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() &#123;</div><div class="line">           @Override</div><div class="line">           public void onDismiss() &#123;</div><div class="line">	//此时记得也调用一下哦</div><div class="line">               WindowManager.LayoutParams lp = getWindow()</div><div class="line">                       .getAttributes();</div><div class="line">               lp.alpha = 1f;</div><div class="line"></div><div class="line">               getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);</div><div class="line">               getWindow().setAttributes(lp);</div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">       popupWindow.update();</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/OpenGL ES笔记-2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1305,7 +1640,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">39</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
